@@ -275,3 +275,215 @@
 {
   "id": "teacup",
   "name": "Teacup",
+  "description": "定义茶杯对象",
+  "version": "1.0",
+  "properties": {
+    "capacity": {
+      "type": "number",
+      "default": 0.25,
+      "description": "茶杯容量（升）"
+    },
+    "mass": {
+      "type": "number",
+      "default": 0.3,
+      "description": "茶杯质量（千克）"
+    },
+    "material": {
+      "type": "string",
+      "default": "ceramic",
+      "description": "茶杯材质"
+    }
+  },
+  "behaviors": [
+    "hold_liquid",
+    "support_weight",
+    "spill_when_tipped"
+  ],
+  "dependencies": ["container", "solid", "surface"]
+}
+```
+
+### 5.2 桌子元类 (Table)
+
+通过组合固体和表面元类创建桌子元类。
+
+```json
+{
+  "id": "table",
+  "name": "Table",
+  "description": "定义桌子对象",
+  "version": "1.0",
+  "properties": {
+    "mass": {
+      "type": "number",
+      "default": 10.0,
+      "description": "桌子质量（千克）"
+    },
+    "height": {
+      "type": "number",
+      "default": 0.75,
+      "description": "桌子高度（米）"
+    },
+    "surface_area": {
+      "type": "number",
+      "default": 1.0,
+      "description": "桌面面积（平方米）"
+    }
+  },
+  "behaviors": [
+    "support_weight",
+    "hold_objects",
+    "generate_friction"
+  ],
+  "dependencies": ["solid", "surface"]
+}
+```
+
+## 6. 元类属性类型
+
+### 6.1 基本类型
+
+- **string**: 字符串类型
+- **number**: 数值类型（整数或浮点数）
+- **boolean**: 布尔类型（true或false）
+- **array**: 数组类型
+- **object**: 对象类型
+
+### 6.2 复合类型
+
+- **range**: 范围类型，包含最小值和最大值
+  ```json
+  {
+    "type": "range",
+    "min": 0,
+    "max": 100,
+    "default": 50
+  }
+  ```
+
+- **enum**: 枚举类型，包含可选值列表
+  ```json
+  {
+    "type": "enum",
+    "values": ["ceramic", "plastic", "glass", "metal"],
+    "default": "ceramic"
+  }
+  ```
+
+- **vector**: 向量类型，包含多个数值
+  ```json
+  {
+    "type": "vector",
+    "dimension": 3,
+    "default": [0, 0, 0]
+  }
+  ```
+
+## 7. 元类验证规则
+
+### 7.1 基本验证
+
+- **required**: 是否必需
+- **min**: 最小值（数值类型）
+- **max**: 最大值（数值类型）
+- **minLength**: 最小长度（字符串类型）
+- **maxLength**: 最大长度（字符串类型）
+- **pattern**: 正则表达式模式（字符串类型）
+
+### 7.2 依赖验证
+
+- **dependsOn**: 依赖的其他属性
+- **dependencyCondition**: 依赖条件
+
+## 8. 元类组合机制
+
+### 8.1 组合规则
+
+1. **属性继承**: 组合元类时，子元类可以继承父元类的属性
+2. **属性覆盖**: 子元类可以覆盖父元类的属性默认值
+3. **行为组合**: 子元类继承所有父元类的行为
+4. **依赖传递**: 子元类继承父元类的所有依赖
+
+### 8.2 组合示例
+
+```json
+{
+  "id": "advanced_container",
+  "name": "Advanced Container",
+  "description": "高级容器元类",
+  "version": "1.0",
+  "properties": {
+    "capacity": {
+      "type": "number",
+      "default": 2.0,
+      "description": "容器容量（升）"
+    },
+    "material": {
+      "type": "string",
+      "default": "metal",
+      "description": "容器材质"
+    }
+  },
+  "behaviors": [
+    "temperature_regulation"
+  ],
+  "dependencies": ["container", "movable"]
+}
+```
+
+## 9. 元类注册和管理
+
+### 9.1 元类注册
+
+每个元类都需要在元类注册表中注册，以便AME能够识别和使用它。
+
+```json
+{
+  "metaclasses": [
+    {
+      "id": "solid",
+      "name": "Solid",
+      "version": "1.0",
+      "path": "metaclasses/solid.json"
+    },
+    {
+      "id": "container",
+      "name": "Container",
+      "version": "1.0",
+      "path": "metaclasses/container.json"
+    }
+  ]
+}
+```
+
+### 9.2 版本控制
+
+元类采用语义化版本控制：
+
+- **主版本**: 当元类结构发生不兼容的变化时增加
+- **次版本**: 当添加新属性或行为但保持兼容性时增加
+- **补丁版本**: 当修复错误但不影响结构时增加
+
+## 10. 实现注意事项
+
+- **保持简单**: 每个元类应专注于一个特定的功能或行为
+- **避免冗余**: 避免在多个元类中重复定义相同的属性或行为
+- **优先组合**: 优先通过组合现有元类创建新元类，而不是重新定义
+- **验证属性**: 确保所有属性都有合理的默认值和验证规则
+- **文档化**: 为每个元类提供详细的文档和使用示例
+
+## 11. 未来扩展
+
+以下功能留待社区贡献：
+
+- **高级物理元类**: 支持更复杂的物理行为
+- **智能元类**: 支持AI驱动的行为
+- **生物元类**: 支持生物相关的行为和属性
+- **能量元类**: 支持能量转换和存储
+- **多语言支持**: 支持多语言的元类描述
+
+## 12. 结论
+
+Metaclass JSON Schema Design 提供了一个标准化的方式来定义对象的本质和行为。通过采用组合而非继承的方式，元类系统使得对象的属性和行为更加灵活和可扩展。
+
+元类的设计遵循实用性原则，只包含必要的属性和行为，避免"花瓶"功能。对于复杂的功能，可以通过组合简单元类来实现，或者留给社区贡献。
