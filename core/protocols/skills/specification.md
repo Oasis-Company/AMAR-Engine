@@ -1,94 +1,94 @@
 # Skills Specification (Draft v1.0)
 
-## 1. 概述
+## 1. Overview
 
-Skills是AMAR Engine的"虚拟世界API"，它提供了一种标准化的方式，让AI能够向AME传达构建意图。Skills采用RESTful风格的描述性命令集，使本地AME能够从云LLM请求"构建计划"。
+Skills are the "Virtual World API" of AMAR Engine. They provide a standardized way for AI to communicate construction intent to AME. Skills adopt a RESTful-style descriptive command set, enabling local AME to request "construction plans" from cloud-based LLMs.
 
-## 2. 核心设计原则
+## 2. Core Design Principles
 
-- **标准化**: 允许AI理解如何描述虚拟世界场景
-- **无状态**: 关注对象属性的"是什么"和"如何做"，而不是时间数据
-- **模块化**: 每个Skill专注于一个特定的构建任务
-- **可扩展性**: 支持通过组合现有Skill创建新的构建能力
-- **实用性**: 只包含必要的功能，避免"花瓶"功能
+- **Standardization**: Allows AI to understand how to describe virtual world scenes
+- **Stateless**: Focuses on the "what" and "how" of object properties rather than temporal data
+- **Modularity**: Each Skill focuses on a specific construction task
+- **Extensibility**: Supports creating new construction capabilities by combining existing Skills
+- **Practicality**: Only includes necessary functionality, avoiding "花瓶" (decorative) features
 
-## 3. API接口规范
+## 3. API Interface Specification
 
-### 3.1 基础URL结构
+### 3.1 Basic URL Structure
 
 ```
 /skills/{skill_type}/{action}
 ```
 
-- `skill_type`: Skill类型（如`construction`、`modification`、`inspection`）
-- `action`: 具体操作（如`build_asset`、`modify_scene`、`validate_metaclass`）
+- `skill_type`: Skill type (e.g., `construction`, `modification`, `inspection`)
+- `action`: Specific operation (e.g., `build_asset`, `modify_scene`, `validate_metaclass`)
 
-### 3.2 请求方法
+### 3.2 Request Methods
 
-- **GET**: 获取Skill信息或验证参数
-- **POST**: 执行构建操作
-- **PUT**: 更新现有资产或场景
-- **DELETE**: 删除资产或场景元素
+- **GET**: Get Skill information or validate parameters
+- **POST**: Execute construction operations
+- **PUT**: Update existing assets or scenes
+- **DELETE**: Delete assets or scene elements
 
-### 3.3 请求格式
+### 3.3 Request Format
 
-所有请求使用JSON格式，包含以下字段：
+All requests use JSON format, containing the following fields:
 
 ```json
 {
-  "instruction": "详细的构建指令",
+  "instruction": "Detailed construction instruction",
   "parameters": {
-    "param1": "值1",
-    "param2": "值2"
+    "param1": "value1",
+    "param2": "value2"
   },
   "context": {
-    "aeid": "可选的AEID",
-    "metaclasses": ["相关元类"]
+    "aeid": "Optional AEID",
+    "metaclasses": ["Related metaclasses"]
   }
 }
 ```
 
-### 3.4 响应格式
+### 3.4 Response Format
 
 ```json
 {
   "status": "success" || "error",
-  "message": "操作结果描述",
+  "message": "Operation result description",
   "data": {
-    "result": "操作结果",
-    "aeid": "生成的AEID",
-    "skills_used": ["使用的Skill列表"]
+    "result": "Operation result",
+    "aeid": "Generated AEID",
+    "skills_used": ["Used Skills list"]
   },
   "error": {
-    "code": "错误代码",
-    "details": "错误详情"
+    "code": "Error code",
+    "details": "Error details"
   }
 }
 ```
 
-## 4. 核心命令类型
+## 4. Core Command Types
 
-### 4.1 构建命令 (Construction)
+### 4.1 Construction Commands
 
 #### 4.1.1 build_asset
 
-**功能**: 构建单个资产
+**Function**: Build a single asset
 
-**参数**:
-- `name`: 资产名称
-- `description`: 资产描述
-- `metaclasses`: 元类列表
-- `geometry`: 几何信息（可选）
-- `materials`: 材质信息（可选）
+**Parameters**:
+- `name`: Asset name
+- `description`: Asset description
+- `metaclasses`: Metaclass list
+- `geometry`: Geometry information (optional)
+- `materials`: Material information (optional)
 
-**示例**:
+**Example**:
 
 ```json
 {
-  "instruction": "创建一个红色的茶杯",
+  "instruction": "Create a red teacup",
   "parameters": {
     "name": "red_teacup",
-    "description": "一个红色的陶瓷茶杯",
+    "description": "A red ceramic teacup",
     "metaclasses": ["Container", "Solid"],
     "materials": {
       "type": "ceramic",
@@ -100,22 +100,22 @@ Skills是AMAR Engine的"虚拟世界API"，它提供了一种标准化的方式�
 
 #### 4.1.2 build_scene
 
-**功能**: 构建完整场景
+**Function**: Build a complete scene
 
-**参数**:
-- `name`: 场景名称
-- `description`: 场景描述
-- `assets`: 资产列表
-- `environment`: 环境信息（可选）
+**Parameters**:
+- `name`: Scene name
+- `description`: Scene description
+- `assets`: Asset list
+- `environment`: Environment information (optional)
 
-**示例**:
+**Example**:
 
 ```json
 {
-  "instruction": "创建一个简单的厨房场景",
+  "instruction": "Create a simple kitchen scene",
   "parameters": {
     "name": "simple_kitchen",
-    "description": "一个包含基本厨房用品的场景",
+    "description": "A scene containing basic kitchen items",
     "assets": [
       {
         "name": "countertop",
@@ -130,47 +130,47 @@ Skills是AMAR Engine的"虚拟世界API"，它提供了一种标准化的方式�
 }
 ```
 
-### 4.2 修改命令 (Modification)
+### 4.2 Modification Commands
 
 #### 4.2.1 modify_asset
 
-**功能**: 修改现有资产
+**Function**: Modify an existing asset
 
-**参数**:
-- `aeid`: 资产AEID
-- `properties`: 要修改的属性
-- `metaclasses`: 要添加或移除的元类
+**Parameters**:
+- `aeid`: Asset AEID
+- `properties`: Properties to modify
+- `metaclasses`: Metaclasses to add or remove
 
 #### 4.2.2 modify_scene
 
-**功能**: 修改现有场景
+**Function**: Modify an existing scene
 
-**参数**:
-- `aeid`: 场景AEID
-- `add_assets`: 要添加的资产
-- `remove_assets`: 要移除的资产
-- `reposition_assets`: 要重新定位的资产
+**Parameters**:
+- `aeid`: Scene AEID
+- `add_assets`: Assets to add
+- `remove_assets`: Assets to remove
+- `reposition_assets`: Assets to reposition
 
-### 4.3 检查命令 (Inspection)
+### 4.3 Inspection Commands
 
 #### 4.3.1 validate_metaclass
 
-**功能**: 验证元类配置
+**Function**: Validate metaclass configuration
 
-**参数**:
-- `metaclass`: 元类定义
-- `properties`: 元类属性
+**Parameters**:
+- `metaclass`: Metaclass definition
+- `properties`: Metaclass properties
 
 #### 4.3.2 inspect_asset
 
-**功能**: 检查资产信息
+**Function**: Inspect asset information
 
-**参数**:
-- `aeid`: 资产AEID
+**Parameters**:
+- `aeid`: Asset AEID
 
-## 5. 数据结构定义
+## 5. Data Structure Definitions
 
-### 5.1 Skill定义
+### 5.1 Skill Definition
 
 ```json
 {
@@ -194,7 +194,7 @@ Skills是AMAR Engine的"虚拟世界API"，它提供了一种标准化的方式�
 }
 ```
 
-### 5.2 资产定义
+### 5.2 Asset Definition
 
 ```json
 {
@@ -223,7 +223,7 @@ Skills是AMAR Engine的"虚拟世界API"，它提供了一种标准化的方式�
 }
 ```
 
-### 5.3 场景定义
+### 5.3 Scene Definition
 
 ```json
 {
@@ -248,15 +248,15 @@ Skills是AMAR Engine的"虚拟世界API"，它提供了一种标准化的方式�
 }
 ```
 
-## 6. 示例Skill定义
+## 6. Example Skill Definitions
 
-### 6.1 构建茶杯Skill
+### 6.1 Build Teacup Skill
 
 ```json
 {
   "id": "build_teacup",
   "name": "Build Teacup",
-  "description": "创建一个茶杯资产",
+  "description": "Create a teacup asset",
   "type": "construction",
   "version": "1.0",
   "parameters": {
@@ -275,13 +275,13 @@ Skills是AMAR Engine的"虚拟世界API"，它提供了一种标准化的方式�
 }
 ```
 
-### 6.2 构建厨房场景Skill
+### 6.2 Build Kitchen Scene Skill
 
 ```json
 {
   "id": "build_kitchen_scene",
   "name": "Build Kitchen Scene",
-  "description": "创建一个基本的厨房场景",
+  "description": "Create a basic kitchen scene",
   "type": "construction",
   "version": "1.0",
   "parameters": {
@@ -298,29 +298,29 @@ Skills是AMAR Engine的"虚拟世界API"，它提供了一种标准化的方式�
 }
 ```
 
-## 7. 实现注意事项
+## 7. Implementation Notes
 
-- **保持简单**: 只实现必要的核心功能，避免过度设计
-- **模块化**: 每个Skill应该是独立的，可以单独使用
-- **容错性**: 处理AI可能产生的不完整或模糊指令
-- **性能考虑**: 本地AME资源有限，避免过于复杂的计算
-- **可扩展性**: 设计时考虑未来功能扩展，但不预先实现未使用的功能
+- **Keep it Simple**: Only implement necessary core functionality, avoid over-design
+- **Modularity**: Each Skill should be independent and usable separately
+- **Fault Tolerance**: Handle incomplete or ambiguous instructions from AI
+- **Performance Considerations**: Local AME has limited resources, avoid overly complex calculations
+- **Extensibility**: Design for future functionality expansion, but don't pre-implement unused features
 
-## 8. 未来扩展
+## 8. Future Extensions
 
-以下功能留待社区贡献：
+The following features are left for community contribution:
 
-- 高级物理模拟参数
-- 复杂动画系统
-- 高级材质和光照系统
-- 大规模场景优化
-- 多语言支持
+- Advanced physics simulation parameters
+- Complex animation systems
+- Advanced material and lighting systems
+- Large-scale scene optimization
+- Multi-language support
 
-## 9. 版本控制
+## 9. Version Control
 
-- **Draft v1.0**: 初始版本，定义核心API和数据结构
-- **Future v1.1**: 基于社区反馈的改进和扩展
+- **Draft v1.0**: Initial version, defining core API and data structures
+- **Future v1.1**: Improvements and extensions based on community feedback
 
-## 10. 结论
+## 10. Conclusion
 
-Skills Specification (Draft v1.0) 提供了一个基础框架，使AI能够与AMAR Engine交互，指导构建虚拟世界。通过标准化的API和数据结构，我们确保了系统的可扩展性和互操作性，同时避免了过度设计和"花瓶"功能。
+Skills Specification (Draft v1.0) provides a basic framework for AI to interact with AMAR Engine, guiding the construction of virtual worlds. Through standardized APIs and data structures, we ensure the system's extensibility and interoperability while avoiding over-design and "decorative" features.

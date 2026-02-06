@@ -1,22 +1,22 @@
 # Metaclass JSON Schema Design
 
-## 1. 元类概述
+## 1. Metaclass Overview
 
-元类是AMAR Engine中定义对象本质和行为的核心概念。与传统的类继承不同，元类采用组合的方式定义对象的属性和行为。一个元类定义了一个对象是什么以及它能做什么（例如，"容器"元类允许对象容纳液体）。
+Metaclasses are the core concept in AMAR Engine that define the nature and behavior of objects. Unlike traditional class inheritance, metaclasses define object properties and behaviors through composition. A metaclass defines what an object is and what it can do (e.g., a "Container" metaclass allows an object to hold liquid).
 
-## 2. 核心设计原则
+## 2. Core Design Principles
 
-- **组合而非继承**: 属性不是继承而来，而是通过组合元类来实现
-- **模块化**: 每个元类专注于一个特定的功能或行为
-- **可扩展性**: 支持通过组合现有元类创建新的行为
-- **实用性**: 只包含必要的属性和行为，避免"花瓶"功能
-- **标准化**: 采用JSON Schema进行标准化定义
+- **Composition over Inheritance**: Properties are not inherited but composed. A metaclass defines what an object is and what it can do.
+- **Modularity**: Each metaclass focuses on a specific function or behavior.
+- **Extensibility**: Supports creating new behaviors by combining existing metaclasses.
+- **Practicality**: Only includes necessary properties and behaviors, avoiding "decorative" features.
+- **Standardization**: Uses JSON Schema for standardized definition.
 
-## 3. 元类基础结构
+## 3. Metaclass Basic Structure
 
-### 3.1 基本结构
+### 3.1 Basic Structure
 
-每个元类都有以下基本结构：
+Each metaclass has the following basic structure:
 
 ```json
 {
@@ -41,48 +41,48 @@
 }
 ```
 
-### 3.2 字段说明
+### 3.2 Field Description
 
-- **id**: 元类的唯一标识符
-- **name**: 元类的名称
-- **description**: 元类的描述
-- **version**: 元类的版本号
-- **properties**: 元类的属性定义
-- **behaviors**: 元类支持的行为列表
-- **dependencies**: 元类依赖的其他元类
+- **id**: Unique identifier for the metaclass
+- **name**: Name of the metaclass
+- **description**: Description of the metaclass
+- **version**: Version number of the metaclass
+- **properties**: Property definitions of the metaclass
+- **behaviors**: List of behaviors supported by the metaclass
+- **dependencies**: Other metaclasses that this metaclass depends on
 
-## 4. 基本元类定义
+## 4. Basic Metaclass Definitions
 
-### 4.1 固体元类 (Solid)
+### 4.1 Solid Metaclass
 
-定义具有固体特性的对象。
+Defines objects with solid properties.
 
 ```json
 {
   "id": "solid",
   "name": "Solid",
-  "description": "定义具有固体特性的对象",
+  "description": "Defines objects with solid properties",
   "version": "1.0",
   "properties": {
     "mass": {
       "type": "number",
       "default": 1.0,
-      "description": "物体质量（千克）"
+      "description": "Object mass (kilograms)"
     },
     "density": {
       "type": "number",
       "default": 1000.0,
-      "description": "物体密度（千克/立方米）"
+      "description": "Object density (kilograms/cubic meter)"
     },
     "hardness": {
       "type": "number",
       "default": 5.0,
-      "description": "物体硬度（莫氏硬度）"
+      "description": "Object hardness (Mohs scale)"
     },
     "fragility": {
       "type": "number",
       "default": 0.0,
-      "description": "物体易碎性（0-1，0表示不易碎）"
+      "description": "Object fragility (0-1, 0 means not fragile)"
     }
   },
   "behaviors": [
@@ -94,36 +94,36 @@
 }
 ```
 
-### 4.2 容器元类 (Container)
+### 4.2 Container Metaclass
 
-定义可以容纳其他物体的对象。
+Defines objects that can hold other objects.
 
 ```json
 {
   "id": "container",
   "name": "Container",
-  "description": "定义可以容纳其他物体的对象",
+  "description": "Defines objects that can hold other objects",
   "version": "1.0",
   "properties": {
     "capacity": {
       "type": "number",
       "default": 1.0,
-      "description": "容器容量（升）"
+      "description": "Container capacity (liters)"
     },
     "fill_level": {
       "type": "number",
       "default": 0.0,
-      "description": "容器填充水平（0-1）"
+      "description": "Container fill level (0-1)"
     },
     "max_temperature": {
       "type": "number",
       "default": 100.0,
-      "description": "容器最大耐受温度（摄氏度）"
+      "description": "Container maximum temperature tolerance (degrees Celsius)"
     },
     "min_temperature": {
       "type": "number",
       "default": -20.0,
-      "description": "容器最小耐受温度（摄氏度）"
+      "description": "Container minimum temperature tolerance (degrees Celsius)"
     }
   },
   "behaviors": [
@@ -135,46 +135,46 @@
 }
 ```
 
-### 4.3 液体元类 (Liquid)
+### 4.3 Liquid Metaclass
 
-定义具有液体特性的对象。
+Defines objects with liquid properties.
 
 ```json
 {
   "id": "liquid",
   "name": "Liquid",
-  "description": "定义具有液体特性的对象",
+  "description": "Defines objects with liquid properties",
   "version": "1.0",
   "properties": {
     "volume": {
       "type": "number",
       "default": 1.0,
-      "description": "液体体积（升）"
+      "description": "Liquid volume (liters)"
     },
     "density": {
       "type": "number",
       "default": 1000.0,
-      "description": "液体密度（千克/立方米）"
+      "description": "Liquid density (kilograms/cubic meter)"
     },
     "viscosity": {
       "type": "number",
       "default": 1.0,
-      "description": "液体粘度（帕·秒）"
+      "description": "Liquid viscosity (Pascal-seconds)"
     },
     "temperature": {
       "type": "number",
       "default": 25.0,
-      "description": "液体温度（摄氏度）"
+      "description": "Liquid temperature (degrees Celsius)"
     },
     "boiling_point": {
       "type": "number",
       "default": 100.0,
-      "description": "液体沸点（摄氏度）"
+      "description": "Liquid boiling point (degrees Celsius)"
     },
     "freezing_point": {
       "type": "number",
       "default": 0.0,
-      "description": "液体冰点（摄氏度）"
+      "description": "Liquid freezing point (degrees Celsius)"
     }
   },
   "behaviors": [
@@ -187,36 +187,36 @@
 }
 ```
 
-### 4.4 表面元类 (Surface)
+### 4.4 Surface Metaclass
 
-定义具有表面特性的对象。
+Defines objects with surface properties.
 
 ```json
 {
   "id": "surface",
   "name": "Surface",
-  "description": "定义具有表面特性的对象",
+  "description": "Defines objects with surface properties",
   "version": "1.0",
   "properties": {
     "area": {
       "type": "number",
       "default": 1.0,
-      "description": "表面积（平方米）"
+      "description": "Surface area (square meters)"
     },
     "friction": {
       "type": "number",
       "default": 0.5,
-      "description": "表面摩擦系数"
+      "description": "Surface friction coefficient"
     },
     "roughness": {
       "type": "number",
       "default": 0.0,
-      "description": "表面粗糙度（0-1，0表示光滑）"
+      "description": "Surface roughness (0-1, 0 means smooth)"
     },
     "reflectivity": {
       "type": "number",
       "default": 0.1,
-      "description": "表面反射率（0-1）"
+      "description": "Surface reflectivity (0-1)"
     }
   },
   "behaviors": [
@@ -228,31 +228,31 @@
 }
 ```
 
-### 4.5 可移动元类 (Movable)
+### 4.5 Movable Metaclass
 
-定义可以移动的对象。
+Defines objects that can move.
 
 ```json
 {
   "id": "movable",
   "name": "Movable",
-  "description": "定义可以移动的对象",
+  "description": "Defines objects that can move",
   "version": "1.0",
   "properties": {
     "max_velocity": {
       "type": "number",
       "default": 10.0,
-      "description": "最大速度（米/秒）"
+      "description": "Maximum velocity (meters/second)"
     },
     "acceleration": {
       "type": "number",
       "default": 1.0,
-      "description": "加速度（米/秒²）"
+      "description": "Acceleration (meters/second²)"
     },
     "deceleration": {
       "type": "number",
       "default": 1.0,
-      "description": "减速度（米/秒²）"
+      "description": "Deceleration (meters/second²)"
     }
   },
   "behaviors": [
@@ -265,33 +265,33 @@
 }
 ```
 
-## 5. 复合元类示例
+## 5. Composite Metaclass Examples
 
-### 5.1 茶杯元类 (Teacup)
+### 5.1 Teacup Metaclass
 
-通过组合容器、固体和表面元类创建茶杯元类。
+Create a teacup metaclass by combining container, solid, and surface metaclasses.
 
 ```json
 {
   "id": "teacup",
   "name": "Teacup",
-  "description": "定义茶杯对象",
+  "description": "Defines teacup objects",
   "version": "1.0",
   "properties": {
     "capacity": {
       "type": "number",
       "default": 0.25,
-      "description": "茶杯容量（升）"
+      "description": "Teacup capacity (liters)"
     },
     "mass": {
       "type": "number",
       "default": 0.3,
-      "description": "茶杯质量（千克）"
+      "description": "Teacup mass (kilograms)"
     },
     "material": {
       "type": "string",
       "default": "ceramic",
-      "description": "茶杯材质"
+      "description": "Teacup material"
     }
   },
   "behaviors": [
@@ -303,31 +303,31 @@
 }
 ```
 
-### 5.2 桌子元类 (Table)
+### 5.2 Table Metaclass
 
-通过组合固体和表面元类创建桌子元类。
+Create a table metaclass by combining solid and surface metaclasses.
 
 ```json
 {
   "id": "table",
   "name": "Table",
-  "description": "定义桌子对象",
+  "description": "Defines table objects",
   "version": "1.0",
   "properties": {
     "mass": {
       "type": "number",
       "default": 10.0,
-      "description": "桌子质量（千克）"
+      "description": "Table mass (kilograms)"
     },
     "height": {
       "type": "number",
       "default": 0.75,
-      "description": "桌子高度（米）"
+      "description": "Table height (meters)"
     },
     "surface_area": {
       "type": "number",
       "default": 1.0,
-      "description": "桌面面积（平方米）"
+      "description": "Table surface area (square meters)"
     }
   },
   "behaviors": [
@@ -339,19 +339,19 @@
 }
 ```
 
-## 6. 元类属性类型
+## 6. Metaclass Property Types
 
-### 6.1 基本类型
+### 6.1 Basic Types
 
-- **string**: 字符串类型
-- **number**: 数值类型（整数或浮点数）
-- **boolean**: 布尔类型（true或false）
-- **array**: 数组类型
-- **object**: 对象类型
+- **string**: String type
+- **number**: Numeric type (integer or floating-point)
+- **boolean**: Boolean type (true or false)
+- **array**: Array type
+- **object**: Object type
 
-### 6.2 复合类型
+### 6.2 Composite Types
 
-- **range**: 范围类型，包含最小值和最大值
+- **range**: Range type, including minimum and maximum values
   ```json
   {
     "type": "range",
@@ -361,7 +361,7 @@
   }
   ```
 
-- **enum**: 枚举类型，包含可选值列表
+- **enum**: Enum type, including optional value list
   ```json
   {
     "type": "enum",
@@ -370,7 +370,7 @@
   }
   ```
 
-- **vector**: 向量类型，包含多个数值
+- **vector**: Vector type, including multiple numeric values
   ```json
   {
     "type": "vector",
@@ -379,49 +379,49 @@
   }
   ```
 
-## 7. 元类验证规则
+## 7. Metaclass Validation Rules
 
-### 7.1 基本验证
+### 7.1 Basic Validation
 
-- **required**: 是否必需
-- **min**: 最小值（数值类型）
-- **max**: 最大值（数值类型）
-- **minLength**: 最小长度（字符串类型）
-- **maxLength**: 最大长度（字符串类型）
-- **pattern**: 正则表达式模式（字符串类型）
+- **required**: Whether it is required
+- **min**: Minimum value (numeric type)
+- **max**: Maximum value (numeric type)
+- **minLength**: Minimum length (string type)
+- **maxLength**: Maximum length (string type)
+- **pattern**: Regular expression pattern (string type)
 
-### 7.2 依赖验证
+### 7.2 Dependency Validation
 
-- **dependsOn**: 依赖的其他属性
-- **dependencyCondition**: 依赖条件
+- **dependsOn**: Other properties it depends on
+- **dependencyCondition**: Dependency condition
 
-## 8. 元类组合机制
+## 8. Metaclass Composition Mechanism
 
-### 8.1 组合规则
+### 8.1 Composition Rules
 
-1. **属性继承**: 组合元类时，子元类可以继承父元类的属性
-2. **属性覆盖**: 子元类可以覆盖父元类的属性默认值
-3. **行为组合**: 子元类继承所有父元类的行为
-4. **依赖传递**: 子元类继承父元类的所有依赖
+1. **Property Inheritance**: When composing metaclasses, child metaclasses can inherit properties from parent metaclasses
+2. **Property Override**: Child metaclasses can override default values of parent metaclass properties
+3. **Behavior Composition**: Child metaclasses inherit all behaviors from parent metaclasses
+4. **Dependency Transmission**: Child metaclasses inherit all dependencies from parent metaclasses
 
-### 8.2 组合示例
+### 8.2 Composition Example
 
 ```json
 {
   "id": "advanced_container",
   "name": "Advanced Container",
-  "description": "高级容器元类",
+  "description": "Advanced container metaclass",
   "version": "1.0",
   "properties": {
     "capacity": {
       "type": "number",
       "default": 2.0,
-      "description": "容器容量（升）"
+      "description": "Container capacity (liters)"
     },
     "material": {
       "type": "string",
       "default": "metal",
-      "description": "容器材质"
+      "description": "Container material"
     }
   },
   "behaviors": [
@@ -431,11 +431,11 @@
 }
 ```
 
-## 9. 元类注册和管理
+## 9. Metaclass Registration and Management
 
-### 9.1 元类注册
+### 9.1 Metaclass Registration
 
-每个元类都需要在元类注册表中注册，以便AME能够识别和使用它。
+Each metaclass needs to be registered in the metaclass registry so that AME can recognize and use it.
 
 ```json
 {
@@ -456,34 +456,34 @@
 }
 ```
 
-### 9.2 版本控制
+### 9.2 Version Control
 
-元类采用语义化版本控制：
+Metaclasses use semantic versioning:
 
-- **主版本**: 当元类结构发生不兼容的变化时增加
-- **次版本**: 当添加新属性或行为但保持兼容性时增加
-- **补丁版本**: 当修复错误但不影响结构时增加
+- **Major Version**: Increased when incompatible changes are made to the metaclass structure
+- **Minor Version**: Increased when new properties or behaviors are added while maintaining compatibility
+- **Patch Version**: Increased when errors are fixed without affecting the structure
 
-## 10. 实现注意事项
+## 10. Implementation Notes
 
-- **保持简单**: 每个元类应专注于一个特定的功能或行为
-- **避免冗余**: 避免在多个元类中重复定义相同的属性或行为
-- **优先组合**: 优先通过组合现有元类创建新元类，而不是重新定义
-- **验证属性**: 确保所有属性都有合理的默认值和验证规则
-- **文档化**: 为每个元类提供详细的文档和使用示例
+- **Keep it Simple**: Each metaclass should focus on a specific function or behavior
+- **Avoid Redundancy**: Avoid repeating the same properties or behaviors in multiple metaclasses
+- **Prioritize Composition**: Prioritize creating new metaclasses by composing existing ones rather than redefining
+- **Validate Properties**: Ensure all properties have reasonable default values and validation rules
+- **Document**: Provide detailed documentation and usage examples for each metaclass
 
-## 11. 未来扩展
+## 11. Future Extensions
 
-以下功能留待社区贡献：
+The following features are left for community contribution:
 
-- **高级物理元类**: 支持更复杂的物理行为
-- **智能元类**: 支持AI驱动的行为
-- **生物元类**: 支持生物相关的行为和属性
-- **能量元类**: 支持能量转换和存储
-- **多语言支持**: 支持多语言的元类描述
+- **Advanced Physics Metaclasses**: Support more complex physical behaviors
+- **Intelligent Metaclasses**: Support AI-driven behaviors
+- **Biological Metaclasses**: Support biology-related behaviors and properties
+- **Energy Metaclasses**: Support energy conversion and storage
+- **Multi-language Support**: Support multi-language metaclass descriptions
 
-## 12. 结论
+## 12. Conclusion
 
-Metaclass JSON Schema Design 提供了一个标准化的方式来定义对象的本质和行为。通过采用组合而非继承的方式，元类系统使得对象的属性和行为更加灵活和可扩展。
+Metaclass JSON Schema Design provides a standardized way to define the nature and behavior of objects. By adopting composition over inheritance, the metaclass system makes object properties and behaviors more flexible and extensible.
 
-元类的设计遵循实用性原则，只包含必要的属性和行为，避免"花瓶"功能。对于复杂的功能，可以通过组合简单元类来实现，或者留给社区贡献。
+The design of metaclasses follows the principle of practicality, only including necessary properties and behaviors and avoiding "decorative" features. For complex functionality, it can be achieved by composing simple metaclasses or left to community contributions.

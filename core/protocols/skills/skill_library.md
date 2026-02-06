@@ -1,95 +1,95 @@
 # Skills Library Documentation
 
-## 1. 技能库概述
+## 1. Skills Library Overview
 
-技能库是AMAR Engine中预定义的构建指令集合，它提供了标准化的方式来描述虚拟世界的构建任务。技能库中的每个技能都专注于一个特定的构建任务，通过组合这些技能，可以实现复杂的场景构建。
+The Skills Library is a collection of predefined construction instructions in AMAR Engine. It provides a standardized way to describe virtual world construction tasks. Each skill in the library focuses on a specific construction task, and by combining these skills, complex scene construction can be achieved.
 
-## 2. 技能分类
+## 2. Skill Categories
 
-### 2.1 构建类技能 (Construction Skills)
+### 2.1 Construction Skills
 
-用于创建新的资产或场景。
+Used to create new assets or scenes.
 
-- **基础资产构建**
-  - `build_primitive`: 创建基本几何体（立方体、球体、圆柱体等）
-  - `build_container`: 创建容器类资产（杯子、碗、盒子等）
-  - `build_furniture`: 创建家具类资产（桌子、椅子、沙发等）
+- **Basic Asset Construction**
+  - `build_primitive`: Create basic geometric shapes (cubes, spheres, cylinders, etc.)
+  - `build_container`: Create container assets (cups, bowls, boxes, etc.)
+  - `build_furniture`: Create furniture assets (tables, chairs, sofas, etc.)
 
-- **场景构建**
-  - `build_room`: 创建房间场景
-  - `build_outdoor`: 创建户外场景
-  - `build_urban`: 创建城市场景
+- **Scene Construction**
+  - `build_room`: Create room scenes
+  - `build_outdoor`: Create outdoor scenes
+  - `build_urban`: Create urban scenes
 
-### 2.2 修改类技能 (Modification Skills)
+### 2.2 Modification Skills
 
-用于修改现有资产或场景。
+Used to modify existing assets or scenes.
 
-- **资产修改**
-  - `modify_shape`: 修改资产形状
-  - `modify_material`: 修改资产材质
-  - `modify_size`: 修改资产大小
+- **Asset Modification**
+  - `modify_shape`: Modify asset shape
+  - `modify_material`: Modify asset material
+  - `modify_size`: Modify asset size
 
-- **场景修改**
-  - `add_asset`: 向场景添加资产
-  - `remove_asset`: 从场景移除资产
-  - `reposition_asset`: 重新定位场景中的资产
+- **Scene Modification**
+  - `add_asset`: Add assets to a scene
+  - `remove_asset`: Remove assets from a scene
+  - `reposition_asset`: Reposition assets in a scene
 
-### 2.3 检查类技能 (Inspection Skills)
+### 2.3 Inspection Skills
 
-用于验证和检查资产或场景。
+Used to validate and inspect assets or scenes.
 
-- `validate_asset`: 验证资产是否符合规范
-- `validate_scene`: 验证场景是否符合规范
-- `inspect_metaclass`: 检查元类配置
+- `validate_asset`: Validate if an asset conforms to specifications
+- `validate_scene`: Validate if a scene conforms to specifications
+- `inspect_metaclass`: Inspect metaclass configuration
 
-## 3. 技能定义格式
+## 3. Skill Definition Format
 
-每个技能都有以下定义格式：
+Each skill has the following definition format:
 
 ```json
 {
   "id": "skill_unique_id",
-  "name": "技能名称",
-  "description": "技能描述",
-  "type": "技能类型",
-  "version": "版本号",
+  "name": "skill_name",
+  "description": "skill_description",
+  "type": "skill_type",
+  "version": "1.0",
   "parameters": {
-    "required": ["必需参数1", "必需参数2"],
-    "optional": ["可选参数1", "可选参数2"]
+    "required": ["required_param1", "required_param2"],
+    "optional": ["optional_param1", "optional_param2"]
   },
   "schema": {
     "type": "object",
     "properties": {
-      "参数名": {
-        "type": "参数类型",
-        "default": "默认值",
-        "enum": ["可选值1", "可选值2"]
+      "param_name": {
+        "type": "param_type",
+        "default": "default_value",
+        "enum": ["option1", "option2"]
       }
     },
-    "required": ["必需参数1", "必需参数2"]
+    "required": ["required_param1", "required_param2"]
   },
   "examples": [
     {
-      "instruction": "示例指令",
+      "instruction": "example_instruction",
       "parameters": {
-        "参数1": "值1",
-        "参数2": "值2"
+        "param1": "value1",
+        "param2": "value2"
       },
-      "expected_result": "预期结果"
+      "expected_result": "expected_result"
     }
   ]
 }
 ```
 
-## 4. 示例技能定义
+## 4. Example Skill Definitions
 
-### 4.1 构建基本几何体技能
+### 4.1 Build Primitive Skill
 
 ```json
 {
   "id": "build_primitive",
   "name": "Build Primitive",
-  "description": "创建基本几何体资产",
+  "description": "Create basic geometric shape assets",
   "type": "construction",
   "version": "1.0",
   "parameters": {
@@ -102,7 +102,7 @@
       "shape": {
         "type": "string",
         "enum": ["cube", "sphere", "cylinder", "cone", "torus"],
-        "description": "几何体形状"
+        "description": "Geometry shape"
       },
       "size": {
         "type": "object",
@@ -111,7 +111,7 @@
           "y": { "type": "number", "default": 1.0 },
           "z": { "type": "number", "default": 1.0 }
         },
-        "description": "几何体尺寸"
+        "description": "Geometry size"
       },
       "position": {
         "type": "array",
@@ -119,7 +119,7 @@
         "minItems": 3,
         "maxItems": 3,
         "default": [0, 0, 0],
-        "description": "几何体位置"
+        "description": "Geometry position"
       },
       "rotation": {
         "type": "array",
@@ -127,7 +127,7 @@
         "minItems": 3,
         "maxItems": 3,
         "default": [0, 0, 0],
-        "description": "几何体旋转"
+        "description": "Geometry rotation"
       },
       "material": {
         "type": "object",
@@ -135,41 +135,41 @@
           "type": { "type": "string", "default": "plastic" },
           "color": { "type": "string", "default": "#FFFFFF" }
         },
-        "description": "几何体材质"
+        "description": "Geometry material"
       }
     },
     "required": ["shape", "size"]
   },
   "examples": [
     {
-      "instruction": "创建一个红色的立方体",
+      "instruction": "Create a red cube",
       "parameters": {
         "shape": "cube",
         "size": { "x": 1, "y": 1, "z": 1 },
         "material": { "color": "#FF0000" }
       },
-      "expected_result": "创建一个边长为1的红色立方体"
+      "expected_result": "Create a red cube with side length 1"
     },
     {
-      "instruction": "创建一个蓝色的球体",
+      "instruction": "Create a blue sphere",
       "parameters": {
         "shape": "sphere",
         "size": { "x": 0.5, "y": 0.5, "z": 0.5 },
         "material": { "color": "#0000FF" }
       },
-      "expected_result": "创建一个半径为0.5的蓝色球体"
+      "expected_result": "Create a blue sphere with radius 0.5"
     }
   ]
 }
 ```
 
-### 4.2 构建容器技能
+### 4.2 Build Container Skill
 
 ```json
 {
   "id": "build_container",
   "name": "Build Container",
-  "description": "创建容器类资产",
+  "description": "Create container assets",
   "type": "construction",
   "version": "1.0",
   "parameters": {
@@ -182,22 +182,22 @@
       "type": {
         "type": "string",
         "enum": ["cup", "bowl", "box", "bottle", "bucket"],
-        "description": "容器类型"
+        "description": "Container type"
       },
       "capacity": {
         "type": "number",
-        "description": "容器容量（升）"
+        "description": "Container capacity (liters)"
       },
       "material": {
         "type": "string",
         "enum": ["ceramic", "plastic", "glass", "metal"],
         "default": "ceramic",
-        "description": "容器材质"
+        "description": "Container material"
       },
       "color": {
         "type": "string",
         "default": "#FFFFFF",
-        "description": "容器颜色"
+        "description": "Container color"
       },
       "size": {
         "type": "object",
@@ -205,24 +205,24 @@
           "height": { "type": "number", "default": 0.1 },
           "diameter": { "type": "number", "default": 0.08 }
         },
-        "description": "容器尺寸"
+        "description": "Container size"
       }
     },
     "required": ["type", "capacity"]
   },
   "examples": [
     {
-      "instruction": "创建一个红色的陶瓷茶杯",
+      "instruction": "Create a red ceramic teacup",
       "parameters": {
         "type": "cup",
         "capacity": 0.25,
         "material": "ceramic",
         "color": "#FF0000"
       },
-      "expected_result": "创建一个容量为0.25升的红色陶瓷茶杯"
+      "expected_result": "Create a red ceramic teacup with capacity 0.25 liters"
     },
     {
-      "instruction": "创建一个透明的玻璃花瓶",
+      "instruction": "Create a transparent glass vase",
       "parameters": {
         "type": "bottle",
         "capacity": 1.0,
@@ -230,19 +230,19 @@
         "color": "#FFFFFF",
         "size": { "height": 0.3, "diameter": 0.1 }
       },
-      "expected_result": "创建一个容量为1升的透明玻璃花瓶"
+      "expected_result": "Create a transparent glass vase with capacity 1 liter"
     }
   ]
 }
 ```
 
-### 4.3 构建房间场景技能
+### 4.3 Build Room Scene Skill
 
 ```json
 {
   "id": "build_room",
   "name": "Build Room",
-  "description": "创建房间场景",
+  "description": "Create room scenes",
   "type": "construction",
   "version": "1.0",
   "parameters": {
@@ -259,18 +259,18 @@
           "width": { "type": "number" },
           "height": { "type": "number", "default": 2.8 }
         },
-        "description": "房间尺寸"
+        "description": "Room size"
       },
       "purpose": {
         "type": "string",
         "enum": ["living", "bedroom", "kitchen", "office", "bathroom"],
-        "description": "房间用途"
+        "description": "Room purpose"
       },
       "style": {
         "type": "string",
         "enum": ["modern", "traditional", "minimalist", "industrial", "scandinavian"],
         "default": "modern",
-        "description": "房间风格"
+        "description": "Room style"
       },
       "furniture": {
         "type": "array",
@@ -287,62 +287,62 @@
             }
           }
         },
-        "description": "房间家具"
+        "description": "Room furniture"
       }
     },
     "required": ["size", "purpose"]
   },
   "examples": [
     {
-      "instruction": "创建一个现代风格的客厅",
+      "instruction": "Create a modern style living room",
       "parameters": {
         "size": { "length": 5, "width": 4, "height": 2.8 },
         "purpose": "living",
         "style": "modern",
         "furniture": [
           {
-            "name": "沙发",
+            "name": "sofa",
             "type": "sofa",
             "position": [0, 0, 0]
           },
           {
-            "name": "茶几",
+            "name": "coffee table",
             "type": "table",
             "position": [0, 0, 1.5]
           }
         ]
       },
-      "expected_result": "创建一个5x4米的现代风格客厅，包含沙发和茶几"
+      "expected_result": "Create a 5x4 meter modern style living room with sofa and coffee table"
     },
     {
-      "instruction": "创建一个简约风格的卧室",
+      "instruction": "Create a minimalist style bedroom",
       "parameters": {
         "size": { "length": 4, "width": 3.5, "height": 2.8 },
         "purpose": "bedroom",
         "style": "minimalist"
       },
-      "expected_result": "创建一个4x3.5米的简约风格卧室"
+      "expected_result": "Create a 4x3.5 meter minimalist style bedroom"
     }
   ]
 }
 ```
 
-## 3. 技能使用指南
+## 3. Skills Usage Guide
 
-### 3.1 基本使用流程
+### 3.1 Basic Usage Flow
 
-1. **选择技能**：从技能库中选择适合的技能
-2. **设置参数**：根据构建需求设置技能参数
-3. **执行技能**：通过API接口执行技能
-4. **验证结果**：检查构建结果是否符合预期
+1. **Select Skill**: Choose the appropriate skill from the skills library
+2. **Set Parameters**: Set skill parameters according to construction needs
+3. **Execute Skill**: Execute the skill through the API interface
+4. **Validate Result**: Check if the construction result meets expectations
 
-### 3.2 技能组合示例
+### 3.2 Skill Combination Example
 
-通过组合多个技能，可以实现复杂的场景构建：
+By combining multiple skills, complex scene construction can be achieved:
 
 ```json
 {
-  "instruction": "创建一个带家具的现代风格客厅",
+  "instruction": "Create a modern style living room with furniture",
   "skills": [
     {
       "id": "build_room",
@@ -380,47 +380,47 @@
 }
 ```
 
-## 4. 技能库扩展
+## 4. Skills Library Extension
 
-技能库是可扩展的，开发者可以通过以下方式扩展技能库：
+The skills library is extensible, and developers can extend it through the following methods:
 
-1. **创建自定义技能**：根据特定需求创建新的技能
-2. **修改现有技能**：根据实际使用情况修改现有技能
-3. **贡献社区技能**：将自定义技能贡献到社区技能库
+1. **Create Custom Skills**: Create new skills according to specific needs
+2. **Modify Existing Skills**: Modify existing skills according to actual usage
+3. **Contribute Community Skills**: Contribute custom skills to the community skills library
 
-### 4.1 自定义技能创建指南
+### 4.1 Custom Skill Creation Guide
 
-1. **确定技能类型**：选择适合的技能类型（构建、修改、检查）
-2. **定义技能参数**：确定技能所需的必需参数和可选参数
-3. **编写技能实现**：实现技能的核心逻辑
-4. **测试技能**：验证技能是否正常工作
-5. **文档化技能**：编写技能的详细文档
+1. **Determine Skill Type**: Choose the appropriate skill type (construction, modification, inspection)
+2. **Define Skill Parameters**: Determine the required and optional parameters for the skill
+3. **Implement Skill Logic**: Implement the core logic of the skill
+4. **Test Skill**: Verify if the skill works correctly
+5. **Document Skill**: Write detailed documentation for the skill
 
-## 5. 技能库管理
+## 5. Skills Library Management
 
-### 5.1 版本控制
+### 5.1 Version Control
 
-技能库采用语义化版本控制：
+The skills library uses semantic versioning:
 
-- **主版本**：当技能API发生不兼容的变化时增加
-- **次版本**：当添加新功能但保持API兼容时增加
-- **补丁版本**：当修复错误但不影响API时增加
+- **Major Version**: Increased when incompatible changes are made to the skill API
+- **Minor Version**: Increased when new features are added while maintaining API compatibility
+- **Patch Version**: Increased when errors are fixed without affecting the API
 
-### 5.2 技能库更新
+### 5.2 Skills Library Updates
 
-技能库应定期更新，以适应新的构建需求和技术发展。更新时应注意保持向后兼容性，避免破坏现有技能的使用。
+The skills library should be updated regularly to adapt to new construction needs and technological developments. When updating, attention should be paid to maintaining backward compatibility to avoid breaking existing skill usage.
 
-## 6. 最佳实践
+## 6. Best Practices
 
-- **专注于核心功能**：每个技能应专注于一个特定的构建任务
-- **保持简单**：技能参数应尽可能简单，避免过度复杂的配置
-- **提供默认值**：为可选参数提供合理的默认值，简化使用
-- **添加示例**：为每个技能添加详细的使用示例，帮助用户理解
-- **验证参数**：在执行技能前验证参数的有效性，避免错误
-- **错误处理**：提供清晰的错误信息，帮助用户诊断问题
+- **Focus on Core Functionality**: Each skill should focus on a specific construction task
+- **Keep it Simple**: Skill parameters should be as simple as possible, avoiding overly complex configurations
+- **Provide Default Values**: Provide reasonable default values for optional parameters to simplify usage
+- **Add Examples**: Add detailed usage examples for each skill to help users understand
+- **Validate Parameters**: Validate parameter validity before executing skills to avoid errors
+- **Error Handling**: Provide clear error messages to help users diagnose problems
 
-## 7. 结论
+## 7. Conclusion
 
-技能库是AMAR Engine的核心组件之一，它提供了标准化的方式来描述虚拟世界的构建任务。通过使用技能库，AI可以更有效地指导AME构建复杂的虚拟世界，同时保持构建过程的标准化和可重复性。
+The Skills Library is one of the core components of AMAR Engine, providing a standardized way to describe virtual world construction tasks. By using the Skills Library, AI can more effectively guide AME to build complex virtual worlds while maintaining the standardization and reproducibility of the construction process.
 
-技能库的设计遵循实用性原则，只包含必要的功能，避免"花瓶"功能。对于复杂的功能，可以通过组合简单技能来实现，或者留给社区贡献。
+The design of the Skills Library follows the principle of practicality, only including necessary functionality and avoiding "decorative" features. For complex functionality, it can be achieved by combining simple skills or left to community contributions.

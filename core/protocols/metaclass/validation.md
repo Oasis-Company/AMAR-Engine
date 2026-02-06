@@ -1,143 +1,143 @@
 # Metaclass Validation and Composition
 
-## 1. 元类验证工具
+## 1. Metaclass Validation Tools
 
-### 1.1 验证工具概述
+### 1.1 Validation Tools Overview
 
-元类验证工具是AMAR Engine中用于验证元类定义正确性的工具，它确保元类符合Schema规范，并且可以正确地组合和使用。
+Metaclass validation tools are used in AMAR Engine to verify the correctness of metaclass definitions. They ensure that metaclasses conform to schema specifications and can be correctly composed and used.
 
-### 1.2 验证功能
+### 1.2 Validation Functions
 
-#### 1.2.1 基本验证
+#### 1.2.1 Basic Validation
 
-- **结构验证**: 验证元类是否包含所有必需的字段
-- **类型验证**: 验证元类属性的类型是否正确
-- **默认值验证**: 验证元类属性是否有合理的默认值
-- **依赖验证**: 验证元类依赖的其他元类是否存在
-- **循环依赖检测**: 检测元类之间是否存在循环依赖
+- **Structure Validation**: Verifies that metaclasses contain all required fields
+- **Type Validation**: Verifies that metaclass property types are correct
+- **Default Value Validation**: Verifies that metaclass properties have reasonable default values
+- **Dependency Validation**: Verifies that dependencies on other metaclasses exist
+- **Circular Dependency Detection**: Detects circular dependencies between metaclasses
 
-#### 1.2.2 高级验证
+#### 1.2.2 Advanced Validation
 
-- **属性冲突检测**: 检测组合元类时是否存在属性冲突
-- **行为兼容性验证**: 验证元类组合后的行为是否兼容
-- **版本兼容性验证**: 验证不同版本元类之间的兼容性
+- **Property Conflict Detection**: Detects property conflicts when composing metaclasses
+- **Behavior Compatibility Validation**: Validates that behaviors are compatible after metaclass composition
+- **Version Compatibility Validation**: Validates compatibility between different versions of metaclasses
 
-### 1.3 验证工具API
+### 1.3 Validation Tool API
 
-#### 1.3.1 验证单个元类
+#### 1.3.1 Validate Single Metaclass
 
 ```python
 def validate_metaclass(metaclass_def):
     """
-    验证单个元类定义的正确性
+    Validate the correctness of a single metaclass definition
     
-    参数:
-        metaclass_def: 元类定义（字典）
+    Parameters:
+        metaclass_def: Metaclass definition (dictionary)
     
-    返回:
-        dict: 验证结果，包含成功/失败状态和错误信息
+    Returns:
+        dict: Validation result, including success/failure status and error messages
     """
-    # 实现验证逻辑
+    # Implement validation logic
     pass
 ```
 
-#### 1.3.2 验证元类组合
+#### 1.3.2 Validate Metaclass Composition
 
 ```python
 def validate_metaclass_composition(base_metaclass, extension_metaclasses):
     """
-    验证元类组合的正确性
+    Validate the correctness of metaclass composition
     
-    参数:
-        base_metaclass: 基础元类定义
-        extension_metaclasses: 扩展元类列表
+    Parameters:
+        base_metaclass: Base metaclass definition
+        extension_metaclasses: List of extension metaclasses
     
-    返回:
-        dict: 验证结果，包含成功/失败状态和错误信息
+    Returns:
+        dict: Validation result, including success/failure status and error messages
     """
-    # 实现验证逻辑
+    # Implement validation logic
     pass
 ```
 
-### 1.4 验证规则
+### 1.4 Validation Rules
 
-#### 1.4.1 必需字段规则
+#### 1.4.1 Required Field Rules
 
-- 每个元类必须包含以下字段：`id`, `name`, `description`, `version`, `properties`, `behaviors`, `dependencies`
-- `id` 必须是唯一的，并且只包含小写字母、数字和下划线
-- `version` 必须符合语义化版本格式（如 "1.0.0"）
+- Each metaclass must contain the following fields: `id`, `name`, `description`, `version`, `properties`, `behaviors`, `dependencies`
+- `id` must be unique and contain only lowercase letters, numbers, and underscores
+- `version` must follow semantic versioning format (e.g., "1.0.0")
 
-#### 1.4.2 属性规则
+#### 1.4.2 Property Rules
 
-- 每个属性必须包含 `type` 和 `description` 字段
-- `type` 必须是有效的类型（string, number, boolean, array, object）
-- 对于数值类型，建议提供 `min` 和 `max` 约束
-- 对于字符串类型，建议提供 `minLength` 和 `maxLength` 约束
+- Each property must contain `type` and `description` fields
+- `type` must be a valid type (string, number, boolean, array, object)
+- For numeric types, `min` and `max` constraints are recommended
+- For string types, `minLength` and `maxLength` constraints are recommended
 
-#### 1.4.3 依赖规则
+#### 1.4.3 Dependency Rules
 
-- 依赖的元类必须存在
-- 不允许循环依赖
-- 依赖关系必须是单向的（A依赖B，B不能依赖A）
+- Dependent metaclasses must exist
+- Circular dependencies are not allowed
+- Dependency relationships must be unidirectional (if A depends on B, B cannot depend on A)
 
-## 2. 元类组合机制
+## 2. Metaclass Composition Mechanism
 
-### 2.1 组合机制概述
+### 2.1 Composition Mechanism Overview
 
-元类组合机制是AMAR Engine中用于组合多个元类创建新元类的机制，它允许通过组合现有元类的属性和行为来创建更复杂的元类。
+The metaclass composition mechanism in AMAR Engine is used to create new metaclasses by combining multiple existing metaclasses. It allows creating more complex metaclasses by composing properties and behaviors from existing metaclasses.
 
-### 2.2 组合规则
+### 2.2 Composition Rules
 
-#### 2.2.1 属性组合
+#### 2.2.1 Property Composition
 
-- **继承**: 子元类继承父元类的所有属性
-- **覆盖**: 子元类可以覆盖父元类的属性默认值
-- **扩展**: 子元类可以添加新的属性
-- **冲突解决**: 如果多个父元类定义了同名属性，使用子元类中定义的属性值
+- **Inheritance**: Child metaclasses inherit all properties from parent metaclasses
+- **Overriding**: Child metaclasses can override default values of parent metaclass properties
+- **Extension**: Child metaclasses can add new properties
+- **Conflict Resolution**: If multiple parent metaclasses define properties with the same name, the property defined in the child metaclass is used
 
-#### 2.2.2 行为组合
+#### 2.2.2 Behavior Composition
 
-- **合并**: 子元类继承所有父元类的行为
-- **去重**: 自动去除重复的行为
-- **扩展**: 子元类可以添加新的行为
+- **Merging**: Child metaclasses inherit all behaviors from parent metaclasses
+- **Deduplication**: Duplicate behaviors are automatically removed
+- **Extension**: Child metaclasses can add new behaviors
 
-#### 2.2.3 依赖传递
+#### 2.2.3 Dependency Propagation
 
-- **传递**: 子元类继承父元类的所有依赖
-- **去重**: 自动去除重复的依赖
+- **Propagation**: Child metaclasses inherit all dependencies from parent metaclasses
+- **Deduplication**: Duplicate dependencies are automatically removed
 
-### 2.3 组合算法
+### 2.3 Composition Algorithm
 
-#### 2.3.1 深度优先搜索组合
+#### 2.3.1 Depth-First Search Composition
 
 ```python
 def compose_metaclasses(base_metaclass, extension_metaclasses):
     """
-    组合多个元类创建新元类
+    Compose multiple metaclasses to create a new metaclass
     
-    参数:
-        base_metaclass: 基础元类定义
-        extension_metaclasses: 扩展元类列表
+    Parameters:
+        base_metaclass: Base metaclass definition
+        extension_metaclasses: List of extension metaclasses
     
-    返回:
-        dict: 组合后的元类定义
+    Returns:
+        dict: Composed metaclass definition
     """
-    # 1. 验证所有元类
-    # 2. 检测循环依赖
-    # 3. 深度优先搜索收集所有依赖
-    # 4. 组合属性
-    # 5. 组合行为
-    # 6. 组合依赖
-    # 7. 返回组合后的元类
+    # 1. Validate all metaclasses
+    # 2. Detect circular dependencies
+    # 3. Depth-first search to collect all dependencies
+    # 4. Compose properties
+    # 5. Compose behaviors
+    # 6. Compose dependencies
+    # 7. Return composed metaclass
     pass
 ```
 
-### 2.4 组合示例
+### 2.4 Composition Examples
 
-#### 2.4.1 组合固体和容器元类
+#### 2.4.1 Composing Solid and Container Metaclasses
 
 ```python
-# 基础元类
+# Base metaclass
 solid_metaclass = {
     "id": "solid",
     "name": "Solid",
@@ -148,7 +148,7 @@ solid_metaclass = {
     "dependencies": []
 }
 
-# 扩展元类
+# Extension metaclass
 container_metaclass = {
     "id": "container",
     "name": "Container",
@@ -159,10 +159,10 @@ container_metaclass = {
     "dependencies": ["solid"]
 }
 
-# 组合元类
+# Compose metaclasses
 composed_metaclass = compose_metaclasses(solid_metaclass, [container_metaclass])
 
-# 结果
+# Result
 # {
 #     "id": "composed",
 #     "name": "Composed",
@@ -175,10 +175,10 @@ composed_metaclass = compose_metaclasses(solid_metaclass, [container_metaclass])
 # }
 ```
 
-#### 2.4.2 组合多个元类
+#### 2.4.2 Composing Multiple Metaclasses
 
 ```python
-# 组合固体、容器和可移动元类
+# Compose solid, container, and movable metaclasses
 movable_metaclass = {
     "id": "movable",
     "name": "Movable",
@@ -194,7 +194,7 @@ composed_metaclass = compose_metaclasses(
     [container_metaclass, movable_metaclass]
 )
 
-# 结果
+# Result
 # {
 #     "id": "composed",
 #     "name": "Composed",
@@ -208,13 +208,13 @@ composed_metaclass = compose_metaclasses(
 # }
 ```
 
-## 3. 元类注册和管理
+## 3. Metaclass Registration and Management
 
-### 3.1 元类注册表
+### 3.1 Metaclass Registry
 
-元类注册表是AMAR Engine中用于存储和管理所有元类定义的中央存储，它允许AME快速查找和访问元类。
+The metaclass registry is a central storage in AMAR Engine for storing and managing all metaclass definitions. It allows AME to quickly find and access metaclasses.
 
-#### 3.1.1 注册表结构
+#### 3.1.1 Registry Structure
 
 ```json
 {
@@ -237,94 +237,94 @@ composed_metaclass = compose_metaclasses(
 }
 ```
 
-### 3.2 元类管理API
+### 3.2 Metaclass Management API
 
-#### 3.2.1 注册元类
+#### 3.2.1 Register Metaclass
 
 ```python
 def register_metaclass(metaclass_def):
     """
-    注册新的元类
+    Register a new metaclass
     
-    参数:
-        metaclass_def: 元类定义（字典）
+    Parameters:
+        metaclass_def: Metaclass definition (dictionary)
     
-    返回:
-        dict: 注册结果，包含成功/失败状态和元类ID
+    Returns:
+        dict: Registration result, including success/failure status and metaclass ID
     """
-    # 实现注册逻辑
+    # Implement registration logic
     pass
 ```
 
-#### 3.2.2 获取元类
+#### 3.2.2 Get Metaclass
 
 ```python
 def get_metaclass(metaclass_id):
     """
-    获取指定ID的元类定义
+    Get the metaclass definition for a specified ID
     
-    参数:
-        metaclass_id: 元类ID
+    Parameters:
+        metaclass_id: Metaclass ID
     
-    返回:
-        dict: 元类定义
+    Returns:
+        dict: Metaclass definition
     """
-    # 实现获取逻辑
+    # Implement retrieval logic
     pass
 ```
 
-#### 3.2.3 列出所有元类
+#### 3.2.3 List All Metaclasses
 
 ```python
 def list_metaclasses():
     """
-    列出所有注册的元类
+    List all registered metaclasses
     
-    返回:
-        list: 元类列表
+    Returns:
+        list: List of metaclasses
     """
-    # 实现列出逻辑
+    # Implement listing logic
     pass
 ```
 
-## 4. 元类加载和缓存
+## 4. Metaclass Loading and Caching
 
-### 4.1 加载机制
+### 4.1 Loading Mechanism
 
-元类加载机制负责从文件系统或网络加载元类定义，它支持以下加载方式：
+The metaclass loading mechanism is responsible for loading metaclass definitions from the file system or network. It supports the following loading methods:
 
-- **本地加载**: 从本地文件系统加载元类定义
-- **远程加载**: 从远程服务器加载元类定义
-- **运行时加载**: 在运行时动态创建元类定义
+- **Local Loading**: Loading metaclass definitions from the local file system
+- **Remote Loading**: Loading metaclass definitions from remote servers
+- **Runtime Loading**: Dynamically creating metaclass definitions at runtime
 
-### 4.2 缓存机制
+### 4.2 Caching Mechanism
 
-元类缓存机制负责缓存已加载的元类定义，提高访问速度：
+The metaclass caching mechanism is responsible for caching loaded metaclass definitions to improve access speed:
 
-- **内存缓存**: 将元类定义缓存到内存中
-- **磁盘缓存**: 将元类定义缓存到磁盘中
-- **过期策略**: 定期检查元类是否过期，需要重新加载
+- **Memory Cache**: Caching metaclass definitions in memory
+- **Disk Cache**: Caching metaclass definitions on disk
+- **Expiration Policy**: Periodically checking if metaclasses have expired and need to be reloaded
 
-## 5. 实现注意事项
+## 5. Implementation Considerations
 
-- **性能优化**: 元类验证和组合可能会比较耗时，需要进行性能优化
-- **错误处理**: 提供清晰的错误信息，帮助用户诊断问题
-- **模块化**: 将验证和组合功能模块化，便于测试和维护
-- **文档化**: 为每个功能提供详细的文档和使用示例
-- **测试**: 编写全面的测试用例，确保功能的正确性
+- **Performance Optimization**: Metaclass validation and composition can be time-consuming and require performance optimization
+- **Error Handling**: Provide clear error messages to help users diagnose issues
+- **Modularity**: Modularize validation and composition functions for easier testing and maintenance
+- **Documentation**: Provide detailed documentation and usage examples for each function
+- **Testing**: Write comprehensive test cases to ensure correctness of functionality
 
-## 6. 未来扩展
+## 6. Future Extensions
 
-以下功能留待社区贡献：
+The following features are open for community contributions:
 
-- **元类可视化工具**: 可视化元类之间的依赖关系和组合关系
-- **元类编辑器**: 图形化编辑元类定义的工具
-- **元类模板**: 提供常用元类的模板，简化元类创建
-- **元类导入/导出**: 支持元类的导入和导出，便于共享和重用
-- **元类版本控制**: 支持元类的版本控制和回滚
+- **Metaclass Visualization Tool**: Visualize dependency relationships and composition relationships between metaclasses
+- **Metaclass Editor**: Graphical tool for editing metaclass definitions
+- **Metaclass Templates**: Provide templates for common metaclasses to simplify metaclass creation
+- **Metaclass Import/Export**: Support importing and exporting metaclasses for easy sharing and reuse
+- **Metaclass Version Control**: Support version control and rollback for metaclasses
 
-## 7. 结论
+## 7. Conclusion
 
-元类验证和组合机制是AMAR Engine中重要的组成部分，它确保了元类定义的正确性和可组合性。通过使用这些机制，开发者可以创建复杂的元类，同时保持系统的稳定性和可扩展性。
+Metaclass validation and composition mechanisms are important components of AMAR Engine. They ensure the correctness and composability of metaclass definitions. By using these mechanisms, developers can create complex metaclasses while maintaining system stability and extensibility.
 
-实现时应遵循实用性原则，只包含必要的功能，避免"花瓶"功能。对于复杂的功能，可以通过模块化设计和社区贡献来实现。
+Implementation should follow the principle of practicality, including only necessary features and avoiding "花瓶" (decorative but useless) features. For complex functionality, modular design and community contributions can be used.
