@@ -1,0 +1,96 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Environment
+.env
+.venv/
+env/
+venv/
+
+# Logs
+logs/
+*.log
+
+# Test
+.pytest_cache/
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Database
+*.db
+*.sqlite
+
+# Large files
+*.zip
+*.tar.gz
+*.rar
+
+# 3D models and assets (if not needed in repo)
+# Uncomment if you don't want to track 3D files
+# *.obj
+# *.fbx
+# *.blend
+# *.gltf
+# *.glb
+
+# Local configuration
+local_config.json
+local_settings.py
+
+# Generated documentation
+docs/_build/
+
+# CI/CD
+.github/workflows/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Linux
+*~
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# Trae
+.trae/
+.trae-ai/
