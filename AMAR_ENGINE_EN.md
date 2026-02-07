@@ -206,4 +206,11 @@ This project is licensed under the GNU General Public License v3.0. See the LICE
 
 "Pick the right direction, create miracles; it is not as difficult as reaching the heavens." — ceaserzhao
 
-AMAR Engine aims to revolutionize the way we create and interact with virtual worlds. By combining natural language processing, computer vision
+AMAR Engine aims to revolutionize the way we create and interact with virtual worlds. By combining natural language processing, computer vision, and 3D reconstruction, we're building a tool that makes virtual world creation accessible to everyone.
+
+## Repositories
+
+- **Engine**: Oasis-Company/AMAR-Engine
+- **Metaclass**: Oasis-Company/metaclass-prototype
+
+## Contact
