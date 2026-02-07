@@ -63,3 +63,12 @@ class SkillValidator {
           if (!(param in parameters)) {
             return { valid: false, error: `Missing required parameter: ${param}` };
           }
+        }
+      }
+
+      // Check parameter types
+      if (skill.schema.properties) {
+        for (const [paramName, paramSchema] of Object.entries(skill.schema.properties)) {
+          if (paramName in parameters) {
+            const paramValue = parameters[paramName];
+            const paramType =
