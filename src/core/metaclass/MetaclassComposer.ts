@@ -92,3 +92,23 @@ class MetaclassComposer {
     for (const extension of extensionMetaclasses) {
       for (const behavior of extension.behaviors) {
         behaviors.add(behavior);
+      }
+    }
+
+    return Array.from(behaviors);
+  }
+
+  /**
+   * Compose dependencies from multiple metaclasses
+   * @param baseMetaclass - Base metaclass
+   * @param extensionMetaclasses - Extension metaclasses
+   * @returns Composed dependencies (unique)
+   */
+  private composeDependencies(baseMetaclass: Metaclass, extensionMetaclasses: Metaclass[]): string[] {
+    const dependencies = new Set<string>(baseMetaclass.dependencies);
+
+    // Add dependencies from extension metaclasses
+    for (const extension of extensionMetaclasses) {
+      for (const dependency of extension.dependencies) {
+        dependencies.add(dependency);
+      }
