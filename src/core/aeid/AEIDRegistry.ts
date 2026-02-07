@@ -127,4 +127,18 @@ class AEIDRegistry {
           this.registrations.set(registration.aeid, registration);
         }
       }
-    } catch (error)
+    } catch (error) {
+      console.warn(`Failed to load AEID registrations from storage: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Shutdown the registry
+   */
+  public async shutdown(): Promise<void> {
+    // No specific shutdown operations needed
+    console.log('AEID Registry shutdown successfully!');
+  }
+}
+
+export { AEIDRegistry };
