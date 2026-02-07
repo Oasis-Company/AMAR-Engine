@@ -71,4 +71,13 @@ class SkillValidator {
         for (const [paramName, paramSchema] of Object.entries(skill.schema.properties)) {
           if (paramName in parameters) {
             const paramValue = parameters[paramName];
-            const paramType =
+            const paramType = (paramSchema as any).type;
+
+            if (paramType && typeof paramValue !== paramType) {
+              return { valid: false, error: `Invalid type for parameter ${paramName}: expected ${paramType}, got ${typeof paramValue}` };
+            }
+          }
+        }
+      }
+
+      return { valid: true };
