@@ -116,4 +116,15 @@ class AEIDRegistry {
   /**
    * Load registrations from storage
    */
-  private async loadRegistrations
+  private async loadRegistrations(): Promise<void> {
+    try {
+      const files = fs.readdirSync(this.storagePath);
+      for (const file of files) {
+        if (file.endsWith('.json')) {
+          const filePath = path.join(this.storagePath, file);
+          const content = fs.readFileSync(filePath, 'utf8');
+          const registration = JSON.parse(content) as Record<string, any>;
+          this.registrations.set(registration.aeid, registration);
+        }
+      }
+    } catch (error)
