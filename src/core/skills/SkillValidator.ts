@@ -81,3 +81,10 @@ class SkillValidator {
       }
 
       return { valid: true };
+    } catch (error) {
+      return { valid: false, error: `Parameter validation failed: ${(error as Error).message}` };
+    }
+  }
+}
+
+export { SkillValidator };
