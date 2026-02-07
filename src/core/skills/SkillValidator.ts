@@ -59,4 +59,7 @@ class SkillValidator {
     try {
       // Check required parameters
       if (skill.schema.required) {
-        for (const param
+        for (const param of skill.schema.required) {
+          if (!(param in parameters)) {
+            return { valid: false, error: `Missing required parameter: ${param}` };
+          }
