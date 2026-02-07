@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "description": "AMAR Engine - A next-generation 3D tool for generating virtual worlds",
   "main": "src/index.js",
+  "bin": {
+    "ame": "src/cli/index.ts"
+  },
   "scripts": {
     "test": "jest",
     "lint": "eslint src",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "cli": "ts-node src/cli/index.ts"
   },
   "keywords": [
     "3D",
@@ -32,8 +36,13 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
+    "@types/chalk": "^0.4.31",
+    "@types/inquirer": "^9.0.9",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.3",
     "crypto": "^1.0.1",
     "fs": "^0.0.1-security",
+    "inquirer": "^13.2.2",
     "luxon": "^3.4.4",
     "path": "^0.12.7"
   }
