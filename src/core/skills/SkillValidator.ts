@@ -43,3 +43,16 @@ class SkillValidator {
 
     // Validate schema
     if (typeof skill.schema !== 'object' || skill.schema === null) {
+      return { valid: false, error: 'Invalid schema: must be an object' };
+    }
+
+    return { valid: true };
+  }
+
+  /**
+   * Validate skill parameters
+   * @param skill - Skill definition
+   * @param parameters - Parameters to validate
+   * @returns Validation result
+   */
+  public validateParameters(skill: Skill, parameters: Record
