@@ -165,9 +165,17 @@ AMAR-Engine/
 │   ├── api/              # API interface (future)
 │   ├── utils/            # Utility functions
 │   └── index.ts          # Main entry point
+├── core/protocols/       # Core protocols documentation
+│   ├── metaclass/        # Metaclass protocols
+│   ├── aeid/             # AEID protocols
+│   └── skills/           # Skills protocols
 ├── public/               # Public assets
+│   └── assets/           # Static assets
+│       └── logos/        # Logo files
 ├── package.json          # Project configuration
-└── README.md             # Project documentation
+├── README.md             # Project documentation
+├── AMAR_ENGINE_EN.md     # Comprehensive English documentation
+└── LICENSE               # GPL v3.0 License
 ```
 
 ### Building the Project
@@ -181,6 +189,22 @@ npm run typecheck
 # Run tests
 npm test
 ```
+
+## Core Protocols Documentation
+
+AMAR Engine includes comprehensive documentation for its core protocols:
+
+### Metaclass Protocols
+- **schema.md**: Defines the JSON schema for Metaclasses
+- **validation.md**: Provides validation rules for Metaclasses
+
+### AEID Protocols
+- **convention.md**: Outlines the AEID naming convention and structure
+- **management.md**: Describes how AEIDs are managed and registered
+
+### Skills Protocols
+- **specification.md**: Defines the RESTful-style specification for Skills
+- **skill_library.md**: Documents the Skills Library structure and usage
 
 ## Contribution Guide
 
