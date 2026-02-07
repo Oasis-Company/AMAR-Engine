@@ -31,4 +31,15 @@ class SkillValidator {
     }
 
     // Validate skill type
-    const validTypes = ['create', 'modify', 'query', '
+    const validTypes = ['create', 'modify', 'query', 'delete'];
+    if (!validTypes.includes(skill.type)) {
+      return { valid: false, error: `Invalid skill type: must be one of ${validTypes.join(', ')}` };
+    }
+
+    // Validate parameters
+    if (typeof skill.parameters !== 'object' || skill.parameters === null) {
+      return { valid: false, error: 'Invalid parameters: must be an object' };
+    }
+
+    // Validate schema
+    if (typeof skill.schema !== 'object' || skill.schema === null) {
