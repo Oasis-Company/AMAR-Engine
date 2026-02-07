@@ -49,3 +49,93 @@ Metaclass: Oasis-Company/metaclass-prototype
 
 License
 This project is licensed under the GNU General Public License v3.0. See the LICENSE file for details.
+
+Command Line Interface (ame)
+AMAR Engine provides a command line interface (CLI) tool called `ame` for interacting with the engine.
+
+### Installation
+```bash
+# Install dependencies
+npm install
+
+# Link the CLI tool (optional)
+npm link
+```
+
+### Basic Usage
+```bash
+# Initialize AMAR Engine
+ame init
+
+# Check engine status
+ame status
+
+# Generate a new AEID
+ame aeid generate --type asset
+
+# List all registered metaclasses
+ame metaclass list
+
+# Register a new skill
+ame skill register
+```
+
+### Available Commands
+
+#### System Commands
+- `ame init`: Initialize AMAR Engine
+- `ame status`: Check AMAR Engine status
+
+#### Metaclass Commands
+- `ame metaclass register`: Register a new metaclass
+- `ame metaclass list`: List all registered metaclasses
+- `ame metaclass compose`: Compose multiple metaclasses
+
+#### AEID Commands
+- `ame aeid generate`: Generate a new AEID
+- `ame aeid validate <aeid>`: Validate an AEID
+- `ame aeid register <aeid>`: Register an AEID
+- `ame aeid query <aeid>`: Query an AEID
+
+#### Skill Commands
+- `ame skill register`: Register a new skill
+- `ame skill execute <skillId>`: Execute a skill
+- `ame skill list`: List all registered skills
+
+### Examples
+
+#### Generate and Register an AEID
+```bash
+# Generate a new AEID for an asset
+ame aeid generate --type asset
+
+# Validate an AEID
+ame aeid validate AST-202602070753-25224137-1EF6
+
+# Register an AEID
+ame aeid register AST-202602070753-25224137-1EF6
+```
+
+#### Register and Execute a Skill
+```bash
+# Register a new skill
+ame skill register
+
+# Execute a skill
+ame skill execute create_asset
+
+# List all skills
+ame skill list
+```
+
+#### Manage Metaclasses
+```bash
+# Register a new metaclass
+ame metaclass register
+
+# List all metaclasses
+ame metaclass list
+
+# Compose multiple metaclasses
+ame metaclass compose
+```
