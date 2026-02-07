@@ -21,6 +21,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "@types/jest": "^29.5.12",
+    "@types/luxon": "^3.7.1",
     "@types/node": "^20.11.30",
     "@typescript-eslint/eslint-plugin": "^7.3.1",
     "@typescript-eslint/parser": "^7.3.1",
@@ -33,7 +34,7 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "fs": "^0.0.1-security",
-    "path": "^0.12.7",
-    "luxon": "^3.4.4"
+    "luxon": "^3.4.4",
+    "path": "^0.12.7"
   }
 }
