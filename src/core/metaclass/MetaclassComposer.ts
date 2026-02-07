@@ -112,3 +112,10 @@ class MetaclassComposer {
       for (const dependency of extension.dependencies) {
         dependencies.add(dependency);
       }
+    }
+
+    return Array.from(dependencies);
+  }
+}
+
+export { MetaclassComposer };
