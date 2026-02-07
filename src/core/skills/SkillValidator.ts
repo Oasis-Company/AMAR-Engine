@@ -55,4 +55,8 @@ class SkillValidator {
    * @param parameters - Parameters to validate
    * @returns Validation result
    */
-  public validateParameters(skill: Skill, parameters: Record
+  public validateParameters(skill: Skill, parameters: Record<string, any>): { valid: boolean; error?: string } {
+    try {
+      // Check required parameters
+      if (skill.schema.required) {
+        for (const param
