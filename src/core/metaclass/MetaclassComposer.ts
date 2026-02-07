@@ -65,4 +65,30 @@ class MetaclassComposer {
    * @param extensionMetaclasses - Extension metaclasses
    * @returns Composed properties
    */
-  private composeProperties(base
+  private composeProperties(baseMetaclass: Metaclass, extensionMetaclasses: Metaclass[]): Record<string, any> {
+    const properties: Record<string, any> = { ...baseMetaclass.properties };
+
+    // Add properties from extension metaclasses
+    for (const extension of extensionMetaclasses) {
+      for (const [propName, propValue] of Object.entries(extension.properties)) {
+        // If property already exists, extension overrides base
+        properties[propName] = propValue;
+      }
+    }
+
+    return properties;
+  }
+
+  /**
+   * Compose behaviors from multiple metaclasses
+   * @param baseMetaclass - Base metaclass
+   * @param extensionMetaclasses - Extension metaclasses
+   * @returns Composed behaviors (unique)
+   */
+  private composeBehaviors(baseMetaclass: Metaclass, extensionMetaclasses: Metaclass[]): string[] {
+    const behaviors = new Set<string>(baseMetaclass.behaviors);
+
+    // Add behaviors from extension metaclasses
+    for (const extension of extensionMetaclasses) {
+      for (const behavior of extension.behaviors) {
+        behaviors.add(behavior);
