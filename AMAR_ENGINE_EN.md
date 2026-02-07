@@ -195,3 +195,15 @@ We welcome contributions to AMAR Engine! Please follow these guidelines:
 ### Code Style
 - Follow TypeScript best practices
 - Use descriptive variable and function names
+- Add comments for complex logic
+- Ensure your code passes type checking
+
+## License
+
+This project is licensed under the GNU General Public License v3.0. See the LICENSE file for details.
+
+## Vision
+
+"Pick the right direction, create miracles; it is not as difficult as reaching the heavens." — ceaserzhao
+
+AMAR Engine aims to revolutionize the way we create and interact with virtual worlds. By combining natural language processing, computer vision
