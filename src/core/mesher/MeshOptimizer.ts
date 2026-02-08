@@ -50,4 +50,7 @@ class MeshOptimizer {
     optimizedMesh.metadata = {
       ...optimizedMesh.metadata,
       optimized: true,
-      optimization
+      optimizationTime: new Date().toISOString(),
+      optimizationOptions: mergedOptions,
+      originalVertexCount: mesh.vertices.length / 3,
+      originalFaceCount: mesh.
