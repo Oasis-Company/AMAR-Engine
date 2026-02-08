@@ -3,14 +3,12 @@
 /**
  * AMAR Engine (AME) - Main Entry Point
  * A next-generation 3D tool for generating virtual worlds from natural language and real-world captures
- */
-
-import { MetaclassSystem } from './core/metaclass/MetaclassSystem';
+ */import { MetaclassSystem } from './core/metaclass/MetaclassSystem';
 import { AEIDSystem } from './core/aeid/AEIDSystem';
 import { SkillsSystem } from './core/skills/SkillsSystem';
 import { MesherSystem } from './core/mesher/MesherSystem';
-
-class AMAREngine {
+import { APISystem } from './api';
+import { version } from './version';AMAREngine {
   private metaclassSystem: MetaclassSystem;
   private aeidSystem: AEIDSystem;
   private skillsSystem: SkillsSystem;
