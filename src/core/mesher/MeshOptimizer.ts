@@ -136,4 +136,8 @@ class MeshOptimizer {
    * @returns Simplified mesh
    */
   private simplifyMesh(mesh: Mesh, quality: 'low' | 'medium' | 'high'): Mesh {
-    // Determine simplification
+    // Determine simplification factor based on quality
+    let simplificationFactor: number;
+    switch (quality) {
+      case 'low':
+        simpl
