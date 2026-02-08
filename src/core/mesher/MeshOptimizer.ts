@@ -317,3 +317,11 @@ class MeshOptimizer {
     }
 
     return {
+      min: { x: minX, y: minY, z: minZ },
+      max: { x: maxX, y: maxY, z: maxZ }
+    };
+  }
+
+  /**
+   * Calculate optimization statistics for a mesh
+   * @param originalMesh - Original
