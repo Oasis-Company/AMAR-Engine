@@ -205,4 +205,5 @@ class MeshOptimizer {
       
       // Calculate cross product
       const nx = v1y * v2z - v1z * v2y;
-      const ny = v1z * v2x - v
+      const ny = v1z * v2x - v1x * v2z;
+      const nz = v1x * v2y -
