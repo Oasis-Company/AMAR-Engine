@@ -14,11 +14,13 @@ class AMAREngine {
   private metaclassSystem: MetaclassSystem;
   private aeidSystem: AEIDSystem;
   private skillsSystem: SkillsSystem;
+  private mesherSystem: MesherSystem;
 
   constructor() {
     this.metaclassSystem = new MetaclassSystem();
     this.aeidSystem = new AEIDSystem();
     this.skillsSystem = new SkillsSystem();
+    this.mesherSystem = new MesherSystem();
   }
 
   /**
@@ -31,6 +33,7 @@ class AMAREngine {
     await this.metaclassSystem.initialize();
     await this.aeidSystem.initialize();
     await this.skillsSystem.initialize();
+    await this.mesherSystem.initialize();
     
     console.log('AMAR Engine initialized successfully!');
   }
