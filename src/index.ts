@@ -46,4 +46,23 @@ class AMAREngine {
   /**
    * Start the API server
    */
-  public async startAPIServer(): Promise
+  public async startAPIServer(): Promise<void> {
+    await this.apiSystem.start();
+  }
+
+  /**
+   * Stop the API server
+   */
+  public async stopAPIServer(): Promise<void> {
+    await this.apiSystem.stop();
+  }
+
+  /**
+   * Get the Metaclass System
+   */
+  public getMetaclassSystem(): MetaclassSystem {
+    return this.metaclassSystem;
+  }
+
+  /**
+   * Get the
