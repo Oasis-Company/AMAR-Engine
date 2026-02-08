@@ -111,4 +111,13 @@ class MeshValidator {
     }
 
     if (indices.length % 3 !== 0) {
-      return { valid: false, error: 'Indices array length
+      return { valid: false, error: 'Indices array length must be a multiple of 3' };
+    }
+
+    if (indices.length === 0) {
+      return { valid: false, error: 'Indices array cannot be empty' };
+    }
+
+    // Check for valid index values
+    for (let i = 0; i < indices.length; i++) {
+      const index = indices
