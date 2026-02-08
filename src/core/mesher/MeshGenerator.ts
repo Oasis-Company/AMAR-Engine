@@ -81,4 +81,9 @@ class MeshGenerator {
 
   /**
    * Generate mesh from text description
-   *
+   * @param description - Text description of the object
+   * @param options - Generation options
+   * @returns Generated mesh
+   */
+  public async fromText(description: string, options: MesherOptions = {}): Promise<Mesh> {
+    const mergedOptions = {
