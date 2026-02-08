@@ -181,4 +181,8 @@ class MeshValidator {
     }
 
     if (uvs.length !== vertexCount * 2) {
-      return { valid: false, error: `UVs array length
+      return { valid: false, error: `UVs array length must match vertex count (expected ${vertexCount * 2}, got ${uvs.length})` };
+    }
+
+    // Check for valid UV values
+    for (let i
