@@ -280,4 +280,11 @@ class MeshOptimizer {
       vertices: quantizedVertices,
       metadata: {
         ...mesh.metadata,
-        quantized
+        quantized: true,
+        quantizationPrecision: precision,
+        quantizationScale: scale,
+        quantizationOffset: offset
+      }
+    };
+    
+    return quantizedMesh
