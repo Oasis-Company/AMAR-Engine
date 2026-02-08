@@ -251,4 +251,10 @@ class MeshValidator {
       }
     }
 
-    return
+    return { valid: true };
+  }
+
+  /**
+   * Check for non-manifold edges
+   * @param indices - Face indices
+   * @returns Validation result
