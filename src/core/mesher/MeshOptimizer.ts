@@ -332,4 +332,7 @@ class MeshOptimizer {
     const originalVertexCount = originalMesh.vertices.length / 3;
     const originalFaceCount = originalMesh.indices.length / 3;
     const optimizedVertexCount = optimizedMesh.vertices.length / 3;
-    const optimizedFace
+    const optimizedFaceCount = optimizedMesh.indices.length / 3;
+    
+    const vertexReduction = ((originalVertexCount - optimizedVertexCount) / originalVertexCount) * 100;
+    const faceReduction = ((originalFaceCount - optimizedFaceCount) / originalFace
