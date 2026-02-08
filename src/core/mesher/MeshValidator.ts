@@ -201,4 +201,13 @@ class MeshValidator {
    */
   private validateMetadata(metadata: Record<string, any>): { valid: boolean; error?: string } {
     if (!metadata || typeof metadata !== 'object') {
+      return { valid: false, error: 'Metadata must be an object' };
+    }
+
+    // Check for required metadata properties
+    if (!metadata.source) {
+      return { valid: false, error: 'Missing metadata.source' };
+    }
+
+    if (!metadata.generatedAt) {
       return { valid: false,
