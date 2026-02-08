@@ -53,4 +53,10 @@ class MesherSystem {
   /**
    * Generate mesh from image(s)
    * @param images - Array of image paths or URLs
-   * @param options -
+   * @param options - Generation options
+   * @returns Generated mesh or error
+   */
+  public async generateFromImages(images: string[], options: MesherOptions = {}): Promise<{ success: boolean; mesh?: Mesh; error?: string }> {
+    try {
+      const mergedOptions = { ...this.options, ...options };
+      const mesh = await this.generator.fromImages(images, mergedOptions);
