@@ -84,3 +84,10 @@ class APIServer {
     // AEID endpoints
     this.setupAEIDRoutes();
     
+    // Skills endpoints
+    this.setupSkillsRoutes();
+    
+    // Mesher endpoints
+    this.setupMesherRoutes();
+    
+    // 404
