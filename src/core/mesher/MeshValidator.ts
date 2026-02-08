@@ -132,3 +132,11 @@ class MeshValidator {
     return { valid: true };
   }
 
+  /**
+   * Validate normals
+   * @param normals - Normal vectors
+   * @param vertexCount - Number of vertices
+   * @returns Validation result
+   */
+  private validateNormals(normals: number[], vertexCount: number): { valid: boolean; error?: string } {
+    if
