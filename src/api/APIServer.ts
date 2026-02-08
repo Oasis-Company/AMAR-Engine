@@ -372,4 +372,13 @@ class APIServer {
   }
 
   /**
-   * Stop the
+   * Stop the server
+   */
+  public async stop(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.server) {
+        this.server.close((error: any) => {
+          if (error) {
+            console.error('Error stopping API server:', error);
+            reject(error);
+          } else {
