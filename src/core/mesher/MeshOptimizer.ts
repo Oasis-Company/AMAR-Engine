@@ -96,4 +96,7 @@ class MeshOptimizer {
         
         // Add corresponding normal and UV
         if (mesh.normals) {
-          newNormals.push(mesh.normals[i
+          newNormals.push(mesh.normals[i], mesh.normals[i + 1], mesh.normals[i + 2]);
+        }
+        if (mesh.uvs) {
+          const uvIndex = (i / 3) * 2;
