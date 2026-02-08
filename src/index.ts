@@ -102,4 +102,12 @@ class AMAREngine {
     await this.apiSystem.shutdown();
     await this.skillsSystem.shutdown();
     await this.mesherSystem.shutdown();
-    await this.aeidSystem
+    await this.aeidSystem.shutdown();
+    await this.metaclassSystem.shutdown();
+    
+    console.log('AMAR Engine shutdown successfully!');
+  }
+}
+
+// Export the AMAR Engine class
+export {
