@@ -150,3 +150,10 @@ class MeshGenerator {
 
     // Generate normals
     const normals = this.calculateNormals(vertices, indices);
+
+    // Generate UVs
+    const uvs = [
+      // Front face
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
