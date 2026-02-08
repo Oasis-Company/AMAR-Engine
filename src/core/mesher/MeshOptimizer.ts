@@ -170,4 +170,8 @@ class MeshOptimizer {
   /**
    * Optimize indices for better cache performance
    * @param mesh - Mesh to optimize
-   * @returns
+   * @returns Mesh with optimized indices
+   */
+  private optimizeIndices(mesh: Mesh): Mesh {
+    // In a real implementation, this would reorder indices to improve vertex cache hit rate
+    // For now, we'll just return the
