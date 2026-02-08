@@ -32,4 +32,10 @@ class MeshGenerator {
     
     // Simulate mesh generation from images
     // In a real implementation, this would use computer vision and 3D reconstruction techniques
-    console
+    console.log(`Generating mesh from ${images.length} images with quality ${mergedOptions.quality}...`);
+    
+    // Generate dummy mesh data
+    const mesh = this.generateDummyMesh('image-based');
+    
+    // Add image metadata
+    mesh.metadata
