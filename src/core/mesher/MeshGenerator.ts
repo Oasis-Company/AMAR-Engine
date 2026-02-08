@@ -112,4 +112,9 @@ class MeshGenerator {
    * @param source - Source type
    * @returns Dummy mesh
    */
-  private generateDummyMesh(source: string):
+  private generateDummyMesh(source: string): Mesh {
+    // Generate a simple cube mesh
+    const vertices = [
+      // Front face
+      -1.0, -1.0,  1.0,
+       1.0, -1.
