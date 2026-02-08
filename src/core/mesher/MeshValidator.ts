@@ -97,3 +97,18 @@ class MeshValidator {
     }
 
     return { valid: true };
+  }
+
+  /**
+   * Validate indices
+   * @param indices - Face indices
+   * @param vertexCount - Number of vertices
+   * @returns Validation result
+   */
+  private validateIndices(indices: number[], vertexCount: number): { valid: boolean; error?: string } {
+    if (!Array.isArray(indices)) {
+      return { valid: false, error: 'Indices must be an array' };
+    }
+
+    if (indices.length % 3 !== 0) {
+      return { valid: false, error: 'Indices array length
