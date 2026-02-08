@@ -245,4 +245,10 @@ class MeshValidator {
       // Calculate area (half the length of cross product)
       const area = 0.5 * Math.sqrt(nx * nx + ny * ny + nz * nz);
 
-      // Check if area
+      // Check if area is too small
+      if (area < 1e-6) {
+        return { valid: false, error: `Degenerate face found at indices ${i}, ${i + 1}, ${i + 2}` };
+      }
+    }
+
+    return
