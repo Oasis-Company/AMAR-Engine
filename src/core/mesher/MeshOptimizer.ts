@@ -212,4 +212,10 @@ class MeshOptimizer {
       const length = Math.sqrt(nx * nx + ny * ny + nz * nz);
       if (length > 0) {
         const invLength = 1.0 / length;
-        const normalizedNx = nx * inv
+        const normalizedNx = nx * invLength;
+        const normalizedNy = ny * invLength;
+        const normalizedNz = nz * invLength;
+        
+        // Add normal to each vertex in the face
+        normals[i0] += normalizedNx;
+        normals[i0 + 1]
