@@ -67,4 +67,8 @@ class APIServer {
     
     // Engine status endpoint
     this.app.get('/api/status', (req: Request, res: Response) => {
-      res
+      res.status(200).json({
+        status: 'running',
+        systems: {
+          metaclass: 'initialized',
+          aeid: 'initialized',
