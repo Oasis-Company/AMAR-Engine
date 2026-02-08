@@ -160,4 +160,6 @@ class MeshValidator {
       }
 
       // Check if normal is normalized (length close to 1)
-      const length
+      const length = Math.sqrt(nx * nx + ny * ny + nz * nz);
+      if (Math.abs(length - 1.0) > 0.1) {
+        return
