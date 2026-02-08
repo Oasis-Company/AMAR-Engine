@@ -89,4 +89,8 @@ class MeshGenerator {
     const mergedOptions = { ...this.options, ...options };
     
     // Simulate mesh generation from text
-    // In a real implementation, this would use AI models to interpret the description and generate a
+    // In a real implementation, this would use AI models to interpret the description and generate a mesh
+    console.log(`Generating mesh from text description: "${description}"...`);
+    
+    // Generate dummy mesh data
+    const mesh = this.generateDummyMesh
