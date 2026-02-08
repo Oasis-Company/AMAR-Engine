@@ -357,3 +357,10 @@ class MeshValidator {
    * Calculate mesh volume (simplified)
    * @param vertices - Vertex positions
    * @param indices - Face indices
+   * @returns Volume
+   */
+  private calculateVolume(vertices: number[], indices: number[]): number {
+    let volume = 0;
+
+    for (let i = 0; i < indices.length; i += 3) {
+      const
