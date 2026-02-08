@@ -428,4 +428,10 @@ class MeshValidator {
 
   /**
    * Calculate compression ratio
-   * @
+   * @param mesh - Mesh to analyze
+   * @returns Compression ratio
+   */
+  private calculateCompressionRatio(mesh: Mesh): number {
+    // Calculate raw data size
+    const rawSize = 
+      mesh.vertices.length * 8 + // 8 bytes
