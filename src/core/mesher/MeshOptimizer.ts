@@ -92,4 +92,8 @@ class MeshOptimizer {
       if (!vertexMap.has(key)) {
         // Add new vertex
         vertexMap.set(key, newVertices.length / 3);
-        newVertices.push
+        newVertices.push(x, y, z);
+        
+        // Add corresponding normal and UV
+        if (mesh.normals) {
+          newNormals.push(mesh.normals[i
