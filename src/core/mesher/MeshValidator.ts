@@ -185,4 +185,6 @@ class MeshValidator {
     }
 
     // Check for valid UV values
-    for (let i
+    for (let i = 0; i < uvs.length; i++) {
+      if (isNaN(uvs[i]) || !isFinite(uvs[i])) {
+        return { valid
