@@ -299,3 +299,10 @@ class MeshValidator {
    * @returns Mesh statistics
    */
   public calculateStatistics(mesh: Mesh): Record<string, any> {
+    const vertexCount = mesh.vertices.length / 3;
+    const faceCount = mesh.indices.length / 3;
+    
+    // Calculate bounding box
+    const bbox = this.calculateBoundingBox(mesh.vertices);
+    
+    // Calculate mesh
