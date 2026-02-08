@@ -347,3 +347,10 @@ class MeshOptimizer {
     const optimizedSize = 
       optimizedMesh.vertices.length * 8 +
       optimizedMesh.indices.length * 4 +
+      optimizedMesh.normals.length * 8 +
+      optimizedMesh.uvs.length * 8;
+    
+    const sizeReduction = ((originalSize - optimizedSize) / originalSize) * 100;
+    
+    return {
+      original
