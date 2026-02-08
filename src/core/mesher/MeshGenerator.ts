@@ -136,4 +136,10 @@ class MeshGenerator {
       4, 6, 7,
       // Top face
       3, 2, 6,
-      3, 6,
+      3, 6, 7,
+      // Bottom face
+      0, 1, 5,
+      0, 5, 4,
+      // Right face
+      1, 5, 6,
+      1
