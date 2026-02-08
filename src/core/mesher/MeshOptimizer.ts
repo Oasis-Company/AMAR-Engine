@@ -238,4 +238,16 @@ class MeshOptimizer {
         const invLength = 1.0 / length;
         normals[i] *= invLength;
         normals[i + 1] *= invLength;
-        normals[i + 2] *= inv
+        normals[i + 2] *= invLength;
+      }
+    }
+    
+    return {
+      ...mesh,
+      normals
+    };
+  }
+
+  /**
+   * Quantize mesh data to reduce size
+   * @
