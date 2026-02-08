@@ -57,4 +57,7 @@ class MeshOptimizer {
       optimizedVertexCount: optimizedMesh.vertices.length / 3,
       optimizedFaceCount: optimizedMesh.indices.length / 3,
       compressionRatio: (mesh.vertices.length + mesh.indices.length) / 
-                        (optimizedMesh
+                        (optimizedMesh.vertices.length + optimizedMesh.indices.length)
+    };
+    
+    console.log(`Mesh optimization completed: ${mesh.vertices.length / 3} → ${optimizedMesh
