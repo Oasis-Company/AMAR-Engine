@@ -186,4 +186,190 @@ class APIServer {
     // Get AEID info
     router.get('/info/:aeid', (req: Request, res: Response) => {
       const { aeid } = req.params;
-      const info = this.engine.getAEIDSystem().getAEIDInfo(aeid
+      const info = this.engine.getAEIDSystem().getAEIDInfo(aeid);
+      
+      if (!info.valid) {
+        return res.status(400).json({ error: info.error });
+      }
+      
+      res.status(200).json(info);
+    });
+    
+    this.app.use('/api/aeid', router);
+  }
+
+  /**
+   * Setup Skills routes
+   */
+  private setupSkillsRoutes(): void {
+    const router = express.Router();
+    
+    // Get all skills
+    router.get('/', (req: Request, res: Response) => {
+      const skills = this.engine.getSkillsSystem().listSkills();
+      res.status(200).json(skills);
+    });
+    
+    // Get a specific skill
+    router.get('/:id', (req: Request, res: Response) => {
+      const { id } = req.params;
+      const skill = this.engine.getSkillsSystem().getSkill(id);
+      
+      if (!skill) {
+        return res.status(404).json({ error: `Skill ${id} not found` });
+      }
+      
+      res.status(200).json(skill);
+    });
+    
+    // Register a new skill
+    router.post('/', (req: Request, res: Response) => {
+      const skill = req.body;
+      const result = this.engine.getSkillsSystem().registerSkill(skill);
+      
+      if (!result.success) {
+        return res.status(400).json({ error: result.error });
+      }
+      
+      res.status(201).json({ id: result.id, message: 'Skill registered successfully' });
+    });
+    
+    // Execute a skill
+    router.post('/execute/:id', (req: Request, res: Response) => {
+      const { id } = req.params;
+      const parameters = req.body;
+      
+      this.engine.getSkillsSystem().executeSkill(id, parameters)
+        .then(result => {
+          if (!result.success) {
+            return res.status(400).json({ error: result.error });
+          }
+          res.status(200).json({ result: result.result });
+        })
+        .catch(error => {
+          res.status(500).json({ error: error.message });
+        });
+    });
+    
+    this.app.use('/api/skills', router);
+  }
+
+  /**
+   * Setup Mesher routes
+   */
+  private setupMesherRoutes(): void {
+    const router = express.Router();
+    
+    // Generate mesh from images
+    router.post('/from-images', (req: Request, res: Response) => {
+      const { images, options } = req.body;
+      
+      if (!images || !Array.isArray(images)) {
+        return res.status(400).json({ error: 'Missing or invalid images parameter' });
+      }
+      
+      this.engine.getMesherSystem().generateFromImages(images, options)
+        .then(result => {
+          if (!result.success) {
+            return res.status(400).json({ error: result.error });
+          }
+          res.status(200).json({ mesh: result.mesh });
+        })
+        .catch(error => {
+          res.status(500).json({ error: error.message });
+        });
+    });
+    
+    // Generate mesh from point cloud
+    router.post('/from-pointcloud', (req: Request, res: Response) => {
+      const { pointCloud, options } = req.body;
+      
+      if (!pointCloud || !pointCloud.points) {
+        return res.status(400).json({ error: 'Missing or invalid pointCloud parameter' });
+      }
+      
+      this.engine.getMesherSystem().generateFromPointCloud(pointCloud, options)
+        .then(result => {
+          if (!result.success) {
+            return res.status(400).json({ error: result.error });
+          }
+          res.status(200).json({ mesh: result.mesh });
+        })
+        .catch(error => {
+          res.status(500).json({ error: error.message });
+        });
+    });
+    
+    // Generate mesh from text
+    router.post('/from-text', (req: Request, res: Response) => {
+      const { description, options } = req.body;
+      
+      if (!description) {
+        return res.status(400).json({ error: 'Missing description parameter' });
+      }
+      
+      this.engine.getMesherSystem().generateFromText(description, options)
+        .then(result => {
+          if (!result.success) {
+            return res.status(400).json({ error: result.error });
+          }
+          res.status(200).json({ mesh: result.mesh });
+        })
+        .catch(error => {
+          res.status(500).json({ error: error.message });
+        });
+    });
+    
+    // Optimize a mesh
+    router.post('/optimize', (req: Request, res: Response) => {
+      const { mesh, options } = req.body;
+      
+      if (!mesh) {
+        return res.status(400).json({ error: 'Missing mesh parameter' });
+      }
+      
+      const optimizedMesh = this.engine.getMesherSystem().optimizeMesh(mesh, options);
+      res.status(200).json({ mesh: optimizedMesh });
+    });
+    
+    // Validate a mesh
+    router.post('/validate', (req: Request, res: Response) => {
+      const { mesh } = req.body;
+      
+      if (!mesh) {
+        return res.status(400).json({ error: 'Missing mesh parameter' });
+      }
+      
+      const result = this.engine.getMesherSystem().validateMesh(mesh);
+      res.status(200).json({ valid: result.valid, error: result.error });
+    });
+    
+    this.app.use('/api/mesher', router);
+  }
+
+  /**
+   * Initialize the server
+   * @param port - Port to listen on
+   */
+  public async initialize(port: number = 3000): Promise<void> {
+    this.port = port;
+    console.log(`API Server initialized on port ${this.port}`);
+  }
+
+  /**
+   * Start the server
+   */
+  public async start(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.server = this.app.listen(this.port, () => {
+        console.log(`API Server running at http://localhost:${this.port}`);
+        resolve();
+      }).on('error', (error: any) => {
+        console.error('Failed to start API server:', error);
+        reject(error);
+      });
+    });
+  }
+
+  /**
+   * Stop the
