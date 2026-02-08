@@ -62,4 +62,9 @@ class APIServer {
     
     // API version endpoint
     this.app.get('/version', (req: Request, res: Response) => {
-      res.status(2
+      res.status(200).json({ version: '1.0.0', name: 'AMAR Engine API' });
+    });
+    
+    // Engine status endpoint
+    this.app.get('/api/status', (req: Request, res: Response) => {
+      res
