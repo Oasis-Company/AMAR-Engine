@@ -335,4 +335,11 @@ class MeshValidator {
 
     for (let i = 0; i < vertices.length; i += 3) {
       const x = vertices[i];
-      const y
+      const y = vertices[i + 1];
+      const z = vertices[i + 2];
+
+      minX = Math.min(minX, x);
+      minY = Math.min(minY, y);
+      minZ = Math.min(minZ, z);
+
+      maxX = Math.max(maxX
