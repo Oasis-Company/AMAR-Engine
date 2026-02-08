@@ -250,4 +250,9 @@ class MeshOptimizer {
 
   /**
    * Quantize mesh data to reduce size
-   * @
+   * @param mesh - Mesh to quantize
+   * @param precision - Quantization precision (number of bits)
+   * @returns Quantized mesh
+   */
+  public quantize(mesh: Mesh, precision: number = 16): Mesh {
+    // Calculate scale and
