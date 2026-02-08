@@ -269,3 +269,5 @@ class MeshOptimizer {
     const quantizedVertices: number[] = [];
     for (let i = 0; i < mesh.vertices.length; i += 3) {
       const x = Math.round((mesh.vertices[i] - offset.x) * scale.x) / scale.x + offset.x;
+      const y = Math.round((mesh.vertices[i + 1] - offset.y) * scale.y) / scale.y + offset.y;
+      const z = Math.round((mesh.vertices
