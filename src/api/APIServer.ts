@@ -15,4 +15,11 @@ class APIServer {
   constructor(engine: AMAREngine) {
     this.engine = engine;
     this.app = express();
-    this
+    this.port = 3000;
+    this.server = null;
+    this.setupMiddleware();
+    this.setupRoutes();
+  }
+
+  /**
+   *
