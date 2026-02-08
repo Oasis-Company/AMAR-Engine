@@ -109,3 +109,8 @@ class APIServer {
     const router = express.Router();
     
     // Get all metaclasses
+    router.get('/', (req: Request, res: Response) => {
+      const metaclasses = this.engine.getMetaclassSystem().listMetaclasses();
+      res.status(200).json(metaclasses);
+    });
+    
