@@ -60,3 +60,8 @@ class MesherSystem {
     try {
       const mergedOptions = { ...this.options, ...options };
       const mesh = await this.generator.fromImages(images, mergedOptions);
+      
+      // Validate mesh
+      const validationResult = this.validator.validate(mesh);
+      if (!validationResult.valid) {
+        return { success: false, error:
