@@ -195,4 +195,6 @@ class MeshOptimizer {
       const i2 = indices[i + 2] * 3;
       
       // Calculate edge vectors
-      const v1x = vertices[i1] - vertices
+      const v1x = vertices[i1] - vertices[i0];
+      const v1y = vertices[i1 + 1] - vertices[i0 + 1];
+      const v1z = vertices[i1 + 2
