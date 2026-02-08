@@ -226,4 +226,11 @@ class MeshOptimizer {
         normals[i1 + 2] += normalizedNz;
         
         normals[i2] += normalizedNx;
-        normals
+        normals[i2 + 1] += normalizedNy;
+        normals[i2 + 2] += normalizedNz;
+      }
+    }
+    
+    // Normalize vertex normals
+    for (let i = 0; i < normals.length; i += 3) {
+      const length = Math.sqrt(normals[i] * normals[i] + normals[i + 1] * normals[i + 1] + normals[i + 2] * normals[i +
