@@ -405,3 +405,9 @@ class APIServer {
    * Get the current port
    * @returns Port number
    */
+  public getPort(): number {
+    return this.port;
+  }
+}
+
+export { APIServer };
