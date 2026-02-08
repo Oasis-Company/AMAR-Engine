@@ -287,4 +287,13 @@ class MeshOptimizer {
       }
     };
     
-    return quantizedMesh
+    return quantizedMesh;
+  }
+
+  /**
+   * Calculate bounding box for a set of vertices
+   * @param vertices - Vertex positions
+   * @returns Bounding box
+   */
+  private calculateBoundingBox(vertices: number[]): {
+    min: { x
