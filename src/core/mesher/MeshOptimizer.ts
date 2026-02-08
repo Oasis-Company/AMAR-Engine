@@ -148,3 +148,10 @@ class MeshOptimizer {
       case 'high':
       default:
         simplificationFactor = 0.9; // Keep 90% of vertices
+        break;
+    }
+    
+    // Calculate target vertex count
+    const originalVertexCount = mesh.vertices.length / 3;
+    const targetVertexCount = Math.max(4, Math.floor(originalVertexCount * simplificationFactor));
+    
