@@ -51,3 +51,10 @@ class APIServer {
     });
   }
 
+  /**
+   * Setup API routes
+   */
+  private setupRoutes(): void {
+    // Health check endpoint
+    this.app.get('/health', (req: Request, res: Response) => {
+      res.status(
