@@ -123,4 +123,9 @@ class MeshGenerator {
       // Back face
       -1.0, -1.0, -1.0,
        1.0, -1.0, -1.0,
-       1.0,  1.0, -1
+       1.0,  1.0, -1.0,
+      -1.0,  1.0, -1.0
+    ];
+
+    const indices = [
+      // Front face
