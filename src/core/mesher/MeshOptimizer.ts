@@ -183,4 +183,10 @@ class MeshOptimizer {
    * @param mesh - Mesh to process
    * @returns Mesh with recalculated normals
    */
-  private recalculateNormals(mesh
+  private recalculateNormals(mesh: Mesh): Mesh {
+    const vertices = mesh.vertices;
+    const indices = mesh.indices;
+    const normals = new Array(vertices.length).fill(0);
+    
+    // Calculate normals for each face
+    for (let i = 0; i < indices.length; i +=
