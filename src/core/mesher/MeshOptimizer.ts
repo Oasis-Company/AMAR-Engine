@@ -255,4 +255,8 @@ class MeshOptimizer {
    * @returns Quantized mesh
    */
   public quantize(mesh: Mesh, precision: number = 16): Mesh {
-    // Calculate scale and
+    // Calculate scale and offset for quantization
+    const bbox = this.calculateBoundingBox(mesh.vertices);
+    const scale = {
+      x: (2 ** precision - 1) / (bbox.max.x - bbox.min.x),
+      y: (2 ** precision - 1) / (bbox.max.y -
