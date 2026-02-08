@@ -290,3 +290,12 @@ class MeshValidator {
       }
     }
 
+    return { valid: true };
+  }
+
+  /**
+   * Calculate mesh statistics
+   * @param mesh - Mesh to analyze
+   * @returns Mesh statistics
+   */
+  public calculateStatistics(mesh: Mesh): Record<string, any> {
