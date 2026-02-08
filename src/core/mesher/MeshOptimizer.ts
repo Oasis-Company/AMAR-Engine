@@ -140,4 +140,11 @@ class MeshOptimizer {
     let simplificationFactor: number;
     switch (quality) {
       case 'low':
-        simpl
+        simplificationFactor = 0.3; // Keep 30% of vertices
+        break;
+      case 'medium':
+        simplificationFactor = 0.6; // Keep 60% of vertices
+        break;
+      case 'high':
+      default:
+        simplificationFactor = 0.9; // Keep 90% of vertices
