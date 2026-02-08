@@ -38,4 +38,19 @@ class MesherSystem {
       maxFaces: options.maxFaces || 200000,
     };
     this.generator = new MeshGenerator(this.options);
-    this.validator = new Mesh
+    this.validator = new MeshValidator();
+    this.optimizer = new MeshOptimizer(this.options);
+  }
+
+  /**
+   * Initialize the Mesher System
+   */
+  public async initialize(): Promise<void> {
+    console.log('Initializing Mesher System...');
+    console.log('Mesher System initialized successfully!');
+  }
+
+  /**
+   * Generate mesh from image(s)
+   * @param images - Array of image paths or URLs
+   * @param options -
