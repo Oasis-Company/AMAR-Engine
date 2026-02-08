@@ -390,3 +390,11 @@ class MeshValidator {
     return Math.abs(volume);
   }
 
+  /**
+   * Calculate surface area
+   * @param vertices - Vertex positions
+   * @param indices - Face indices
+   * @returns Surface area
+   */
+  private calculateSurfaceArea(vertices: number[], indices: number[]): number {
+    let area
