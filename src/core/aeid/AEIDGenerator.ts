@@ -19,7 +19,27 @@ class AEIDGenerator {
       'component': 'CPT',
       'library': 'LIB',
       'template': 'TPL',
-      'project': 'PRJ'
+      'project': 'PRJ',
+      'texture': 'TEX',
+      'model': 'MDL',
+      'animation': 'ANI',
+      'sound': 'SD',
+      'light': 'LGT',
+      'camera': 'CAM',
+      'physics': 'PHY',
+      'particle': 'PRT',
+      'ui': 'UI',
+      'script': 'SCR',
+      'shader': 'SHD',
+      'environment': 'ENV',
+      'terrain': 'TRN',
+      'character': 'CHR',
+      'weapon': 'WP',
+      'vehicle': 'VEH',
+      'building': 'BLD',
+      'prop': 'PROP',
+      'effect': 'EFX',
+      'save': 'SAV'
     };
   }
 
