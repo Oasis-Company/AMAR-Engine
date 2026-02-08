@@ -409,4 +409,9 @@ class MeshValidator {
       const v1y = vertices[i1 + 1] - vertices[i0 + 1];
       const v1z = vertices[i1 + 2] - vertices[i0 + 2];
 
-      const v2x = vertices
+      const v2x = vertices[i2] - vertices[i0];
+      const v2y = vertices[i2 + 1] - vertices[i0 + 1];
+      const v2z = vertices[i2 + 2] - vertices[i0 + 2];
+
+      // Calculate cross product
+      const nx = v1y * v2z - v1z * v
