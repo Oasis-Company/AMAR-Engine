@@ -107,4 +107,6 @@ class MeshOptimizer {
     
     // Remap indices
     for (let i = 0; i < mesh.indices.length; i++) {
-      const originalIndex =
+      const originalIndex = mesh.indices[i];
+      const x = mesh.vertices[originalIndex * 3];
+      const y = mesh.vertices[originalIndex * 3 + 1];
