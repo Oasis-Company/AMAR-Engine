@@ -368,4 +368,9 @@ class MeshValidator {
       const i2 = indices[i + 2] * 3;
 
       const x0 = vertices[i0];
-      const y0 =
+      const y0 = vertices[i0 + 1];
+      const z0 = vertices[i0 + 2];
+
+      const x1 = vertices[i1];
+      const y1 = vertices[i1 + 1];
+      const z1 = vertices[i1 + 2
