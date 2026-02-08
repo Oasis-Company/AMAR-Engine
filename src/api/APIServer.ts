@@ -57,4 +57,9 @@ class APIServer {
   private setupRoutes(): void {
     // Health check endpoint
     this.app.get('/health', (req: Request, res: Response) => {
-      res.status(
+      res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+    });
+    
+    // API version endpoint
+    this.app.get('/version', (req: Request, res: Response) => {
+      res.status(2
