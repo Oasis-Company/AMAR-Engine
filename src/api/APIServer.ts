@@ -397,3 +397,11 @@ class APIServer {
    * Get the Express app
    * @returns Express app instance
    */
+  public getApp(): Express {
+    return this.app;
+  }
+
+  /**
+   * Get the current port
+   * @returns Port number
+   */
