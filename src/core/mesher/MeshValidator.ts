@@ -397,4 +397,7 @@ class MeshValidator {
    * @returns Surface area
    */
   private calculateSurfaceArea(vertices: number[], indices: number[]): number {
-    let area
+    let area = 0;
+
+    for (let i = 0; i < indices.length; i += 3) {
+      const i0 = indices[i] * 3;
