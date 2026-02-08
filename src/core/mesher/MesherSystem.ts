@@ -94,4 +94,10 @@ class MesherSystem {
       }
       
       // Optimize mesh
-      const optimizedMesh = this.optimizer.optimize
+      const optimizedMesh = this.optimizer.optimize(mesh);
+      
+      return { success: true, mesh: optimizedMesh };
+    } catch (error) {
+      return { success: false, error: `Generation failed: ${(error as Error).message}` };
+    }
+  }
