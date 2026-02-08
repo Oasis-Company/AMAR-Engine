@@ -145,4 +145,14 @@ class MesherSystem {
    */
   public optimizeMesh(mesh: Mesh, options: MesherOptions = {}): Mesh {
     const mergedOptions = { ...this.options, ...options };
-    return this.optimizer.
+    return this.optimizer.optimize(mesh, mergedOptions);
+  }
+
+  /**
+   * Get mesher options
+   * @returns Current options
+   */
+  public getOptions(): MesherOptions {
+    return { ...this.options };
+  }
+
