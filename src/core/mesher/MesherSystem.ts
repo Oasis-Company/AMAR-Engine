@@ -156,3 +156,8 @@ class MesherSystem {
     return { ...this.options };
   }
 
+  /**
+   * Set mesher options
+   * @param options - New options
+   */
+  public setOptions(options: Mes
