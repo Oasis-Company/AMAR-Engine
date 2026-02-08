@@ -142,4 +142,8 @@ class APIServer {
     router.post('/compose', (req: Request, res: Response) => {
       const { baseMetaclass, extensionMetaclasses } = req.body;
       
-      if (!baseMetaclass ||
+      if (!baseMetaclass || !extensionMetaclasses) {
+        return res.status(400).json({ error: 'Missing required parameters' });
+      }
+      
+      const result = this
