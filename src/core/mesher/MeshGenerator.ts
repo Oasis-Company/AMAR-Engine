@@ -104,4 +104,12 @@ class MeshGenerator {
       options: mergedOptions
     };
     
-    return mesh
+    return mesh;
+  }
+
+  /**
+   * Generate a dummy mesh for testing purposes
+   * @param source - Source type
+   * @returns Dummy mesh
+   */
+  private generateDummyMesh(source: string):
