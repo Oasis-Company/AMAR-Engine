@@ -53,4 +53,8 @@ class MeshOptimizer {
       optimizationTime: new Date().toISOString(),
       optimizationOptions: mergedOptions,
       originalVertexCount: mesh.vertices.length / 3,
-      originalFaceCount: mesh.
+      originalFaceCount: mesh.indices.length / 3,
+      optimizedVertexCount: optimizedMesh.vertices.length / 3,
+      optimizedFaceCount: optimizedMesh.indices.length / 3,
+      compressionRatio: (mesh.vertices.length + mesh.indices.length) / 
+                        (optimizedMesh
