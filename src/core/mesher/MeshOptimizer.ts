@@ -83,4 +83,8 @@ class MeshOptimizer {
     // Process each vertex
     for (let i = 0; i < mesh.vertices.length; i += 3) {
       const x = mesh.vertices[i];
-      const y = mesh.
+      const y = mesh.vertices[i + 1];
+      const z = mesh.vertices[i + 2];
+      
+      // Create a key for the vertex (rounded to epsilon)
+      const key = `${Math.round(x / epsilon) * epsilon},${Math.round(y
