@@ -61,3 +61,9 @@ class MeshGenerator {
     
     // Simulate mesh generation from point cloud
     // In a real implementation, this would use Poisson reconstruction or other point cloud processing techniques
+    console.log(`Generating mesh from point cloud with ${pointCloud.points.length / 3} points...`);
+    
+    // Generate dummy mesh data
+    const mesh = this.generateDummyMesh('point-cloud-based');
+    
+    // Add point
