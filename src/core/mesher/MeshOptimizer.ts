@@ -87,4 +87,9 @@ class MeshOptimizer {
       const z = mesh.vertices[i + 2];
       
       // Create a key for the vertex (rounded to epsilon)
-      const key = `${Math.round(x / epsilon) * epsilon},${Math.round(y
+      const key = `${Math.round(x / epsilon) * epsilon},${Math.round(y / epsilon) * epsilon},${Math.round(z / epsilon) * epsilon}`;
+      
+      if (!vertexMap.has(key)) {
+        // Add new vertex
+        vertexMap.set(key, newVertices.length / 3);
+        newVertices.push
