@@ -88,3 +88,10 @@ class MesherSystem {
       const mesh = await this.generator.fromPointCloud(pointCloud, mergedOptions);
       
       // Validate mesh
+      const validationResult = this.validator.validate(mesh);
+      if (!validationResult.valid) {
+        return { success: false, error: validationResult.error };
+      }
+      
+      // Optimize mesh
+      const optimizedMesh = this.optimizer.optimize
