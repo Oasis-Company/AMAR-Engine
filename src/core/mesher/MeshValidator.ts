@@ -401,3 +401,7 @@ class MeshValidator {
 
     for (let i = 0; i < indices.length; i += 3) {
       const i0 = indices[i] * 3;
+      const i1 = indices[i + 1] * 3;
+      const i2 = indices[i + 2] * 3;
+
+      // Calculate edge vectors
