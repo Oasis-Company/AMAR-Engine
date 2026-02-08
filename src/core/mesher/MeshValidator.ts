@@ -222,4 +222,8 @@ class MeshValidator {
    * @param indices - Face indices
    * @returns Validation result
    */
-  private checkDegenerateFaces(vertices: number[], indices: number[]): { valid: boolean; error?:
+  private checkDegenerateFaces(vertices: number[], indices: number[]): { valid: boolean; error?: string } {
+    for (let i = 0; i < indices.length; i += 3) {
+      const i0 = indices[i] * 3;
+      const i1 = indices[i + 1] * 3;
+      const i2 = indices
