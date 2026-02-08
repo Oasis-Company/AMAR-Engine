@@ -139,4 +139,9 @@ class MeshValidator {
    * @returns Validation result
    */
   private validateNormals(normals: number[], vertexCount: number): { valid: boolean; error?: string } {
-    if
+    if (!Array.isArray(normals)) {
+      return { valid: false, error: 'Normals must be an array' };
+    }
+
+    if (normals.length !== vertexCount * 3) {
+      return { valid: false, error: `Normals array length must match vertex count (expected ${vertex
