@@ -132,4 +132,10 @@ class APIServer {
       const result = this.engine.getMetaclassSystem().registerMetaclass(metaclass);
       
       if (!result.success) {
-        return res.status(400).json({ error: result
+        return res.status(400).json({ error: result.error });
+      }
+      
+      res.status(201).json({ id: result.id, message: 'Metaclass registered successfully' });
+    });
+    
+    // Compose metac
