@@ -340,4 +340,10 @@ class MeshOptimizer {
     // Calculate data size reduction
     const originalSize = 
       originalMesh.vertices.length * 8 +
-      original
+      originalMesh.indices.length * 4 +
+      originalMesh.normals.length * 8 +
+      originalMesh.uvs.length * 8;
+    
+    const optimizedSize = 
+      optimizedMesh.vertices.length * 8 +
+      optimizedMesh.indices.length * 4 +
