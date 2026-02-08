@@ -311,4 +311,9 @@ class MeshOptimizer {
       minY = Math.min(minY, y);
       minZ = Math.min(minZ, z);
 
-      maxX = Math.max(max
+      maxX = Math.max(maxX, x);
+      maxY = Math.max(maxY, y);
+      maxZ = Math.max(maxZ, z);
+    }
+
+    return {
