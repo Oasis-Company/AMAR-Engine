@@ -121,4 +121,7 @@ if (require.main === module) {
       return engine.startAPIServer();
     })
     .catch((error) => {
-      console.error('Failed to initialize AMAR Engine
+      console.error('Failed to initialize AMAR Engine:', error);
+      process.exit(1);
+    });
+}
