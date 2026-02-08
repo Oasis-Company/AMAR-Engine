@@ -72,4 +72,14 @@ class MesherSystem {
       
       return { success: true, mesh: optimizedMesh };
     } catch (error) {
-      return { success: false, error: `Generation failed: ${(error as Error).message}`
+      return { success: false, error: `Generation failed: ${(error as Error).message}` };
+    }
+  }
+
+  /**
+   * Generate mesh from point cloud
+   * @param pointCloud - Point cloud data
+   * @param options - Generation options
+   * @returns Generated mesh or error
+   */
+  public async generateFromPointCloud(pointCloud: { points: number[]; normals?: number[] }, options: Mes
