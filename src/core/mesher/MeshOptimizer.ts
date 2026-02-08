@@ -110,3 +110,7 @@ class MeshOptimizer {
       const originalIndex = mesh.indices[i];
       const x = mesh.vertices[originalIndex * 3];
       const y = mesh.vertices[originalIndex * 3 + 1];
+      const z = mesh.vertices[originalIndex * 3 + 2];
+      
+      const key = `${Math.round(x / epsilon) * epsilon},${Math.round(y / epsilon) * epsilon},${Math.round(z / epsilon) * epsilon}`;
+      const newIndex
