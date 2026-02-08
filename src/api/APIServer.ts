@@ -138,4 +138,8 @@ class APIServer {
       res.status(201).json({ id: result.id, message: 'Metaclass registered successfully' });
     });
     
-    // Compose metac
+    // Compose metaclasses
+    router.post('/compose', (req: Request, res: Response) => {
+      const { baseMetaclass, extensionMetaclasses } = req.body;
+      
+      if (!baseMetaclass ||
