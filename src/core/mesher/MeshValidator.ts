@@ -309,4 +309,17 @@ class MeshValidator {
     const volume = this.calculateVolume(mesh.vertices, mesh.indices);
     
     // Calculate surface area
-    const surfaceArea =
+    const surfaceArea = this.calculateSurfaceArea(mesh.vertices, mesh.indices);
+
+    return {
+      vertexCount,
+      faceCount,
+      boundingBox: bbox,
+      volume,
+      surfaceArea,
+      compressionRatio: this.calculateCompressionRatio(mesh)
+    };
+  }
+
+  /**
+   * Calculate bounding box
