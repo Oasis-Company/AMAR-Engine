@@ -53,3 +53,8 @@ class MeshGenerator {
   /**
    * Generate mesh from point cloud
    * @param pointCloud - Point cloud data
+   * @param options - Generation options
+   * @returns Generated mesh
+   */
+  public async fromPointCloud(pointCloud: { points: number[]; normals?: number[] }, options: MesherOptions = {}): Promise<Mesh> {
+    const mergedOptions = {
