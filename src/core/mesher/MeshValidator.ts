@@ -434,4 +434,7 @@ class MeshValidator {
   private calculateCompressionRatio(mesh: Mesh): number {
     // Calculate raw data size
     const rawSize = 
-      mesh.vertices.length * 8 + // 8 bytes
+      mesh.vertices.length * 8 + // 8 bytes per number
+      mesh.indices.length * 4 +  // 4 bytes per index
+      mesh.normals.length * 8 +  // 8 bytes per number
+      mesh
