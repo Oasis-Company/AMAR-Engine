@@ -72,3 +72,15 @@ class APIServer {
         systems: {
           metaclass: 'initialized',
           aeid: 'initialized',
+          skills: 'initialized',
+          mesher: 'initialized'
+        }
+      });
+    });
+    
+    // Metaclass endpoints
+    this.setupMetaclassRoutes();
+    
+    // AEID endpoints
+    this.setupAEIDRoutes();
+    
