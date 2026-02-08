@@ -122,4 +122,15 @@ class MesherSystem {
       // Optimize mesh
       const optimizedMesh = this.optimizer.optimize(mesh);
       
-      return { success: true, mesh: optimizedMesh }
+      return { success: true, mesh: optimizedMesh };
+    } catch (error) {
+      return { success: false, error: `Generation failed: ${(error as Error).message}` };
+    }
+  }
+
+  /**
+   * Validate a mesh
+   * @param mesh - Mesh to validate
+   * @returns Validation result
+   */
+  public validateMesh(mesh: Mesh
