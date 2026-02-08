@@ -127,4 +127,9 @@ class APIServer {
     });
     
     // Register a new metaclass
-    router.post('/', (req: Request, res: Response) =>
+    router.post('/', (req: Request, res: Response) => {
+      const metaclass = req.body;
+      const result = this.engine.getMetaclassSystem().registerMetaclass(metaclass);
+      
+      if (!result.success) {
+        return res.status(400).json({ error: result
