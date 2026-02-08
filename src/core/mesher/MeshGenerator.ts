@@ -142,4 +142,11 @@ class MeshGenerator {
       0, 5, 4,
       // Right face
       1, 5, 6,
-      1
+      1, 6, 2,
+      // Left face
+      0, 4, 7,
+      0, 7, 3
+    ];
+
+    // Generate normals
+    const normals = this.calculateNormals(vertices, indices);
