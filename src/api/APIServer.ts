@@ -98,4 +98,14 @@ class APIServer {
     // Error handler
     this.app.use((err: any, req: Request, res: Response) => {
       console.error('API Error:', err);
-      res.status(50
+      res.status(500).json({ error: 'Internal server error' });
+    });
+  }
+
+  /**
+   * Setup Metaclass routes
+   */
+  private setupMetaclassRoutes(): void {
+    const router = express.Router();
+    
+    // Get all metaclasses
