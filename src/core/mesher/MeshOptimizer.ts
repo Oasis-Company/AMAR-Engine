@@ -35,4 +35,12 @@ class MeshOptimizer {
     let optimizedMesh = { ...mesh };
     
     // 1. Remove duplicate vertices
-    optimized
+    optimizedMesh = this.removeDuplicateVertices(optimizedMesh);
+    
+    // 2. Simplify mesh based on quality setting
+    optimizedMesh = this.simplifyMesh(optimizedMesh, mergedOptions.quality);
+    
+    // 3. Optimize indices (reorder for better cache performance)
+    optimizedMesh = this.optimizeIndices(optimizedMesh);
+    
+    // 4. Recalculate normals (
