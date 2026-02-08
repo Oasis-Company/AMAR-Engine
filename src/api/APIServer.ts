@@ -382,3 +382,18 @@ class APIServer {
             console.error('Error stopping API server:', error);
             reject(error);
           } else {
+            this.server = null;
+            console.log('API Server stopped');
+            resolve();
+          }
+        });
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  /**
+   * Get the Express app
+   * @returns Express app instance
+   */
