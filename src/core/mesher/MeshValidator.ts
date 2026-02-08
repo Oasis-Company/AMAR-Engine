@@ -381,4 +381,12 @@ class MeshValidator {
 
       // Calculate tetrahedron volume (assuming origin as fourth vertex)
       const tetraVolume = (x0 * (y1 * z2 - y2 * z1) +
-                          x1 * (y2
+                          x1 * (y2 * z0 - y0 * z2) +
+                          x2 * (y0 * z1 - y1 * z0)) / 6;
+
+      volume += tetraVolume;
+    }
+
+    return Math.abs(volume);
+  }
+
