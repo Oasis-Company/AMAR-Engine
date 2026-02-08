@@ -66,4 +66,10 @@ class MeshGenerator {
     // Generate dummy mesh data
     const mesh = this.generateDummyMesh('point-cloud-based');
     
-    // Add point
+    // Add point cloud metadata
+    mesh.metadata = {
+      ...mesh.metadata,
+      source: 'point-cloud',
+      pointCount: pointCloud.points.length / 3,
+      hasNormals: !!pointCloud.normals,
+      generationTime: DateTime.utc().to
