@@ -179,4 +179,9 @@ class APIServer {
         return res.status(400).json({ error: 'Missing AEID parameter' });
       }
       
-      const result = this.engine
+      const result = this.engine.getAEIDSystem().validateAEID(aeid);
+      res.status(200).json({ valid: result.valid, error: result.error });
+    });
+    
+    // Get AEID info
+    router.get('/info/:aeid', (
