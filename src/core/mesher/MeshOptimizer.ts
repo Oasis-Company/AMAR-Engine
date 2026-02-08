@@ -324,4 +324,8 @@ class MeshOptimizer {
 
   /**
    * Calculate optimization statistics for a mesh
-   * @param originalMesh - Original
+   * @param originalMesh - Original mesh
+   * @param optimizedMesh - Optimized mesh
+   * @returns Optimization statistics
+   */
+  public calculateOptimizationStats(originalMesh: Mesh, optimizedMesh: Mesh
