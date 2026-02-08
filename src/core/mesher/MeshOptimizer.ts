@@ -223,4 +223,7 @@ class MeshOptimizer {
         
         normals[i1] += normalizedNx;
         normals[i1 + 1] += normalizedNy;
-        normals[i1 + 2] += normalizedNz
+        normals[i1 + 2] += normalizedNz;
+        
+        normals[i2] += normalizedNx;
+        normals
