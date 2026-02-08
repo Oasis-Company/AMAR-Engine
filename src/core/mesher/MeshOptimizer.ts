@@ -359,4 +359,10 @@ class MeshOptimizer {
       optimizedFaceCount,
       vertexReduction: vertexReduction.toFixed(2),
       faceReduction: faceReduction.toFixed(2),
-      sizeReduction: sizeReduction
+      sizeReduction: sizeReduction.toFixed(2),
+      compressionRatio: (originalSize / optimizedSize).toFixed(2)
+    };
+  }
+}
+
+export { MeshOptimizer };
