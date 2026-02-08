@@ -323,3 +323,9 @@ class MeshValidator {
 
   /**
    * Calculate bounding box
+   * @param vertices - Vertex positions
+   * @returns Bounding box
+   */
+  private calculateBoundingBox(vertices: number[]): {
+    min: { x: number; y: number; z: number };
+    max: { x: number; y: number; z: number };
