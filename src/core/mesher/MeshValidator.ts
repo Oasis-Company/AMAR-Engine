@@ -284,4 +284,9 @@ class MeshValidator {
     }
 
     // Check for edges with odd counts (non-manifold)
-    for (const [edge, count
+    for (const [edge, count] of edgeMap.entries()) {
+      if (count % 2 !== 0) {
+        return { valid: false, error: `Non-manifold edge found: ${edge} (count: ${count})` };
+      }
+    }
+
