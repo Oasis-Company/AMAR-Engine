@@ -349,3 +349,11 @@ class MeshValidator {
 
     return {
       min: { x: minX, y: minY, z: minZ },
+      max: { x: maxX, y: maxY, z: maxZ }
+    };
+  }
+
+  /**
+   * Calculate mesh volume (simplified)
+   * @param vertices - Vertex positions
+   * @param indices - Face indices
