@@ -57,4 +57,7 @@ class MeshGenerator {
    * @returns Generated mesh
    */
   public async fromPointCloud(pointCloud: { points: number[]; normals?: number[] }, options: MesherOptions = {}): Promise<Mesh> {
-    const mergedOptions = {
+    const mergedOptions = { ...this.options, ...options };
+    
+    // Simulate mesh generation from point cloud
+    // In a real implementation, this would use Poisson reconstruction or other point cloud processing techniques
