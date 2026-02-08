@@ -60,4 +60,12 @@ class MeshOptimizer {
                         (optimizedMesh.vertices.length + optimizedMesh.indices.length)
     };
     
-    console.log(`Mesh optimization completed: ${mesh.vertices.length / 3} → ${optimizedMesh
+    console.log(`Mesh optimization completed: ${mesh.vertices.length / 3} → ${optimizedMesh.vertices.length / 3} vertices, ${mesh.indices.length / 3} → ${optimizedMesh.indices.length / 3} faces`);
+    
+    return optimizedMesh;
+  }
+
+  /**
+   * Remove duplicate vertices
+   * @param mesh - Mesh to process
+   *
