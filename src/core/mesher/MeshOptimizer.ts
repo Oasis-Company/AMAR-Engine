@@ -266,4 +266,6 @@ class MeshOptimizer {
     const offset = bbox.min;
     
     // Quantize vertices
-    const quantized
+    const quantizedVertices: number[] = [];
+    for (let i = 0; i < mesh.vertices.length; i += 3) {
+      const x = Math.round((mesh.vertices[i] - offset.x) * scale.x) / scale.x + offset.x;
