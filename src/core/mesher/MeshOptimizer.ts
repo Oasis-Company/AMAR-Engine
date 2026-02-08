@@ -72,3 +72,9 @@ class MeshOptimizer {
    */
   private removeDuplicateVertices(mesh: Mesh): Mesh {
     const vertexMap = new Map<string, number>();
+    const newVertices: number[] = [];
+    const newNormals: number[] = [];
+    const newUvs: number[] = [];
+    const newIndices: number[] = [];
+    
+    // Threshold for considering vertices as duplicates
