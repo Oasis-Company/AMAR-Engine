@@ -123,4 +123,8 @@ class APIServer {
         return res.status(404).json({ error: `Metaclass ${id} not found` });
       }
       
-      res.status(20
+      res.status(200).json(metaclass);
+    });
+    
+    // Register a new metaclass
+    router.post('/', (req: Request, res: Response) =>
