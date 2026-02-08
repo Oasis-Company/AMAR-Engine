@@ -169,4 +169,65 @@ class MeshGenerator {
       id: `mesh-${DateTime.utc().toFormat('yyyyMMddHHmmss')}-${Math.floor(Math.random() * 10000)}`,
       vertices,
       indices,
-      normals
+      normals,
+      uvs,
+      metadata: {
+        source,
+        type: 'cube',
+        vertexCount: vertices.length / 3,
+        faceCount: indices.length / 3,
+        generatedAt: DateTime.utc().toISO()
+      }
+    };
+  }
+
+  /**
+   * Calculate normals for a mesh
+   * @param vertices - Vertex positions
+   * @param indices - Face indices
+   * @returns Normal vectors
+   */
+  private calculateNormals(vertices: number[], indices: number[]): number[] {
+    const normals = new Array(vertices.length).fill(0);
+    
+    // Calculate normals for each face
+    for (let i = 0; i < indices.length; i += 3) {
+      const i0 = indices[i] * 3;
+      const i1 = indices[i + 1] * 3;
+      const i2 = indices[i + 2] * 3;
+      
+      // Calculate edge vectors
+      const v1x = vertices[i1] - vertices[i0];
+      const v1y = vertices[i1 + 1] - vertices[i0 + 1];
+      const v1z = vertices[i1 + 2] - vertices[i0 + 2];
+      
+      const v2x = vertices[i2] - vertices[i0];
+      const v2y = vertices[i2 + 1] - vertices[i0 + 1];
+      const v2z = vertices[i2 + 2] - vertices[i0 + 2];
+      
+      // Calculate cross product
+      const nx = v1y * v2z - v1z * v2y;
+      const ny = v1z * v2x - v1x * v2z;
+      const nz = v1x * v2y - v1y * v2x;
+      
+      // Normalize
+      const length = Math.sqrt(nx * nx + ny * ny + nz * nz);
+      if (length > 0) {
+        const invLength = 1.0 / length;
+        normals[i0] += nx * invLength;
+        normals[i0 + 1] += ny * invLength;
+        normals[i0 + 2] += nz * invLength;
+        
+        normals[i1] += nx * invLength;
+        normals[i1 + 1] += ny * invLength;
+        normals[i1 + 2] += nz * invLength;
+        
+        normals[i2] += nx * invLength;
+        normals[i2 + 1] += ny * invLength;
+        normals[i2 + 2] += nz * invLength;
+      }
+    }
+    
+    // Normalize vertex normals
+    for (let i = 0; i < normals.length; i += 3) {
+      const
