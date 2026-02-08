@@ -93,4 +93,15 @@ class MeshGenerator {
     console.log(`Generating mesh from text description: "${description}"...`);
     
     // Generate dummy mesh data
-    const mesh = this.generateDummyMesh
+    const mesh = this.generateDummyMesh('text-based');
+    
+    // Add text metadata
+    mesh.metadata = {
+      ...mesh.metadata,
+      source: 'text',
+      description: description,
+      generationTime: DateTime.utc().toISO(),
+      options: mergedOptions
+    };
+    
+    return mesh
