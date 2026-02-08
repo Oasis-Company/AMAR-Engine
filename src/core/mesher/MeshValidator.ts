@@ -151,4 +151,8 @@ class MeshValidator {
     for (let i = 0; i < normals.length; i += 3) {
       const nx = normals[i];
       const ny = normals[i + 1];
-      const nz = normals[i +
+      const nz = normals[i + 2];
+
+      if (isNaN(nx) || !isFinite(nx) ||
+          isNaN(ny) || !isFinite(ny) ||
+          isNaN(nz) || !is
