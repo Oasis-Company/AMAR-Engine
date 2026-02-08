@@ -146,4 +146,10 @@ class APIServer {
         return res.status(400).json({ error: 'Missing required parameters' });
       }
       
-      const result = this
+      const result = this.engine.getMetaclassSystem().composeMetaclasses(baseMetaclass, extensionMetaclasses);
+      
+      if (!result.success) {
+        return res.status(400).json({ error: result.error });
+      }
+      
+      res.status(200).json(result.met
