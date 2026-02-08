@@ -189,4 +189,6 @@ class MeshOptimizer {
     const normals = new Array(vertices.length).fill(0);
     
     // Calculate normals for each face
-    for (let i = 0; i < indices.length; i +=
+    for (let i = 0; i < indices.length; i += 3) {
+      const i0 = indices[i] * 3;
+      const i1 = indices[i + 1] *
