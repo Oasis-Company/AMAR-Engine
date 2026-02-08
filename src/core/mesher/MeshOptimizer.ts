@@ -68,4 +68,7 @@ class MeshOptimizer {
   /**
    * Remove duplicate vertices
    * @param mesh - Mesh to process
-   *
+   * @returns Mesh with duplicate vertices removed
+   */
+  private removeDuplicateVertices(mesh: Mesh): Mesh {
+    const vertexMap = new Map<string, number>();
