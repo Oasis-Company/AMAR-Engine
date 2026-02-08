@@ -65,4 +65,11 @@ class AMAREngine {
   }
 
   /**
-   * Get the
+   * Get the AEID System
+   */
+  public getAEIDSystem(): AEIDSystem {
+    return this.aeidSystem;
+  }
+
+  /**
+   * Get
