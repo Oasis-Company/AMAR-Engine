@@ -172,3 +172,7 @@ class MesherSystem {
   public async shutdown(): Promise<void> {
     console.log('Shutting down Mesher System...');
     console.log('Mesher System shutdown successfully!');
+  }
+}
+
+export { MesherSystem, Mesh, MesherOptions };
