@@ -210,4 +210,11 @@ class MeshValidator {
     }
 
     if (!metadata.generatedAt) {
-      return { valid: false,
+      return { valid: false, error: 'Missing metadata.generatedAt' };
+    }
+
+    return { valid: true };
+  }
+
+  /**
+   * Check for degenerate faces
