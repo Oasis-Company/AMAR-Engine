@@ -335,4 +335,9 @@ class MeshOptimizer {
     const optimizedFaceCount = optimizedMesh.indices.length / 3;
     
     const vertexReduction = ((originalVertexCount - optimizedVertexCount) / originalVertexCount) * 100;
-    const faceReduction = ((originalFaceCount - optimizedFaceCount) / originalFace
+    const faceReduction = ((originalFaceCount - optimizedFaceCount) / originalFaceCount) * 100;
+    
+    // Calculate data size reduction
+    const originalSize = 
+      originalMesh.vertices.length * 8 +
+      original
