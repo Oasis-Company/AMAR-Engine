@@ -38,4 +38,10 @@ class MeshGenerator {
     const mesh = this.generateDummyMesh('image-based');
     
     // Add image metadata
-    mesh.metadata
+    mesh.metadata = {
+      ...mesh.metadata,
+      source: 'images',
+      imageCount: images.length,
+      images: images,
+      generationTime: DateTime.utc().toISO(),
+      options: mergedOptions
