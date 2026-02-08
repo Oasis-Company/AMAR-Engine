@@ -300,4 +300,8 @@ class MeshOptimizer {
     max: { x: number; y: number; z: number };
   } {
     let minX = Infinity, minY = Infinity, minZ = Infinity;
-    let maxX = -In
+    let maxX = -Infinity, maxY = -Infinity, maxZ = -Infinity;
+
+    for (let i = 0; i < vertices.length; i += 3) {
+      const x = vertices[i];
+      const y = vertices[i + 1];
