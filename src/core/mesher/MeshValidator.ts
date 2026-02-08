@@ -155,4 +155,9 @@ class MeshValidator {
 
       if (isNaN(nx) || !isFinite(nx) ||
           isNaN(ny) || !isFinite(ny) ||
-          isNaN(nz) || !is
+          isNaN(nz) || !isFinite(nz)) {
+        return { valid: false, error: `Invalid normal value at index ${i}` };
+      }
+
+      // Check if normal is normalized (length close to 1)
+      const length
