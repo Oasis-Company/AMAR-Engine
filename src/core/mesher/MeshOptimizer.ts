@@ -100,3 +100,11 @@ class MeshOptimizer {
         }
         if (mesh.uvs) {
           const uvIndex = (i / 3) * 2;
+          newUvs.push(mesh.uvs[uvIndex], mesh.uvs[uvIndex + 1]);
+        }
+      }
+    }
+    
+    // Remap indices
+    for (let i = 0; i < mesh.indices.length; i++) {
+      const originalIndex =
