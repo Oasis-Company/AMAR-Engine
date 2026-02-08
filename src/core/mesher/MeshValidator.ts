@@ -418,4 +418,14 @@ class MeshValidator {
       const ny = v1z * v2x - v1x * v2z;
       const nz = v1x * v2y - v1y * v2x;
 
-      // Calculate
+      // Calculate area (half the length of cross product)
+      const faceArea = 0.5 * Math.sqrt(nx * nx + ny * ny + nz * nz);
+      area += faceArea;
+    }
+
+    return area;
+  }
+
+  /**
+   * Calculate compression ratio
+   * @
