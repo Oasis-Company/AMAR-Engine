@@ -258,3 +258,6 @@ class MeshValidator {
    * Check for non-manifold edges
    * @param indices - Face indices
    * @returns Validation result
+   */
+  private checkManifoldEdges(indices: number[]): { valid: boolean; error?: string } {
+    // Create edge map: key = sorted edge vertices
