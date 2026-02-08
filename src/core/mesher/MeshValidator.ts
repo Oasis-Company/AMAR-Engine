@@ -437,4 +437,13 @@ class MeshValidator {
       mesh.vertices.length * 8 + // 8 bytes per number
       mesh.indices.length * 4 +  // 4 bytes per index
       mesh.normals.length * 8 +  // 8 bytes per number
-      mesh
+      mesh.uvs.length * 8;       // 8 bytes per number
+
+    // Calculate estimated compressed size (simplified)
+    const compressedSize = rawSize * 0.5; // Assume 50% compression
+
+    return rawSize / compressedSize;
+  }
+}
+
+export { MeshValidator };
