@@ -60,6 +60,13 @@ class AMAREngine {
   }
 
   /**
+   * Get the Mesher System
+   */
+  public getMesherSystem(): MesherSystem {
+    return this.mesherSystem;
+  }
+
+  /**
    * Shutdown the AMAR Engine
    */
   public async shutdown(): Promise<void> {
@@ -67,6 +74,7 @@ class AMAREngine {
     
     // Shutdown core systems
     await this.skillsSystem.shutdown();
+    await this.mesherSystem.shutdown();
     await this.aeidSystem.shutdown();
     await this.metaclassSystem.shutdown();
     
