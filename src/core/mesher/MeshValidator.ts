@@ -305,4 +305,8 @@ class MeshValidator {
     // Calculate bounding box
     const bbox = this.calculateBoundingBox(mesh.vertices);
     
-    // Calculate mesh
+    // Calculate mesh volume (simplified)
+    const volume = this.calculateVolume(mesh.vertices, mesh.indices);
+    
+    // Calculate surface area
+    const surfaceArea =
