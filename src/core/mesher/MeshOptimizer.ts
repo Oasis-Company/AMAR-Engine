@@ -200,4 +200,6 @@ class MeshOptimizer {
       const v1z = vertices[i1 + 2] - vertices[i0 + 2];
       
       const v2x = vertices[i2] - vertices[i0];
-      const v2y = vertices[i2
+      const v2y = vertices[i2 + 1] - vertices[i0 + 1];
+      const v2z = vertices[i2 + 2] - vertices[i0 + 2];
+      
