@@ -10,7 +10,7 @@ import { AEIDSystem } from './core/aeid/AEIDSystem';
 import { SkillsSystem } from './core/skills/SkillsSystem';
 import { MesherSystem } from './core/mesher/MesherSystem';
 import { APISystem } from './api';
-import { version } from './version';
+import { AMAR_ENGINE_VERSION } from './version';
 
 class AMAREngine {
   private metaclassSystem: MetaclassSystem;
