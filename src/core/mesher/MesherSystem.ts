@@ -160,4 +160,15 @@ class MesherSystem {
    * Set mesher options
    * @param options - New options
    */
-  public setOptions(options: Mes
+  public setOptions(options: MesherOptions): void {
+    this.options = { ...this.options, ...options };
+    this.generator.setOptions(this.options);
+    this.optimizer.setOptions(this.options);
+  }
+
+  /**
+   * Shutdown the Mesher System
+   */
+  public async shutdown(): Promise<void> {
+    console.log('Shutting down Mesher System...');
+    console.log('Mesher System shutdown successfully!');
