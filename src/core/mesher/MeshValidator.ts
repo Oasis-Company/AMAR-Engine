@@ -162,4 +162,13 @@ class MeshValidator {
       // Check if normal is normalized (length close to 1)
       const length = Math.sqrt(nx * nx + ny * ny + nz * nz);
       if (Math.abs(length - 1.0) > 0.1) {
-        return
+        return { valid: false, error: `Normal not normalized at index ${i} (length: ${length})` };
+      }
+    }
+
+    return { valid: true };
+  }
+
+  /**
+   * Validate UVs
+   * @param
