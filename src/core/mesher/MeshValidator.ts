@@ -124,3 +124,11 @@ class MeshValidator {
       if (!Number.isInteger(index)) {
         return { valid: false, error: `Index must be an integer at index ${i}` };
       }
+      if (index < 0 || index >= vertexCount) {
+        return { valid: false, error: `Index out of bounds at index ${i}: ${index} (vertex count: ${vertexCount})` };
+      }
+    }
+
+    return { valid: true };
+  }
+
