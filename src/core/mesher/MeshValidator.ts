@@ -329,3 +329,6 @@ class MeshValidator {
   private calculateBoundingBox(vertices: number[]): {
     min: { x: number; y: number; z: number };
     max: { x: number; y: number; z: number };
+  } {
+    let minX = Infinity, minY = Infinity, minZ = Infinity;
+    let maxX = -Infinity, maxY = -Infinity, maxZ
