@@ -28,4 +28,9 @@ class APIServer {
     // Parse JSON bodies
     this.app.use(express.json());
     
-    // Parse URL-encoded
+    // Parse URL-encoded bodies
+    this.app.use(express.urlencoded({ extended: true }));
+    
+    // CORS middleware
+    this.app.use((req: Request, res: Response, next: Function) => {
+      res.set
