@@ -171,4 +171,9 @@ class MeshValidator {
 
   /**
    * Validate UVs
-   * @param
+   * @param uvs - UV coordinates
+   * @param vertexCount - Number of vertices
+   * @returns Validation result
+   */
+  private validateUVs(uvs: number[], vertexCount: number): { valid: boolean; error?: string } {
+    if (!Array.is
