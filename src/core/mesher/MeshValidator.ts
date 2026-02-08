@@ -265,4 +265,10 @@ class MeshValidator {
 
     for (let i = 0; i < indices.length; i += 3) {
       // Get face vertices
-      const v
+      const v0 = indices[i];
+      const v1 = indices[i + 1];
+      const v2 = indices[i + 2];
+
+      // Create edges
+      const edges = [
+        [v0, v1].sort((a, b)
