@@ -271,4 +271,10 @@ class MeshValidator {
 
       // Create edges
       const edges = [
-        [v0, v1].sort((a, b)
+        [v0, v1].sort((a, b) => a - b),
+        [v1, v2].sort((a, b) => a - b),
+        [v2, v0].sort((a, b) => a - b)
+      ];
+
+      // Count edges
+      for
