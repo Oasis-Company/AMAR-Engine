@@ -240,4 +240,9 @@ class MeshValidator {
       // Calculate cross product
       const nx = v1y * v2z - v1z * v2y;
       const ny = v1z * v2x - v1x * v2z;
-      const nz = v1x
+      const nz = v1x * v2y - v1y * v2x;
+
+      // Calculate area (half the length of cross product)
+      const area = 0.5 * Math.sqrt(nx * nx + ny * ny + nz * nz);
+
+      // Check if area
