@@ -169,3 +169,8 @@ class APIServer {
       const { type } = req.body;
       const aeid = this.engine.getAEIDSystem().generateAEID(type || 'asset');
       res.status(200).json({ aeid });
+    });
+    
+    // Validate an AEID
+    router.post('/validate', (req: Request, res: Response) => {
+      const { aeid }
