@@ -95,4 +95,7 @@ class APIServer {
       res.status(404).json({ error: 'Not found', path: req.path });
     });
     
-    //
+    // Error handler
+    this.app.use((err: any, req: Request, res: Response) => {
+      console.error('API Error:', err);
+      res.status(50
