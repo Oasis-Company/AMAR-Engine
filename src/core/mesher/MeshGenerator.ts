@@ -161,3 +161,12 @@ class MeshGenerator {
       // Back face
       0.0, 0.0,
       1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0
+    ];
+
+    return {
+      id: `mesh-${DateTime.utc().toFormat('yyyyMMddHHmmss')}-${Math.floor(Math.random() * 10000)}`,
+      vertices,
+      indices,
+      normals
