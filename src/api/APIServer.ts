@@ -173,4 +173,10 @@ class APIServer {
     
     // Validate an AEID
     router.post('/validate', (req: Request, res: Response) => {
-      const { aeid }
+      const { aeid } = req.body;
+      
+      if (!aeid) {
+        return res.status(400).json({ error: 'Missing AEID parameter' });
+      }
+      
+      const result = this.engine
