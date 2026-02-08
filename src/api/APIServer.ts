@@ -114,3 +114,7 @@ class APIServer {
       res.status(200).json(metaclasses);
     });
     
+    // Get a specific metaclass
+    router.get('/:id', (req: Request, res: Response) => {
+      const { id } = req.params;
+      const
