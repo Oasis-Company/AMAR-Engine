@@ -159,4 +159,11 @@ class APIServer {
   }
 
   /**
-   * Setup AEID
+   * Setup AEID routes
+   */
+  private setupAEIDRoutes(): void {
+    const router = express.Router();
+    
+    // Generate a new AEID
+    router.post('/generate', (req: Request, res: Response) => {
+      const { type }
