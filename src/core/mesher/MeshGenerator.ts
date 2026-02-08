@@ -72,4 +72,13 @@ class MeshGenerator {
       source: 'point-cloud',
       pointCount: pointCloud.points.length / 3,
       hasNormals: !!pointCloud.normals,
-      generationTime: DateTime.utc().to
+      generationTime: DateTime.utc().toISO(),
+      options: mergedOptions
+    };
+    
+    return mesh;
+  }
+
+  /**
+   * Generate mesh from text description
+   *
