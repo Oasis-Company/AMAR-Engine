@@ -155,3 +155,8 @@ class MeshOptimizer {
     const originalVertexCount = mesh.vertices.length / 3;
     const targetVertexCount = Math.max(4, Math.floor(originalVertexCount * simplificationFactor));
     
+    // If we don't need to simplify, return the mesh as is
+    if (originalVertexCount <= targetVertexCount) {
+      return mesh;
+    }
+    
