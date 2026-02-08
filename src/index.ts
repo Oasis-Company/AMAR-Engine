@@ -72,4 +72,14 @@ class AMAREngine {
   }
 
   /**
-   * Get
+   * Get the Skills System
+   */
+  public getSkillsSystem(): SkillsSystem {
+    return this.skillsSystem;
+  }
+
+  /**
+   * Get the Mesher System
+   */
+  public getMesherSystem(): MesherSystem {
+    return
