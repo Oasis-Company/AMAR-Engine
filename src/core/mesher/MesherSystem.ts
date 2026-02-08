@@ -133,4 +133,16 @@ class MesherSystem {
    * @param mesh - Mesh to validate
    * @returns Validation result
    */
-  public validateMesh(mesh: Mesh
+  public validateMesh(mesh: Mesh): { valid: boolean; error?: string } {
+    return this.validator.validate(mesh);
+  }
+
+  /**
+   * Optimize a mesh
+   * @param mesh - Mesh to optimize
+   * @param options - Optimization options
+   * @returns Optimized mesh
+   */
+  public optimizeMesh(mesh: Mesh, options: MesherOptions = {}): Mesh {
+    const mergedOptions = { ...this.options, ...options };
+    return this.optimizer.
