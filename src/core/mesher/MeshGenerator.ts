@@ -86,4 +86,7 @@ class MeshGenerator {
    * @returns Generated mesh
    */
   public async fromText(description: string, options: MesherOptions = {}): Promise<Mesh> {
-    const mergedOptions = {
+    const mergedOptions = { ...this.options, ...options };
+    
+    // Simulate mesh generation from text
+    // In a real implementation, this would use AI models to interpret the description and generate a
