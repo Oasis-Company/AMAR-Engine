@@ -43,4 +43,11 @@ class MeshOptimizer {
     // 3. Optimize indices (reorder for better cache performance)
     optimizedMesh = this.optimizeIndices(optimizedMesh);
     
-    // 4. Recalculate normals (
+    // 4. Recalculate normals (to ensure they're still valid after optimization)
+    optimizedMesh = this.recalculateNormals(optimizedMesh);
+    
+    // 5. Update metadata
+    optimizedMesh.metadata = {
+      ...optimizedMesh.metadata,
+      optimized: true,
+      optimization
