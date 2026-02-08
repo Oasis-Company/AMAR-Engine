@@ -232,4 +232,15 @@ class MeshGenerator {
     for (let i = 0; i < normals.length; i += 3) {
       const length = Math.sqrt(normals[i] * normals[i] + normals[i + 1] * normals[i + 1] + normals[i + 2] * normals[i + 2]);
       if (length > 0) {
-        const
+        const invLength = 1.0 / length;
+        normals[i] *= invLength;
+        normals[i + 1] *= invLength;
+        normals[i + 2] *= invLength;
+      }
+    }
+    
+    return normals;
+  }
+}
+
+export { MeshGenerator };
