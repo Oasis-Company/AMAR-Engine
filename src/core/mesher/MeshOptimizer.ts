@@ -328,4 +328,8 @@ class MeshOptimizer {
    * @param optimizedMesh - Optimized mesh
    * @returns Optimization statistics
    */
-  public calculateOptimizationStats(originalMesh: Mesh, optimizedMesh: Mesh
+  public calculateOptimizationStats(originalMesh: Mesh, optimizedMesh: Mesh): Record<string, any> {
+    const originalVertexCount = originalMesh.vertices.length / 3;
+    const originalFaceCount = originalMesh.indices.length / 3;
+    const optimizedVertexCount = optimizedMesh.vertices.length / 3;
+    const optimizedFace
