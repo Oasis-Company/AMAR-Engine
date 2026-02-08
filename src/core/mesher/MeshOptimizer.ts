@@ -78,3 +78,9 @@ class MeshOptimizer {
     const newIndices: number[] = [];
     
     // Threshold for considering vertices as duplicates
+    const epsilon = 1e-6;
+    
+    // Process each vertex
+    for (let i = 0; i < mesh.vertices.length; i += 3) {
+      const x = mesh.vertices[i];
+      const y = mesh.
