@@ -3,22 +3,28 @@
 /**
  * AMAR Engine (AME) - Main Entry Point
  * A next-generation 3D tool for generating virtual worlds from natural language and real-world captures
- */import { MetaclassSystem } from './core/metaclass/MetaclassSystem';
+ */
+
+import { MetaclassSystem } from './core/metaclass/MetaclassSystem';
 import { AEIDSystem } from './core/aeid/AEIDSystem';
 import { SkillsSystem } from './core/skills/SkillsSystem';
 import { MesherSystem } from './core/mesher/MesherSystem';
 import { APISystem } from './api';
-import { version } from './version';AMAREngine {
+import { version } from './version';
+
+class AMAREngine {
   private metaclassSystem: MetaclassSystem;
   private aeidSystem: AEIDSystem;
   private skillsSystem: SkillsSystem;
   private mesherSystem: MesherSystem;
+  private apiSystem: APISystem;
 
   constructor() {
     this.metaclassSystem = new MetaclassSystem();
     this.aeidSystem = new AEIDSystem();
     this.skillsSystem = new SkillsSystem();
     this.mesherSystem = new MesherSystem();
+    this.apiSystem = new APISystem(this);
   }
 
   /**
@@ -32,63 +38,12 @@ import { version } from './version';AMAREngine {
     await this.aeidSystem.initialize();
     await this.skillsSystem.initialize();
     await this.mesherSystem.initialize();
+    await this.apiSystem.initialize();
     
     console.log('AMAR Engine initialized successfully!');
   }
 
   /**
-   * Get the Metaclass System
+   * Start the API server
    */
-  public getMetaclassSystem(): MetaclassSystem {
-    return this.metaclassSystem;
-  }
-
-  /**
-   * Get the AEID System
-   */
-  public getAEIDSystem(): AEIDSystem {
-    return this.aeidSystem;
-  }
-
-  /**
-   * Get the Skills System
-   */
-  public getSkillsSystem(): SkillsSystem {
-    return this.skillsSystem;
-  }
-
-  /**
-   * Get the Mesher System
-   */
-  public getMesherSystem(): MesherSystem {
-    return this.mesherSystem;
-  }
-
-  /**
-   * Shutdown the AMAR Engine
-   */
-  public async shutdown(): Promise<void> {
-    console.log('Shutting down AMAR Engine...');
-    
-    // Shutdown core systems
-    await this.skillsSystem.shutdown();
-    await this.mesherSystem.shutdown();
-    await this.aeidSystem.shutdown();
-    await this.metaclassSystem.shutdown();
-    
-    console.log('AMAR Engine shutdown successfully!');
-  }
-}
-
-// Export the AMAR Engine class
-export { AMAREngine };
-
-// If run directly, initialize the engine
-if (require.main === module) {
-  const engine = new AMAREngine();
-  engine.initialize()
-    .catch((error) => {
-      console.error('Failed to initialize AMAR Engine:', error);
-      process.exit(1);
-    });
-}
+  public async startAPIServer(): Promise
