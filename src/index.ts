@@ -96,4 +96,10 @@ class AMAREngine {
    * Shutdown the AMAR Engine
    */
   public async shutdown(): Promise<void> {
-    console.log('
+    console.log('Shutting down AMAR Engine...');
+    
+    // Shutdown core systems
+    await this.apiSystem.shutdown();
+    await this.skillsSystem.shutdown();
+    await this.mesherSystem.shutdown();
+    await this.aeidSystem
