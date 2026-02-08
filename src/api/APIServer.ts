@@ -166,4 +166,6 @@ class APIServer {
     
     // Generate a new AEID
     router.post('/generate', (req: Request, res: Response) => {
-      const { type }
+      const { type } = req.body;
+      const aeid = this.engine.getAEIDSystem().generateAEID(type || 'asset');
+      res.status(200).json({ aeid });
