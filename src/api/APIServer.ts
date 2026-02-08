@@ -22,4 +22,10 @@ class APIServer {
   }
 
   /**
-   *
+   * Setup middleware
+   */
+  private setupMiddleware(): void {
+    // Parse JSON bodies
+    this.app.use(express.json());
+    
+    // Parse URL-encoded
