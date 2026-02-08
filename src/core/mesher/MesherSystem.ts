@@ -82,4 +82,9 @@ class MesherSystem {
    * @param options - Generation options
    * @returns Generated mesh or error
    */
-  public async generateFromPointCloud(pointCloud: { points: number[]; normals?: number[] }, options: Mes
+  public async generateFromPointCloud(pointCloud: { points: number[]; normals?: number[] }, options: MesherOptions = {}): Promise<{ success: boolean; mesh?: Mesh; error?: string }> {
+    try {
+      const mergedOptions = { ...this.options, ...options };
+      const mesh = await this.generator.fromPointCloud(pointCloud, mergedOptions);
+      
+      // Validate mesh
