@@ -45,4 +45,9 @@ class APIServer {
     });
     
     // Request logging middleware
-    this.app.use((req: Request,
+    this.app.use((req: Request, res: Response, next: Function) => {
+      console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+      next();
+    });
+  }
+
