@@ -8,6 +8,7 @@
 import { MetaclassSystem } from './core/metaclass/MetaclassSystem';
 import { AEIDSystem } from './core/aeid/AEIDSystem';
 import { SkillsSystem } from './core/skills/SkillsSystem';
+import { MesherSystem } from './core/mesher/MesherSystem';
 
 class AMAREngine {
   private metaclassSystem: MetaclassSystem;
