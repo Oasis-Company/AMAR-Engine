@@ -184,4 +184,6 @@ class APIServer {
     });
     
     // Get AEID info
-    router.get('/info/:aeid', (
+    router.get('/info/:aeid', (req: Request, res: Response) => {
+      const { aeid } = req.params;
+      const info = this.engine.getAEIDSystem().getAEIDInfo(aeid
