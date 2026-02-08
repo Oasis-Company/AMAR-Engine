@@ -108,4 +108,12 @@ class MesherSystem {
    * @param options - Generation options
    * @returns Generated mesh or error
    */
-  public async generateFromText(description: string, options: MesherOptions = {}): Promise<{ success: boolean; mesh?: Mesh; error?: string
+  public async generateFromText(description: string, options: MesherOptions = {}): Promise<{ success: boolean; mesh?: Mesh; error?: string }> {
+    try {
+      const mergedOptions = { ...this.options, ...options };
+      const mesh = await this.generator.fromText(description, mergedOptions);
+      
+      // Validate mesh
+      const validationResult = this.validator.validate(mesh);
+      if (!validationResult.valid) {
+        return { success: false, error
