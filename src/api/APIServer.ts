@@ -152,4 +152,11 @@ class APIServer {
         return res.status(400).json({ error: result.error });
       }
       
-      res.status(200).json(result.met
+      res.status(200).json(result.metaclass);
+    });
+    
+    this.app.use('/api/metaclasses', router);
+  }
+
+  /**
+   * Setup AEID
