@@ -148,4 +148,7 @@ class MeshValidator {
     }
 
     // Check for valid normal values
-    for (let i = 0; i < normals.length
+    for (let i = 0; i < normals.length; i += 3) {
+      const nx = normals[i];
+      const ny = normals[i + 1];
+      const nz = normals[i +
