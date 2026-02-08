@@ -259,4 +259,11 @@ class MeshOptimizer {
     const bbox = this.calculateBoundingBox(mesh.vertices);
     const scale = {
       x: (2 ** precision - 1) / (bbox.max.x - bbox.min.x),
-      y: (2 ** precision - 1) / (bbox.max.y -
+      y: (2 ** precision - 1) / (bbox.max.y - bbox.min.y),
+      z: (2 ** precision - 1) / (bbox.max.z - bbox.min.z)
+    };
+    
+    const offset = bbox.min;
+    
+    // Quantize vertices
+    const quantized
