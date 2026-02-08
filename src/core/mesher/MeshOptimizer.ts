@@ -218,4 +218,9 @@ class MeshOptimizer {
         
         // Add normal to each vertex in the face
         normals[i0] += normalizedNx;
-        normals[i0 + 1]
+        normals[i0 + 1] += normalizedNy;
+        normals[i0 + 2] += normalizedNz;
+        
+        normals[i1] += normalizedNx;
+        normals[i1 + 1] += normalizedNy;
+        normals[i1 + 2] += normalizedNz
