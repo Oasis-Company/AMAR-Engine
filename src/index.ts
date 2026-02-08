@@ -110,4 +110,15 @@ class AMAREngine {
 }
 
 // Export the AMAR Engine class
-export {
+export { AMAREngine };
+
+// If run directly, initialize the engine
+if (require.main === module) {
+  const engine = new AMAREngine();
+  engine.initialize()
+    .then(() => {
+      // Start API server
+      return engine.startAPIServer();
+    })
+    .catch((error) => {
+      console.error('Failed to initialize AMAR Engine
