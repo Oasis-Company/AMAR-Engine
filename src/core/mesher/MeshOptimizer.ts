@@ -113,4 +113,15 @@ class MeshOptimizer {
       const z = mesh.vertices[originalIndex * 3 + 2];
       
       const key = `${Math.round(x / epsilon) * epsilon},${Math.round(y / epsilon) * epsilon},${Math.round(z / epsilon) * epsilon}`;
-      const newIndex
+      const newIndex = vertexMap.get(key);
+      
+      if (newIndex !== undefined) {
+        newIndices.push(newIndex);
+      }
+    }
+    
+    return {
+      ...mesh,
+      vertices: newVertices,
+      indices: newIndices,
+      normals: newNormals.length
