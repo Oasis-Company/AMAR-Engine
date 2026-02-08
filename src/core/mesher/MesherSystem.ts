@@ -101,3 +101,11 @@ class MesherSystem {
       return { success: false, error: `Generation failed: ${(error as Error).message}` };
     }
   }
+
+  /**
+   * Generate mesh from text description
+   * @param description - Text description of the object
+   * @param options - Generation options
+   * @returns Generated mesh or error
+   */
+  public async generateFromText(description: string, options: MesherOptions = {}): Promise<{ success: boolean; mesh?: Mesh; error?: string
