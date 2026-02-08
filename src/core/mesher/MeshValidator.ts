@@ -120,4 +120,7 @@ class MeshValidator {
 
     // Check for valid index values
     for (let i = 0; i < indices.length; i++) {
-      const index = indices
+      const index = indices[i];
+      if (!Number.isInteger(index)) {
+        return { valid: false, error: `Index must be an integer at index ${i}` };
+      }
