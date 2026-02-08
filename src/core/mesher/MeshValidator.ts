@@ -373,4 +373,8 @@ class MeshValidator {
 
       const x1 = vertices[i1];
       const y1 = vertices[i1 + 1];
-      const z1 = vertices[i1 + 2
+      const z1 = vertices[i1 + 2];
+
+      const x2 = vertices[i2];
+      const y2 = vertices[i2 + 1];
+      const z2 = vertices[i2 + 2
