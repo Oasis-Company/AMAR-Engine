@@ -260,4 +260,9 @@ class MeshValidator {
    * @returns Validation result
    */
   private checkManifoldEdges(indices: number[]): { valid: boolean; error?: string } {
-    // Create edge map: key = sorted edge vertices
+    // Create edge map: key = sorted edge vertices, value = count
+    const edgeMap = new Map<string, number>();
+
+    for (let i = 0; i < indices.length; i += 3) {
+      // Get face vertices
+      const v
