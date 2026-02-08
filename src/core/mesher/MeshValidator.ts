@@ -231,4 +231,7 @@ class MeshValidator {
       // Calculate edge vectors
       const v1x = vertices[i1] - vertices[i0];
       const v1y = vertices[i1 + 1] - vertices[i0 + 1];
-      const v
+      const v1z = vertices[i1 + 2] - vertices[i0 + 2];
+
+      const v2x = vertices[i2] - vertices[i0];
+      const
