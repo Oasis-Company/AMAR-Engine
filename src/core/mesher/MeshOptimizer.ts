@@ -124,4 +124,11 @@ class MeshOptimizer {
       ...mesh,
       vertices: newVertices,
       indices: newIndices,
-      normals: newNormals.length
+      normals: newNormals.length > 0 ? newNormals : mesh.normals,
+      uvs: newUvs.length > 0 ? newUvs : mesh.uvs
+    };
+  }
+
+  /**
+   * Simplify mesh by reducing vertex count
+   * @
