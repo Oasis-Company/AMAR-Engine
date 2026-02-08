@@ -353,4 +353,10 @@ class MeshOptimizer {
     const sizeReduction = ((originalSize - optimizedSize) / originalSize) * 100;
     
     return {
-      original
+      originalVertexCount,
+      originalFaceCount,
+      optimizedVertexCount,
+      optimizedFaceCount,
+      vertexReduction: vertexReduction.toFixed(2),
+      faceReduction: faceReduction.toFixed(2),
+      sizeReduction: sizeReduction
