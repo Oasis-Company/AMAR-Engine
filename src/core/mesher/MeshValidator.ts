@@ -217,4 +217,9 @@ class MeshValidator {
   }
 
   /**
-   * Check for degenerate faces
+   * Check for degenerate faces (faces with zero area)
+   * @param vertices - Vertex positions
+   * @param indices - Face indices
+   * @returns Validation result
+   */
+  private checkDegenerateFaces(vertices: number[], indices: number[]): { valid: boolean; error?:
