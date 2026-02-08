@@ -187,4 +187,13 @@ class MeshValidator {
     // Check for valid UV values
     for (let i = 0; i < uvs.length; i++) {
       if (isNaN(uvs[i]) || !isFinite(uvs[i])) {
-        return { valid
+        return { valid: false, error: `Invalid UV value at index ${i}` };
+      }
+    }
+
+    return { valid: true };
+  }
+
+  /**
+   * Validate metadata
+   * @param
