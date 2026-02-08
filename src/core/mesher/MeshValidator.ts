@@ -144,4 +144,8 @@ class MeshValidator {
     }
 
     if (normals.length !== vertexCount * 3) {
-      return { valid: false, error: `Normals array length must match vertex count (expected ${vertex
+      return { valid: false, error: `Normals array length must match vertex count (expected ${vertexCount * 3}, got ${normals.length})` };
+    }
+
+    // Check for valid normal values
+    for (let i = 0; i < normals.length
