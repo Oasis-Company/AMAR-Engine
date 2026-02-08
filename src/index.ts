@@ -82,4 +82,18 @@ class AMAREngine {
    * Get the Mesher System
    */
   public getMesherSystem(): MesherSystem {
-    return
+    return this.mesherSystem;
+  }
+
+  /**
+   * Get the API System
+   */
+  public getAPISystem(): APISystem {
+    return this.apiSystem;
+  }
+
+  /**
+   * Shutdown the AMAR Engine
+   */
+  public async shutdown(): Promise<void> {
+    console.log('
