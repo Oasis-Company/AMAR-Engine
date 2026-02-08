@@ -342,4 +342,10 @@ class MeshValidator {
       minY = Math.min(minY, y);
       minZ = Math.min(minZ, z);
 
-      maxX = Math.max(maxX
+      maxX = Math.max(maxX, x);
+      maxY = Math.max(maxY, y);
+      maxZ = Math.max(maxZ, z);
+    }
+
+    return {
+      min: { x: minX, y: minY, z: minZ },
