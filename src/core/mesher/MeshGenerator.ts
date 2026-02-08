@@ -45,3 +45,11 @@ class MeshGenerator {
       images: images,
       generationTime: DateTime.utc().toISO(),
       options: mergedOptions
+    };
+    
+    return mesh;
+  }
+
+  /**
+   * Generate mesh from point cloud
+   * @param pointCloud - Point cloud data
