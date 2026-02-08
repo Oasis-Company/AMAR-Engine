@@ -131,4 +131,9 @@ class MeshOptimizer {
 
   /**
    * Simplify mesh by reducing vertex count
-   * @
+   * @param mesh - Mesh to simplify
+   * @param quality - Simplification quality
+   * @returns Simplified mesh
+   */
+  private simplifyMesh(mesh: Mesh, quality: 'low' | 'medium' | 'high'): Mesh {
+    // Determine simplification
