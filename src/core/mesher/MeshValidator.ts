@@ -196,4 +196,9 @@ class MeshValidator {
 
   /**
    * Validate metadata
-   * @param
+   * @param metadata - Mesh metadata
+   * @returns Validation result
+   */
+  private validateMetadata(metadata: Record<string, any>): { valid: boolean; error?: string } {
+    if (!metadata || typeof metadata !== 'object') {
+      return { valid: false,
