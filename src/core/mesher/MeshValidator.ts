@@ -277,4 +277,11 @@ class MeshValidator {
       ];
 
       // Count edges
-      for
+      for (const edge of edges) {
+        const key = edge.join('-');
+        edgeMap.set(key, (edgeMap.get(key) || 0) + 1);
+      }
+    }
+
+    // Check for edges with odd counts (non-manifold)
+    for (const [edge, count
