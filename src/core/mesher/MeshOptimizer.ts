@@ -296,4 +296,8 @@ class MeshOptimizer {
    * @returns Bounding box
    */
   private calculateBoundingBox(vertices: number[]): {
-    min: { x
+    min: { x: number; y: number; z: number };
+    max: { x: number; y: number; z: number };
+  } {
+    let minX = Infinity, minY = Infinity, minZ = Infinity;
+    let maxX = -In
