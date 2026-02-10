@@ -98,7 +98,7 @@ class AEIDSystem {
     
     return {
       ...validationResult,
-      metadata
+      metadata: metadata || undefined
     };
   }
 
