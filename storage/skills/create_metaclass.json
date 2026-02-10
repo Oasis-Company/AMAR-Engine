@@ -1,0 +1,40 @@
+{
+  "id": "create_metaclass",
+  "name": "Create Metaclass",
+  "description": "Creates a new metaclass",
+  "version": "1.0.0",
+  "type": "create",
+  "parameters": {},
+  "schema": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "ID of the metaclass"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the metaclass"
+      },
+      "description": {
+        "type": "string",
+        "description": "Description of the metaclass"
+      },
+      "properties": {
+        "type": "object",
+        "description": "Properties of the metaclass",
+        "default": {}
+      },
+      "behaviors": {
+        "type": "array",
+        "description": "Behaviors of the metaclass",
+        "default": []
+      }
+    },
+    "required": [
+      "id",
+      "name",
+      "description"
+    ]
+  }
+}

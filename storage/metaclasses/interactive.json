@@ -1,0 +1,24 @@
+{
+  "id": "interactive",
+  "name": "Interactive",
+  "description": "An object that can be interacted with",
+  "version": "1.0.0",
+  "properties": {
+    "is_interactive": {
+      "type": "boolean",
+      "description": "Whether the object is interactive",
+      "default": true
+    },
+    "interaction_points": {
+      "type": "array",
+      "description": "Points where the object can be interacted with",
+      "default": []
+    }
+  },
+  "behaviors": [
+    "interact"
+  ],
+  "dependencies": [
+    "object"
+  ]
+}

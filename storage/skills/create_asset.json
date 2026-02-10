@@ -1,0 +1,30 @@
+{
+  "id": "create_asset",
+  "name": "Create Asset",
+  "description": "Creates a new asset",
+  "version": "1.0.0",
+  "type": "create",
+  "parameters": {},
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the asset"
+      },
+      "type": {
+        "type": "string",
+        "description": "Type of the asset"
+      },
+      "properties": {
+        "type": "object",
+        "description": "Properties of the asset",
+        "default": {}
+      }
+    },
+    "required": [
+      "name",
+      "type"
+    ]
+  }
+}

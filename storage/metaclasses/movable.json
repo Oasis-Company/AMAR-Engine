@@ -1,0 +1,39 @@
+{
+  "id": "movable",
+  "name": "Movable",
+  "description": "An object that can be moved",
+  "version": "1.0.0",
+  "properties": {
+    "is_movable": {
+      "type": "boolean",
+      "description": "Whether the object is movable",
+      "default": true
+    },
+    "position": {
+      "type": "object",
+      "description": "Position of the object",
+      "default": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "rotation": {
+      "type": "object",
+      "description": "Rotation of the object",
+      "default": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  "behaviors": [
+    "move",
+    "rotate"
+  ],
+  "dependencies": [
+    "object",
+    "physical"
+  ]
+}

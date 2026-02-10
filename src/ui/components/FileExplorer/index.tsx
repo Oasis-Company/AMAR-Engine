@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
@@ -12,160 +12,140 @@ interface FileItem {
 
 const FileExplorer: React.FC = () => {
   const { t } = useTranslation();
+  const [currentPath, setCurrentPath] = useState<string>('');
   const [fileTree, setFileTree] = useState<FileItem[]>([]);
-  const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [showNewFolderDialog, setShowNewFolderDialog] = useState(false);
+  const [newFolderName, setNewFolderName] = useState('');
 
-  // 模拟文件树数据
-  useEffect(() => {
-    // 模拟加载文件树
+  const [showDevices, setShowDevices] = useState(false);
+  const [devices, setDevices] = useState<FileItem[]>([]);
+
+  const openFolder = () => {
+    // 显示设备列表
+    setShowDevices(true);
+    // 模拟设备列表
+    const mockDevices: FileItem[] = [
+      {
+        id: 'device-c',
+        name: 'Local Disk (C:)',
+        type: 'directory',
+        path: 'C:'
+      },
+      {
+        id: 'device-d',
+        name: 'Local Disk (D:)',
+        type: 'directory',
+        path: 'D:'
+      },
+      {
+        id: 'device-e',
+        name: 'Local Disk (E:)',
+        type: 'directory',
+        path: 'E:'
+      }
+    ];
+    setDevices(mockDevices);
+  };
+
+  const browseDevice = (devicePath: string) => {
+    setLoading(true);
     setTimeout(() => {
+      // 模拟设备根目录下的文件夹
       const mockFileTree: FileItem[] = [
         {
-          id: '1',
-          name: 'src',
+          id: `dir-${Date.now()}-1`,
+          name: 'Users',
           type: 'directory',
-          path: './src',
-          children: [
-            {
-              id: '2',
-              name: 'core',
-              type: 'directory',
-              path: './src/core',
-              children: [
-                {
-                  id: '3',
-                  name: 'metaclass',
-                  type: 'directory',
-                  path: './src/core/metaclass',
-                  children: [
-                    {
-                      id: '4',
-                      name: 'MetaclassSystem.ts',
-                      type: 'file',
-                      path: './src/core/metaclass/MetaclassSystem.ts'
-                    },
-                    {
-                      id: '5',
-                      name: 'MetaclassRegistry.ts',
-                      type: 'file',
-                      path: './src/core/metaclass/MetaclassRegistry.ts'
-                    }
-                  ]
-                },
-                {
-                  id: '6',
-                  name: 'aeid',
-                  type: 'directory',
-                  path: './src/core/aeid',
-                  children: [
-                    {
-                      id: '7',
-                      name: 'AEIDSystem.ts',
-                      type: 'file',
-                      path: './src/core/aeid/AEIDSystem.ts'
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              id: '8',
-              name: 'ui',
-              type: 'directory',
-              path: './src/ui',
-              children: [
-                {
-                  id: '9',
-                  name: 'components',
-                  type: 'directory',
-                  path: './src/ui/components'
-                },
-                {
-                  id: '10',
-                  name: 'pages',
-                  type: 'directory',
-                  path: './src/ui/pages'
-                }
-              ]
-            },
-            {
-              id: '11',
-              name: 'cli',
-              type: 'directory',
-              path: './src/cli'
-            }
-          ]
+          path: `${devicePath}\\Users`
         },
         {
-          id: '12',
-          name: 'public',
+          id: `dir-${Date.now()}-2`,
+          name: 'Program Files',
           type: 'directory',
-          path: './public',
-          children: [
-            {
-              id: '13',
-              name: 'assets',
-              type: 'directory',
-              path: './public/assets',
-              children: [
-                {
-                  id: '14',
-                  name: 'logos',
-                  type: 'directory',
-                  path: './public/assets/logos',
-                  children: [
-                    {
-                      id: '15',
-                      name: 'logo.jpg',
-                      type: 'file',
-                      path: './public/assets/logos/logo.jpg'
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+          path: `${devicePath}\\Program Files`
         },
         {
-          id: '16',
-          name: 'package.json',
-          type: 'file',
-          path: './package.json'
+          id: `dir-${Date.now()}-3`,
+          name: 'Program Files (x86)',
+          type: 'directory',
+          path: `${devicePath}\\Program Files (x86)`
         },
         {
-          id: '17',
-          name: 'README.md',
-          type: 'file',
-          path: './README.md'
-        },
-        {
-          id: '18',
-          name: 'vite.config.ts',
-          type: 'file',
-          path: './vite.config.ts'
+          id: `dir-${Date.now()}-4`,
+          name: 'Windows',
+          type: 'directory',
+          path: `${devicePath}\\Windows`
         }
       ];
+      setCurrentPath(devicePath);
+      setFileTree(mockFileTree);
+      setShowDevices(false);
+      setLoading(false);
+    }, 500);
+  };
 
+  const browseFolder = (folderPath: string) => {
+    setLoading(true);
+    setTimeout(() => {
+      // 模拟文件夹下的内容
+      const mockFileTree: FileItem[] = [
+        {
+          id: `dir-${Date.now()}-1`,
+          name: 'Documents',
+          type: 'directory',
+          path: `${folderPath}\\Documents`
+        },
+        {
+          id: `dir-${Date.now()}-2`,
+          name: 'Downloads',
+          type: 'directory',
+          path: `${folderPath}\\Downloads`
+        },
+        {
+          id: `dir-${Date.now()}-3`,
+          name: 'Desktop',
+          type: 'directory',
+          path: `${folderPath}\\Desktop`
+        },
+        {
+          id: `file-${Date.now()}-1`,
+          name: 'example.txt',
+          type: 'file',
+          path: `${folderPath}\\example.txt`
+        }
+      ];
+      setCurrentPath(folderPath);
       setFileTree(mockFileTree);
       setLoading(false);
     }, 500);
-  }, []);
-
-  const toggleNode = (nodeId: string) => {
-    setExpandedNodes(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(nodeId)) {
-        newSet.delete(nodeId);
-      } else {
-        newSet.add(nodeId);
-      }
-      return newSet;
-    });
   };
 
-  const isNodeExpanded = (nodeId: string) => {
-    return expandedNodes.has(nodeId);
+  const createNewFolder = () => {
+    if (newFolderName.trim()) {
+      // 模拟创建新文件夹
+      setLoading(true);
+      setTimeout(() => {
+        const newFolder: FileItem = {
+          id: `folder-${Date.now()}`,
+          name: newFolderName.trim(),
+          type: 'directory',
+          path: `${currentPath}\\${newFolderName.trim()}`
+        };
+        setFileTree(prev => [...prev, newFolder]);
+        setShowNewFolderDialog(false);
+        setNewFolderName('');
+        setLoading(false);
+      }, 300);
+    }
+  };
+
+  const refreshFileTree = () => {
+    // 模拟刷新文件树
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
   };
 
   const getFileIcon = (type: string, name: string): React.ReactNode => {
@@ -239,47 +219,112 @@ const FileExplorer: React.FC = () => {
     }
   };
 
-  const renderFileItem = (item: FileItem, level: number = 0) => {
-    const hasChildren = item.type === 'directory' && item.children && item.children.length > 0;
-    const isExpanded = isNodeExpanded(item.id);
-
+  const renderFileItem = (item: FileItem) => {
     return (
-      <FileItemContainer key={item.id} level={level}>
-        <FileItemHeader onClick={() => hasChildren && toggleNode(item.id)}>
-          {hasChildren && (
-            <ExpandButton onClick={(e) => {
-              e.stopPropagation();
-              toggleNode(item.id);
-            }}>
-              {isExpanded ? '▼' : '▶'}
-            </ExpandButton>
+      <FileItemContainer key={item.id}>
+        <FileIcon>{getFileIcon(item.type, item.name)}</FileIcon>
+        <FileName>{item.name}</FileName>
+        <FileActions>
+          {item.type === 'directory' && (
+            <ActionButton onClick={() => console.log('Open directory:', item.path)}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </ActionButton>
           )}
-          {!hasChildren && <Spacer />}
-          <FileIcon>{getFileIcon(item.type, item.name)}</FileIcon>
-          <FileName>{item.name}</FileName>
-        </FileItemHeader>
-
-        {hasChildren && isExpanded && item.children && (
-          <FileItemChildren>
-            {item.children.map(child => renderFileItem(child, level + 1))}
-          </FileItemChildren>
-        )}
+        </FileActions>
       </FileItemContainer>
     );
   };
 
+  const handleCreateNewFolder = (e: React.FormEvent) => {
+    e.preventDefault();
+    createNewFolder();
+  };
+
   return (
     <Container>
-      <Title>File Explorer</Title>
+      <Header>
+        <Title>File Browser</Title>
+        <Actions>
+          <ActionButton onClick={openFolder} title="Open Folder">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 4H4C3.45 4 3 4.45 3 5V19C3 19.55 3.45 20 4 20H20C20.55 20 21 19.55 21 19V9C21 8.45 20.55 8 20 8H12M10 4V8H20M10 4L4 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Open
+          </ActionButton>
+          <ActionButton onClick={() => setShowNewFolderDialog(true)} title="New Folder">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            New
+          </ActionButton>
+          <ActionButton onClick={refreshFileTree} title="Refresh">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 12A9 9 0 1 1 11.64 3.03" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M21 3v5h-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </ActionButton>
+        </Actions>
+      </Header>
+      
+      {currentPath && (
+        <PathBar>
+          <PathText>{currentPath}</PathText>
+        </PathBar>
+      )}
+      
       {loading ? (
         <LoadingState>
-          <Icon>🔄</Icon>
-          <Text>Loading file structure...</Text>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 12A9 9 0 1 1 11.64 3.03" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M21 3v5h-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <Text>Loading...</Text>
         </LoadingState>
-      ) : (
-        <FileTreeContainer>
+      ) : fileTree.length > 0 ? (
+        <FileListContainer>
           {fileTree.map(item => renderFileItem(item))}
-        </FileTreeContainer>
+        </FileListContainer>
+      ) : (
+        <EmptyState>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 4H4C3.45 4 3 4.45 3 5V19C3 19.55 3.45 20 4 20H20C20.55 20 21 19.55 21 19V9C21 8.45 20.55 8 20 8H12M10 4V8H20M10 4L4 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <Text>No folder opened</Text>
+          <SubText>Click "Open" to select a folder</SubText>
+        </EmptyState>
+      )}
+      
+      {showNewFolderDialog && (
+        <NewFolderDialog>
+          <DialogContent>
+            <DialogTitle>New Folder</DialogTitle>
+            <form onSubmit={handleCreateNewFolder}>
+              <InputField>
+                <label htmlFor="folderName">Folder Name:</label>
+                <input
+                  id="folderName"
+                  type="text"
+                  value={newFolderName}
+                  onChange={(e) => setNewFolderName(e.target.value)}
+                  placeholder="Enter folder name"
+                  autoFocus
+                />
+              </InputField>
+              <DialogActions>
+                <Button type="button" onClick={() => setShowNewFolderDialog(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={!newFolderName.trim()}>
+                  Create
+                </Button>
+              </DialogActions>
+            </form>
+          </DialogContent>
+        </NewFolderDialog>
       )}
     </Container>
   );
@@ -288,16 +333,66 @@ const FileExplorer: React.FC = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   height: 100%;
   overflow: hidden;
 `;
 
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+`;
+
 const Title = styled.h2`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #e0e0e0;
   margin: 0;
+`;
+
+const Actions = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+const ActionButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 6px 10px;
+  color: #e0e0e0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+`;
+
+const PathBar = styled.div`
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 8px 12px;
+`;
+
+const PathText = styled.div`
+  font-size: 12px;
+  color: #888888;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const LoadingState = styled.div`
@@ -310,16 +405,28 @@ const LoadingState = styled.div`
   color: #888888;
 `;
 
-const Icon = styled.div`
-  font-size: 24px;
-`;
-
 const Text = styled.p`
   font-size: 14px;
   margin: 0;
 `;
 
-const FileTreeContainer = styled.div`
+const SubText = styled.p`
+  font-size: 12px;
+  color: #666666;
+  margin: 0;
+`;
+
+const EmptyState = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 12px;
+  color: #888888;
+`;
+
+const FileListContainer = styled.div`
   flex: 1;
   overflow-y: auto;
   display: flex;
@@ -327,17 +434,11 @@ const FileTreeContainer = styled.div`
   gap: 2px;
 `;
 
-const FileItemContainer = styled.div<{ level: number }>`
-  display: flex;
-  flex-direction: column;
-  margin-left: ${props => props.level * 20}px;
-`;
-
-const FileItemHeader = styled.div`
+const FileItemContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
+  gap: 12px;
+  padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
@@ -347,31 +448,10 @@ const FileItemHeader = styled.div`
   }
 `;
 
-const ExpandButton = styled.button`
-  background: none;
-  border: none;
-  color: #888888;
-  cursor: pointer;
-  font-size: 10px;
-  padding: 0;
-  width: 12px;
-  height: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    color: #e0e0e0;
-  }
-`;
-
-const Spacer = styled.div`
-  width: 12px;
-`;
-
 const FileIcon = styled.div`
   font-size: 16px;
   width: 20px;
+  flex-shrink: 0;
 `;
 
 const FileName = styled.span`
@@ -380,11 +460,104 @@ const FileName = styled.span`
   flex: 1;
 `;
 
-const FileItemChildren = styled.div`
+const FileActions = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-top: 2px;
+  gap: 4px;
+`;
+
+const NewFolderDialog = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+const DialogContent = styled.div`
+  background-color: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  width: 400px;
+  max-width: 90%;
+`;
+
+const DialogTitle = styled.h3`
+  font-size: 16px;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin: 0 0 16px 0;
+`;
+
+const InputField = styled.div`
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    font-size: 14px;
+    color: #e0e0e0;
+    margin-bottom: 6px;
+  }
+
+  input {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 8px 12px;
+    color: #e0e0e0;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: #007acc;
+    }
+  }
+`;
+
+const DialogActions = styled.div`
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+`;
+
+const Button = styled.button`
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:first-child {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  &:last-child {
+    background-color: #007acc;
+    border: 1px solid #007acc;
+    color: white;
+
+    &:hover {
+      background-color: #0066b3;
+    }
+
+    &:disabled {
+      background-color: rgba(0, 122, 204, 0.5);
+      border-color: rgba(0, 122, 204, 0.5);
+      cursor: not-allowed;
+    }
+  }
 `;
 
 export default FileExplorer;

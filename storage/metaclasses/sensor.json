@@ -1,0 +1,29 @@
+{
+  "id": "sensor",
+  "name": "Sensor",
+  "description": "An object that can sense the environment",
+  "version": "1.0.0",
+  "properties": {
+    "sensitivity": {
+      "type": "number",
+      "description": "Sensitivity of the sensor",
+      "default": 1
+    },
+    "range": {
+      "type": "number",
+      "description": "Range of the sensor",
+      "default": 10
+    },
+    "is_active": {
+      "type": "boolean",
+      "description": "Whether the sensor is active",
+      "default": true
+    }
+  },
+  "behaviors": [
+    "sense_environment"
+  ],
+  "dependencies": [
+    "object"
+  ]
+}

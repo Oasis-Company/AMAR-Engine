@@ -1,0 +1,20 @@
+{
+  "id": "delete_asset",
+  "name": "Delete Asset",
+  "description": "Deletes an asset",
+  "version": "1.0.0",
+  "type": "delete",
+  "parameters": {},
+  "schema": {
+    "type": "object",
+    "properties": {
+      "assetId": {
+        "type": "string",
+        "description": "ID of the asset"
+      }
+    },
+    "required": [
+      "assetId"
+    ]
+  }
+}

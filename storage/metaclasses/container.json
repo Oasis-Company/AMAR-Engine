@@ -1,0 +1,25 @@
+{
+  "id": "container",
+  "name": "Container",
+  "description": "An object that can hold other objects or substances",
+  "version": "1.0.0",
+  "properties": {
+    "capacity": {
+      "type": "number",
+      "description": "Maximum capacity of the container",
+      "default": 1
+    },
+    "is_full": {
+      "type": "boolean",
+      "description": "Whether the container is full",
+      "default": false
+    }
+  },
+  "behaviors": [
+    "hold_objects",
+    "hold_substances"
+  ],
+  "dependencies": [
+    "object"
+  ]
+}

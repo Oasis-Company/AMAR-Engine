@@ -1,0 +1,29 @@
+{
+  "id": "physical",
+  "name": "Physical",
+  "description": "An object with physical properties",
+  "version": "1.0.0",
+  "properties": {
+    "mass": {
+      "type": "number",
+      "description": "Mass of the object in kilograms",
+      "default": 1
+    },
+    "volume": {
+      "type": "number",
+      "description": "Volume of the object in cubic meters",
+      "default": 1
+    },
+    "density": {
+      "type": "number",
+      "description": "Density of the object in kg/m³",
+      "default": 1000
+    }
+  },
+  "behaviors": [
+    "physical_interaction"
+  ],
+  "dependencies": [
+    "object"
+  ]
+}

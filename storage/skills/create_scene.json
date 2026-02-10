@@ -1,0 +1,29 @@
+{
+  "id": "create_scene",
+  "name": "Create Scene",
+  "description": "Creates a new scene",
+  "version": "1.0.0",
+  "type": "create",
+  "parameters": {},
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the scene"
+      },
+      "description": {
+        "type": "string",
+        "description": "Description of the scene"
+      },
+      "assets": {
+        "type": "array",
+        "description": "Assets in the scene",
+        "default": []
+      }
+    },
+    "required": [
+      "name"
+    ]
+  }
+}

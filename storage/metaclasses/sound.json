@@ -1,0 +1,29 @@
+{
+  "id": "sound",
+  "name": "Sound",
+  "description": "An object that produces sound",
+  "version": "1.0.0",
+  "properties": {
+    "volume": {
+      "type": "number",
+      "description": "Volume of the sound",
+      "default": 1
+    },
+    "pitch": {
+      "type": "number",
+      "description": "Pitch of the sound",
+      "default": 1
+    },
+    "loop": {
+      "type": "boolean",
+      "description": "Whether the sound loops",
+      "default": false
+    }
+  },
+  "behaviors": [
+    "produce_sound"
+  ],
+  "dependencies": [
+    "object"
+  ]
+}

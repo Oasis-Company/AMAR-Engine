@@ -1,0 +1,25 @@
+{
+  "id": "object",
+  "name": "Object",
+  "description": "Base object type",
+  "version": "1.0.0",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the object",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the object",
+      "default": ""
+    },
+    "aeid": {
+      "type": "string",
+      "description": "AMAR Engine ID",
+      "default": ""
+    }
+  },
+  "behaviors": [],
+  "dependencies": []
+}

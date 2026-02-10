@@ -1,0 +1,20 @@
+{
+  "id": "delete_scene",
+  "name": "Delete Scene",
+  "description": "Deletes a scene",
+  "version": "1.0.0",
+  "type": "delete",
+  "parameters": {},
+  "schema": {
+    "type": "object",
+    "properties": {
+      "sceneId": {
+        "type": "string",
+        "description": "ID of the scene"
+      }
+    },
+    "required": [
+      "sceneId"
+    ]
+  }
+}

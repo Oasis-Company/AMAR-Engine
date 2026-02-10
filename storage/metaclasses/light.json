@@ -1,0 +1,33 @@
+{
+  "id": "light",
+  "name": "Light",
+  "description": "An object that emits light",
+  "version": "1.0.0",
+  "properties": {
+    "intensity": {
+      "type": "number",
+      "description": "Intensity of the light",
+      "default": 1
+    },
+    "color": {
+      "type": "object",
+      "description": "Color of the light",
+      "default": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      }
+    },
+    "range": {
+      "type": "number",
+      "description": "Range of the light",
+      "default": 10
+    }
+  },
+  "behaviors": [
+    "emit_light"
+  ],
+  "dependencies": [
+    "object"
+  ]
+}
