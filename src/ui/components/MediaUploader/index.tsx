@@ -100,12 +100,22 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
         <DropZoneContent>
           {isDragActive ? (
             <>
-              <Icon>📁</Icon>
+              <Icon>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 4H4C3.45 4 3 4.45 3 5V19C3 19.55 3.45 20 4 20H20C20.55 20 21 19.55 21 19V9C21 8.45 20.55 8 20 8H12M10 4V8H20M10 4L4 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Icon>
               <Text>{t('mediaUploader.dropZone.dragging')}</Text>
             </>
           ) : (
             <>
-              <Icon>📷</Icon>
+              <Icon>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+                  <polyline points="21 15 16 10 5 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Icon>
               <Text>{t('mediaUploader.dropZone.default')}</Text>
               <SubText>{t('mediaUploader.dropZone.subtext')}</SubText>
             </>
@@ -147,13 +157,27 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
             <FileItem key={index} className="border">
               <FileInfo>
                 <FileTypeIcon>
-                  {file.type.startsWith('image/') ? '🖼️' : '🎬'}
+                  {file.type.startsWith('image/') ? (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+                      <polyline points="21 15 16 10 5 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  ) : (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <polygon points="10 8 16 12 10 16 10 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  )}
                 </FileTypeIcon>
                 <FileName>{file.name}</FileName>
                 <FileSize>{(file.size / 1024 / 1024).toFixed(2)} MB</FileSize>
               </FileInfo>
               <RemoveButton onClick={() => handleRemoveFile(index)}>
-                ✕
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="m6 6 12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </RemoveButton>
             </FileItem>
           ))}
@@ -169,6 +193,14 @@ const Container = styled.div`
   gap: 16px;
   height: 100%;
   overflow-y: auto;
+  
+  @media (max-width: 768px) {
+    gap: 12px;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 8px;
+  }
 `;
 
 const Title = styled.h2`
@@ -191,6 +223,14 @@ const DropZone = styled.div`
     border-color: #f57900;
     background-color: rgba(245, 121, 0, 0.1);
   }
+  
+  @media (max-width: 768px) {
+    padding: 40px 20px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 30px 15px;
+  }
 `;
 
 const DropZoneContent = styled.div`
@@ -204,6 +244,32 @@ const Icon = styled.div`
   font-size: 64px;
   opacity: 0.7;
   color: #f57900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  svg {
+    width: 64px;
+    height: 64px;
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 48px;
+    
+    svg {
+      width: 48px;
+      height: 48px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 36px;
+    
+    svg {
+      width: 36px;
+      height: 36px;
+    }
+  }
 `;
 
 const Text = styled.p`
