@@ -16,9 +16,26 @@ const SystemViewport: React.FC<SystemViewportProps> = ({ scene, selectedObject, 
       <Header>
         <Title>{t('systemViewport.title')}</Title>
         <Controls>
-          <ControlButton title={t('systemViewport.controls.rotate')}>⟳</ControlButton>
-          <ControlButton title={t('systemViewport.controls.zoom')}>🔍</ControlButton>
-          <ControlButton title={t('systemViewport.controls.pan')}>↔️</ControlButton>
+          <ControlButton title={t('systemViewport.controls.rotate')}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 12a9 9 0 1 1-6.219-8.56" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M21 3v5h-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </ControlButton>
+          <ControlButton title={t('systemViewport.controls.zoom')}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="m21 21-4.3-4.3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M11 8v6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M8 11h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </ControlButton>
+          <ControlButton title={t('systemViewport.controls.pan')}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polyline points="4 12 10 12 10 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <polyline points="20 12 14 12 14 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </ControlButton>
         </Controls>
       </Header>
       

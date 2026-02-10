@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import MediaUploader from '@/ui/components/MediaUploader';
+import FileExplorer from '@/ui/components/FileExplorer';
 import SceneGraph from '@/ui/components/SceneGraph';
 import SystemViewport from '@/ui/components/SystemViewport';
 import StatusBar from '@/ui/components/StatusBar';
@@ -26,6 +27,7 @@ const MainPage: React.FC = () => {
   const [statusMessage, setStatusMessage] = useState(t('statusBar.status.idle'));
   const [progress, setProgress] = useState<number | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [activeTab, setActiveTab] = useState<'uploader' | 'explorer'>('uploader');
 
   const handleMediaUpload = (files: File[]) => {
     setSelectedFiles(files);
@@ -129,12 +131,54 @@ const MainPage: React.FC = () => {
             <Subtitle>{t('header.subtitle')}</Subtitle>
           </HeaderInfo>
         </HeaderLeft>
-        <LanguageSelector />
+        <HeaderRight>
+          <GithubLink href="https://github.com/Oasis-Company/AMAR-Engine" target="_blank" rel="noopener noreferrer">
+            <GithubIcon>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 0C5.37 0 0 5.37 0 12C0 16.42 2.87 20.17 6.84 21.5C7.34 21.58 7.5 21.27 7.5 21C7.5 20.77 7.5 20.14 7.5 19.31C4.73 19.91 4.14 17.97 4.14 17.97C3.68 16.81 2.83 16.5 2.83 16.5C2.16 15.88 2.68 15.9 2.68 15.9C3.23 15.97 3.76 16.93 3.76 16.93C4.43 18.45 5.57 18 6.04 17.76C6.12 17.11 6.33 16.67 6.56 16.42C4.78 16.17 2.92 15.31 2.92 12C2.92 10.41 3.54 9.09 4.41 8.16C4.31 7.9 4.1 7.33 4.34 6.96C4.34 6.96 4.77 6.81 6.53 8.09C7.75 7.95 9.14 7.84 10.57 7.84C11.96 7.84 13.35 7.95 14.57 8.09C16.33 6.81 16.76 6.96 16.76 6.96C17 7.33 16.79 7.9 16.69 8.16C17.56 9.09 18.18 10.41 18.18 12C18.18 15.32 16.31 16.16 14.59 16.41C14.91 16.72 15.16 17.33 15.16 18.26C15.16 19.6 15.16 20.68 15.16 21C15.16 21.27 15.32 21.59 15.84 21.5C19.81 20.16 22.68 16.42 22.68 12C22.68 5.37 17.31 0 10.64 0H12Z" fill="currentColor"/>
+              </svg>
+            </GithubIcon>
+            <GithubText>GitHub</GithubText>
+          </GithubLink>
+          <LanguageSelector />
+        </HeaderRight>
       </Header>
 
       <MainContent>
         <LeftPanel className="acrylic border">
-          <MediaUploader onMediaUpload={handleMediaUpload} />
+          <TabContainer>
+            <TabButton 
+              onClick={() => setActiveTab('uploader')}
+              isActive={activeTab === 'uploader'}
+            >
+              <TabIcon>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+                  <polyline points="21 15 16 10 5 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </TabIcon>
+              Media Uploader
+            </TabButton>
+            <TabButton 
+              onClick={() => setActiveTab('explorer')}
+              isActive={activeTab === 'explorer'}
+            >
+              <TabIcon>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 4H4C3.45 4 3 4.45 3 5V19C3 19.55 3.45 20 4 20H20C20.55 20 21 19.55 21 19V9C21 8.45 20.55 8 20 8H12M10 4V8H20M10 4L4 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </TabIcon>
+              File Explorer
+            </TabButton>
+          </TabContainer>
+          <TabContent>
+            {activeTab === 'uploader' ? (
+              <MediaUploader onMediaUpload={handleMediaUpload} />
+            ) : (
+              <FileExplorer />
+            )}
+          </TabContent>
         </LeftPanel>
 
         <MiddlePanel>
@@ -215,6 +259,37 @@ const Subtitle = styled.h2`
   margin: 0;
 `;
 
+const HeaderRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`;
+
+const GithubLink = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #e0e0e0;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #007acc;
+  }
+`;
+
+const GithubIcon = styled.span`
+  font-size: 16px;
+`;
+
+const GithubText = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+`;
+
 const MainContent = styled.main`
   display: flex;
   flex: 1;
@@ -228,6 +303,8 @@ const LeftPanel = styled.div`
   overflow: hidden;
   border-radius: 8px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const MiddlePanel = styled.div`
@@ -242,6 +319,48 @@ const RightPanel = styled.div`
   overflow: hidden;
   border-radius: 8px;
   padding: 20px;
+`;
+
+const TabContainer = styled.div`
+  display: flex;
+  gap: 2px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+`;
+
+const TabButton = styled.button<{ isActive: boolean }>`
+  flex: 1;
+  padding: 10px 16px;
+  background-color: ${props => props.isActive ? 'rgba(0, 122, 204, 0.2)' : 'rgba(255, 255, 255, 0.05)'};
+  border: ${props => props.isActive ? '1px solid rgba(0, 122, 204, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)'};
+  border-bottom: ${props => props.isActive ? '1px solid rgba(0, 122, 204, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)'};
+  border-radius: 4px 4px 0 0;
+  color: ${props => props.isActive ? '#007acc' : '#e0e0e0'};
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    background-color: ${props => props.isActive ? 'rgba(0, 122, 204, 0.3)' : 'rgba(255, 255, 255, 0.08)'};
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const TabIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const TabContent = styled.div`
+  flex: 1;
+  overflow: hidden;
 `;
 
 export default MainPage;
