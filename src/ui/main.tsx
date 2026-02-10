@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import MainPage from './pages/MainPage';
 import { createGlobalStyle } from 'styled-components';
-import './i18n'; // 导入i18n配置
+import '../i18n'; // 导入i18n配置
 
 const GlobalStyle = createGlobalStyle`
   * {

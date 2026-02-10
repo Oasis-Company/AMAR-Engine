@@ -134,9 +134,15 @@ const ObjectPlaceholder = styled.div<{ isSelected: boolean }>`
   margin: 5px;
   cursor: pointer;
   transition: all 0.2s ease;
+  animation: fadeIn 0.3s ease-in-out, slideIn 0.3s ease-in-out;
 
   &:hover {
     background-color: ${props => props.isSelected ? 'rgba(0, 122, 204, 0.3)' : 'rgba(255, 255, 255, 0.1)'};
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    animation: pulse 0.3s ease-in-out;
   }
 `;
 

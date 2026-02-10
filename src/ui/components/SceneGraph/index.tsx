@@ -307,6 +307,7 @@ const SelectedObjectDetails = styled.div`
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeIn 0.3s ease-in-out, slideIn 0.3s ease-in-out;
 `;
 
 const AEIDTag = styled.div`

@@ -149,6 +149,7 @@ const ProgressBar = styled.div<{ fill: number }>`
   background-color: #007acc;
   border-radius: 3px;
   transition: width 0.3s ease-in-out;
+  animation: pulse 0.5s ease-in-out;
 `;
 
 const ProgressText = styled.span`
