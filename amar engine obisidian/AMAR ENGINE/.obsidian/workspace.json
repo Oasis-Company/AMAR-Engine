@@ -46,7 +46,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -119,6 +119,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Gemini 和 AMAR ENGINE的交互方式.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -128,7 +129,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "反向链接"
+              "title": "Gemini 和 AMAR ENGINE的交互方式 的反向链接列表"
             }
           },
           {
@@ -137,11 +138,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Gemini 和 AMAR ENGINE的交互方式.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "出链"
+              "title": "Gemini 和 AMAR ENGINE的交互方式 的出链列表"
             }
           },
           {
@@ -179,12 +181,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "Gemini 和 AMAR ENGINE的交互方式.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "大纲"
+              "title": "Gemini 和 AMAR ENGINE的交互方式 的大纲"
             }
           }
         ]
@@ -205,7 +208,7 @@
       "bases:新建数据库": false
     }
   },
-  "active": "7ab23e5376ba5728",
+  "active": "2dd1549c8f49a6f6",
   "lastOpenFiles": [
     "Gemini 和 AMAR ENGINE的交互方式.md",
     "创建链接.md",
