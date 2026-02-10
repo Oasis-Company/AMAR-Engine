@@ -795,6 +795,13 @@ const FileExplorer: React.FC = () => {
           </FileIconContainer>
           <FileNameContainer>
             <FileName>{item.name}</FileName>
+            {item.tags && item.tags.length > 0 && (
+              <FileTags>
+                {item.tags.map((tag, index) => (
+                  <Tag key={index}>{tag}</Tag>
+                ))}
+              </FileTags>
+            )}
             {item.size && (
               <FileSize>{formatFileSize(item.size)}</FileSize>
             )}
@@ -817,9 +824,18 @@ const FileExplorer: React.FC = () => {
         onDragStart={(e) => handleDragStart(e, item)}
       >
         <FileIcon>{getFileIcon(item.type, item.name)}</FileIcon>
-        <FileName onClick={() => item.type === 'directory' && browseFolder(item.path)}>
-          {item.name}
-        </FileName>
+        <div style={{ flex: 1 }}>
+          <FileName onClick={() => item.type === 'directory' && browseFolder(item.path)}>
+            {item.name}
+          </FileName>
+          {item.tags && item.tags.length > 0 && (
+            <FileTags>
+              {item.tags.map((tag, index) => (
+                <Tag key={index}>{tag}</Tag>
+              ))}
+            </FileTags>
+          )}
+        </div>
         {item.size && (
           <FileSizeColumn>{formatFileSize(item.size)}</FileSizeColumn>
         )}
@@ -839,6 +855,12 @@ const FileExplorer: React.FC = () => {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M21 12C21 16.97 16.97 21 12 21C7.03 21 3 16.97 3 12C3 7.03 7.03 3 12 3C16.97 3 21 7.03 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M12 8V12L15 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </ActionButton>
+          <ActionButton onClick={() => openEditTagsDialog(item)} title="Edit Tags">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <line x1="7" y1="7" x2="7.01" y2="7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </ActionButton>
           <ActionButton onClick={() => openRenameDialog(item)} title="Rename">
@@ -949,6 +971,37 @@ const FileExplorer: React.FC = () => {
           </Breadcrumb>
         </PathBar>
       )}
+      
+      <TagsBar>
+        <TagsTitle>Tags:</TagsTitle>
+        <TagsList>
+          {tags.map((tag) => (
+            <TagItem 
+              key={tag} 
+              isSelected={selectedTag === tag}
+              onClick={() => toggleTagFilter(tag)}
+            >
+              {tag}
+            </TagItem>
+          ))}
+          <TagItem onClick={openAddTagDialog} isAddButton>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Add
+          </TagItem>
+        </TagsList>
+        {selectedTag && (
+          <ClearTagButton onClick={() => setSelectedTag(null)}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="m6 6 12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Clear Filter
+          </ClearTagButton>
+        )}
+      </TagsBar>
       
       <Toolbar>
         <SearchContainer>
@@ -1239,6 +1292,20 @@ const FileExplorer: React.FC = () => {
           {contextMenuTarget && (
             <ContextMenuItem onClick={() => {
               if (contextMenuTarget) {
+                openEditTagsDialog(contextMenuTarget);
+              }
+              closeContextMenu();
+            }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <line x1="7" y1="7" x2="7.01" y2="7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Edit Tags
+            </ContextMenuItem>
+          )}
+          {contextMenuTarget && (
+            <ContextMenuItem onClick={() => {
+              if (contextMenuTarget) {
                 openRenameDialog(contextMenuTarget);
               }
               closeContextMenu();
@@ -1351,6 +1418,82 @@ const FileExplorer: React.FC = () => {
             <ProgressPercentage>{progress}%</ProgressPercentage>
           </ProgressContent>
         </ProgressBar>
+      )}
+      
+      {showAddTagDialog && (
+        <NewFolderDialog>
+          <DialogContent>
+            <DialogTitle>Add New Tag</DialogTitle>
+            <form onSubmit={(e) => { e.preventDefault(); handleAddTag(); }}>
+              <InputField>
+                <label htmlFor="newTagName">Tag Name:</label>
+                <input
+                  id="newTagName"
+                  type="text"
+                  value={newTagName}
+                  onChange={(e) => setNewTagName(e.target.value)}
+                  placeholder="Enter tag name"
+                  autoFocus
+                />
+              </InputField>
+              <DialogActions>
+                <Button type="button" onClick={() => {
+                  setShowAddTagDialog(false);
+                  setNewTagName('');
+                }}>
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={!newTagName.trim() || tags.includes(newTagName.trim())}>
+                  Add
+                </Button>
+              </DialogActions>
+            </form>
+          </DialogContent>
+        </NewFolderDialog>
+      )}
+      
+      {showEditTagsDialog && editTagsItem && (
+        <NewFolderDialog>
+          <DialogContent>
+            <DialogTitle>Edit Tags for {editTagsItem.name}</DialogTitle>
+            <form onSubmit={(e) => { e.preventDefault(); handleEditTags(); }}>
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#e0e0e0' }}>Select Tags:</label>
+                <TagList>
+                  {tags.map((tag) => (
+                    <TagCheckbox key={tag}>
+                      <input
+                        type="checkbox"
+                        id={`tag-${tag}`}
+                        checked={selectedTags.includes(tag)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedTags(prev => [...prev, tag]);
+                          } else {
+                            setSelectedTags(prev => prev.filter(t => t !== tag));
+                          }
+                        }}
+                      />
+                      <label htmlFor={`tag-${tag}`}>{tag}</label>
+                    </TagCheckbox>
+                  ))}
+                </TagList>
+              </div>
+              <DialogActions>
+                <Button type="button" onClick={() => {
+                  setShowEditTagsDialog(false);
+                  setEditTagsItem(null);
+                  setSelectedTags([]);
+                }}>
+                  Cancel
+                </Button>
+                <Button type="submit">
+                  Save
+                </Button>
+              </DialogActions>
+            </form>
+          </DialogContent>
+        </NewFolderDialog>
       )}
     </Container>
   );
@@ -2049,6 +2192,110 @@ const ProgressPercentage = styled.div`
   font-size: 12px;
   color: #888888;
   text-align: right;
+`;
+
+const TagsBar = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background-color: #2d2d2d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px;
+  }
+`;
+
+const TagsTitle = styled.span`
+  font-size: 12px;
+  font-weight: 600;
+  color: #888888;
+  white-space: nowrap;
+`;
+
+const TagsList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1;
+`;
+
+const TagItem = styled.div<{ isSelected?: boolean; isAddButton?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background-color: ${props => props.isSelected ? 'rgba(245, 121, 0, 0.3)' : props.isAddButton ? '#333333' : '#2d2d2d'};
+  border: 1px solid ${props => props.isSelected ? 'rgba(245, 121, 0, 0.5)' : 'rgba(255, 255, 255, 0.1)'};
+  color: ${props => props.isSelected ? '#f57900' : '#e0e0e0'};
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  &:hover {
+    background-color: ${props => props.isSelected ? 'rgba(245, 121, 0, 0.4)' : '#333333'};
+    border-color: ${props => props.isSelected ? 'rgba(245, 121, 0, 0.5)' : 'rgba(245, 121, 0, 0.5)'};
+  }
+`;
+
+const ClearTagButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #333333;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  &:hover {
+    background-color: #3d3d3d;
+    border-color: rgba(245, 121, 0, 0.5);
+  }
+`;
+
+const FileTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 4px 0;
+`;
+
+const Tag = styled.span`
+  padding: 2px 6px;
+  border-radius: 8px;
+  background-color: rgba(245, 121, 0, 0.2);
+  border: 1px solid rgba(245, 121, 0, 0.3);
+  color: #f57900;
+  font-size: 10px;
+`;
+
+const TagList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+`;
+
+const TagCheckbox = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #e0e0e0;
+  cursor: pointer;
+  
+  input[type="checkbox"] {
+    accent-color: #f57900;
+  }
 `;
 
 export default FileExplorer;
