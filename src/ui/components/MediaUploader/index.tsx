@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 interface MediaUploaderProps {
   onMediaUpload: (files: File[]) => void;
 }
 
 const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
+  const { t } = useTranslation();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [perceptionProgress, setPerceptionProgress] = useState({
+    spatial: 0,
+    object: 0,
+    semantic: 0
+  });
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
@@ -19,6 +27,12 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
     maxSize: 50 * 1024 * 1024, // 50MB
     onDrop: (acceptedFiles) => {
       setSelectedFiles(acceptedFiles);
+      setIsProcessing(true);
+      setPerceptionProgress({ spatial: 0, object: 0, semantic: 0 });
+      
+      // 模拟感知进度
+      simulatePerceptionProgress();
+      
       onMediaUpload(acceptedFiles);
     }
   });
@@ -27,8 +41,37 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
     const files = Array.from(event.target.files || []);
     if (files.length > 0) {
       setSelectedFiles(files);
+      setIsProcessing(true);
+      setPerceptionProgress({ spatial: 0, object: 0, semantic: 0 });
+      
+      // 模拟感知进度
+      simulatePerceptionProgress();
+      
       onMediaUpload(files);
     }
+  };
+
+  const simulatePerceptionProgress = () => {
+    let spatial = 0;
+    let object = 0;
+    let semantic = 0;
+
+    const interval = setInterval(() => {
+      // 模拟不同阶段的进度
+      if (spatial < 100) {
+        spatial += 5;
+      } else if (object < 100) {
+        object += 5;
+      } else if (semantic < 100) {
+        semantic += 5;
+      } else {
+        clearInterval(interval);
+        setIsProcessing(false);
+        return;
+      }
+
+      setPerceptionProgress({ spatial, object, semantic });
+    }, 200);
   };
 
   const handleRemoveFile = (index: number) => {
@@ -39,10 +82,10 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
 
   return (
     <Container>
-      <Title>Media Uploader</Title>
-      <DropZone
+      <Title>{t('mediaUploader.title')}</Title>
+      <DropZone className="border"
         {...getRootProps()}
-        style={{ borderColor: isDragActive ? '#007acc' : '#444444', backgroundColor: isDragActive ? '#007acc10' : '#252526' }}
+        style={{ borderColor: isDragActive ? '#007acc' : 'rgba(255, 255, 255, 0.1)', backgroundColor: isDragActive ? 'rgba(0, 122, 204, 0.1)' : 'rgba(255, 255, 255, 0.05)' }}
         onClick={() => {
           const input = document.getElementById('file-input') as HTMLInputElement;
           input?.click();
@@ -58,23 +101,50 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
           {isDragActive ? (
             <>
               <Icon>📁</Icon>
-              <Text>Drop your files here...</Text>
+              <Text>{t('mediaUploader.dropZone.dragging')}</Text>
             </>
           ) : (
             <>
               <Icon>📷</Icon>
-              <Text>Drag & drop photos or videos here, or click to select files</Text>
-              <SubText>Supports JPG, PNG, GIF, MP4, MOV (max 50MB per file)</SubText>
+              <Text>{t('mediaUploader.dropZone.default')}</Text>
+              <SubText>{t('mediaUploader.dropZone.subtext')}</SubText>
             </>
           )}
         </DropZoneContent>
       </DropZone>
 
+      {isProcessing && (
+        <PerceptionProgress>
+          <ProgressTitle>Perception Progress</ProgressTitle>
+          <ProgressItem>
+            <ProgressLabel>{t('statusBar.progress.spatial')}</ProgressLabel>
+            <ProgressBarContainer>
+              <ProgressBar fill={perceptionProgress.spatial} />
+              <ProgressValue>{perceptionProgress.spatial}%</ProgressValue>
+            </ProgressBarContainer>
+          </ProgressItem>
+          <ProgressItem>
+            <ProgressLabel>{t('statusBar.progress.object')}</ProgressLabel>
+            <ProgressBarContainer>
+              <ProgressBar fill={perceptionProgress.object} />
+              <ProgressValue>{perceptionProgress.object}%</ProgressValue>
+            </ProgressBarContainer>
+          </ProgressItem>
+          <ProgressItem>
+            <ProgressLabel>{t('statusBar.progress.semantic')}</ProgressLabel>
+            <ProgressBarContainer>
+              <ProgressBar fill={perceptionProgress.semantic} />
+              <ProgressValue>{perceptionProgress.semantic}%</ProgressValue>
+            </ProgressBarContainer>
+          </ProgressItem>
+        </PerceptionProgress>
+      )}
+
       {selectedFiles.length > 0 && (
         <FilesList>
-          <FilesListTitle>Selected Files ({selectedFiles.length})</FilesListTitle>
+          <FilesListTitle>{t('mediaUploader.filesList', { count: selectedFiles.length })}</FilesListTitle>
           {selectedFiles.map((file, index) => (
-            <FileItem key={index}>
+            <FileItem key={index} className="border">
               <FileInfo>
                 <FileTypeIcon>
                   {file.type.startsWith('image/') ? '🖼️' : '🎬'}
@@ -97,31 +167,29 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px;
-  background-color: #1e1e1e;
-  border-radius: 8px;
   height: 100%;
+  overflow-y: auto;
 `;
 
 const Title = styled.h2`
   font-size: 18px;
   font-weight: 600;
-  color: #ffffff;
+  color: #e0e0e0;
   margin: 0;
 `;
 
 const DropZone = styled.div`
-  border: 2px dashed #444444;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  padding: 40px;
+  padding: 60px 40px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  background-color: #252526;
+  background-color: rgba(255, 255, 255, 0.05);
 
   &:hover {
     border-color: #007acc;
-    background-color: #007acc08;
+    background-color: rgba(0, 122, 204, 0.1);
   }
 `;
 
@@ -133,12 +201,13 @@ const DropZoneContent = styled.div`
 `;
 
 const Icon = styled.div`
-  font-size: 48px;
+  font-size: 64px;
+  opacity: 0.7;
 `;
 
 const Text = styled.p`
   font-size: 16px;
-  color: #cccccc;
+  color: #e0e0e0;
   margin: 0;
 `;
 
@@ -146,6 +215,8 @@ const SubText = styled.p`
   font-size: 12px;
   color: #888888;
   margin: 0;
+  max-width: 80%;
+  text-align: center;
 `;
 
 const FilesList = styled.div`
@@ -157,7 +228,7 @@ const FilesList = styled.div`
 const FilesListTitle = styled.h3`
   font-size: 14px;
   font-weight: 600;
-  color: #ffffff;
+  color: #e0e0e0;
   margin: 0;
 `;
 
@@ -166,9 +237,13 @@ const FileItem = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 12px;
-  background-color: #252526;
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 4px;
-  border: 1px solid #3e3e42;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
 `;
 
 const FileInfo = styled.div`
@@ -183,7 +258,7 @@ const FileTypeIcon = styled.div`
 
 const FileName = styled.span`
   font-size: 14px;
-  color: #cccccc;
+  color: #e0e0e0;
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -196,18 +271,78 @@ const FileSize = styled.span`
 `;
 
 const RemoveButton = styled.button`
-  background-color: #f48771;
-  color: white;
-  border: none;
+  background-color: rgba(244, 135, 113, 0.2);
+  color: #f48771;
+  border: 1px solid rgba(244, 135, 113, 0.3);
   border-radius: 4px;
   padding: 4px 8px;
   font-size: 12px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: #e74c3c;
+    background-color: rgba(244, 135, 113, 0.3);
+    color: #ffffff;
   }
+`;
+
+const PerceptionProgress = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+`;
+
+const ProgressTitle = styled.h3`
+  font-size: 14px;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin: 0;
+`;
+
+const ProgressItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+const ProgressLabel = styled.span`
+  font-size: 12px;
+  color: #888888;
+`;
+
+const ProgressBarContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const ProgressBar = styled.div<{ fill: number }>`
+  flex: 1;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    display: block;
+    width: ${props => props.fill}%;
+    height: 100%;
+    background-color: #007acc;
+    border-radius: 3px;
+    transition: width 0.3s ease-in-out;
+  }
+`;
+
+const ProgressValue = styled.span`
+  font-size: 12px;
+  color: #888888;
+  min-width: 40px;
+  text-align: right;
 `;
 
 export default MediaUploader;

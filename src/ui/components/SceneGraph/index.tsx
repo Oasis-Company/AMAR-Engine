@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 interface SceneObject {
   id: string;
@@ -14,10 +15,13 @@ interface SceneObject {
 interface SceneGraphProps {
   scene: SceneObject | null;
   onObjectSelect?: (object: SceneObject) => void;
+  selectedObject?: SceneObject | null;
 }
 
-const SceneGraph: React.FC<SceneGraphProps> = ({ scene, onObjectSelect }) => {
+const SceneGraph: React.FC<SceneGraphProps> = ({ scene, onObjectSelect, selectedObject }) => {
+  const { t } = useTranslation();
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set(['root']));
+  const [objectProperties, setObjectProperties] = useState<Record<string, any>>({});
 
   const toggleNode = (nodeId: string) => {
     setExpandedNodes(prev => {
@@ -35,15 +39,26 @@ const SceneGraph: React.FC<SceneGraphProps> = ({ scene, onObjectSelect }) => {
     return expandedNodes.has(nodeId);
   };
 
+  const handlePropertyChange = (objectId: string, property: string, value: any) => {
+    setObjectProperties(prev => ({
+      ...prev,
+      [objectId]: {
+        ...prev[objectId],
+        [property]: value
+      }
+    }));
+  };
+
   const renderNode = (node: SceneObject, level: number = 0) => {
     const hasChildren = node.children && node.children.length > 0;
     const isExpanded = isNodeExpanded(node.id);
+    const isSelected = selectedObject?.id === node.id;
 
     return (
       <NodeContainer key={node.id} level={level}>
         <NodeHeader
           onClick={() => onObjectSelect?.(node)}
-          isSelected={false} // 这里可以添加选中状态逻辑
+          isSelected={isSelected}
         >
           {hasChildren && (
             <ExpandButton onClick={(e) => {
@@ -65,33 +80,56 @@ const SceneGraph: React.FC<SceneGraphProps> = ({ scene, onObjectSelect }) => {
           </NodeChildren>
         )}
 
-        {node.aeid && (
-          <NodeProperties>
-            <Property>
-              <PropertyKey>AEID:</PropertyKey>
-              <PropertyValue>{node.aeid}</PropertyValue>
-            </Property>
-          </NodeProperties>
-        )}
+        {isSelected && (
+          <SelectedObjectDetails>
+            {node.aeid && (
+              <AEIDTag>
+                <AEIDLabel>{t('sceneGraph.properties.aeid')}</AEIDLabel>
+                <AEIDValue>{node.aeid}</AEIDValue>
+              </AEIDTag>
+            )}
 
-        {node.metaclass && (
-          <NodeProperties>
-            <Property>
-              <PropertyKey>Metaclass:</PropertyKey>
-              <PropertyValue>{node.metaclass}</PropertyValue>
-            </Property>
-          </NodeProperties>
-        )}
+            {node.metaclass && (
+              <MetaclassSection>
+                <SectionTitle>Metaclasses</SectionTitle>
+                <MetaclassTags>
+                  <MetaclassTag>{node.metaclass}</MetaclassTag>
+                  {/* 这里可以添加更多元类标签 */}
+                  {node.type === 'cup' && (
+                    <>
+                      <MetaclassTag>Container</MetaclassTag>
+                      <MetaclassTag>Grabbable</MetaclassTag>
+                    </>
+                  )}
+                  {node.type === 'table' && (
+                    <>
+                      <MetaclassTag>Furniture</MetaclassTag>
+                      <MetaclassTag>Static</MetaclassTag>
+                    </>
+                  )}
+                </MetaclassTags>
+              </MetaclassSection>
+            )}
 
-        {node.properties && Object.entries(node.properties).length > 0 && (
-          <NodeProperties>
-            {Object.entries(node.properties).map(([key, value]) => (
-              <Property key={key}>
-                <PropertyKey>{key}:</PropertyKey>
-                <PropertyValue>{String(value)}</PropertyValue>
-              </Property>
-            ))}
-          </NodeProperties>
+            {node.properties && Object.entries(node.properties).length > 0 && (
+              <PropertiesSection>
+                <SectionTitle>{t('sceneGraph.properties.properties')}</SectionTitle>
+                {Object.entries(node.properties).map(([key, value]) => (
+                  <PropertyControl key={key}>
+                    <PropertyLabel>{key}</PropertyLabel>
+                    <PropertySlider
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={typeof value === 'number' ? value : 50}
+                      onChange={(e) => handlePropertyChange(node.id, key, parseInt(e.target.value))}
+                    />
+                    <PropertyValueDisplay>{typeof value === 'number' ? value : String(value)}</PropertyValueDisplay>
+                  </PropertyControl>
+                ))}
+              </PropertiesSection>
+            )}
+          </SelectedObjectDetails>
         )}
       </NodeContainer>
     );
@@ -118,7 +156,7 @@ const SceneGraph: React.FC<SceneGraphProps> = ({ scene, onObjectSelect }) => {
 
   return (
     <Container>
-      <Title>Scene Graph</Title>
+      <Title>{t('sceneGraph.title')}</Title>
       {scene ? (
         <TreeContainer>
           {renderNode(scene)}
@@ -126,8 +164,8 @@ const SceneGraph: React.FC<SceneGraphProps> = ({ scene, onObjectSelect }) => {
       ) : (
         <EmptyState>
           <Icon>🌋</Icon>
-          <Text>No scene data available</Text>
-          <SubText>Upload media to generate scene graph</SubText>
+          <Text>{t('sceneGraph.emptyState')}</Text>
+          <SubText>{t('sceneGraph.emptySubtext')}</SubText>
         </EmptyState>
       )}
     </Container>
@@ -138,9 +176,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px;
-  background-color: #1e1e1e;
-  border-radius: 8px;
   height: 100%;
   overflow: hidden;
 `;
@@ -148,7 +183,7 @@ const Container = styled.div`
 const Title = styled.h2`
   font-size: 18px;
   font-weight: 600;
-  color: #ffffff;
+  color: #e0e0e0;
   margin: 0;
 `;
 
@@ -159,24 +194,6 @@ const TreeContainer = styled.div`
   flex-direction: column;
   gap: 4px;
   padding-right: 8px;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #252526;
-    border-radius: 3px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #424242;
-    border-radius: 3px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: #4e4e4e;
-  }
 `;
 
 const EmptyState = styled.div`
@@ -192,17 +209,18 @@ const EmptyState = styled.div`
 
 const Icon = styled.div`
   font-size: 48px;
+  opacity: 0.5;
 `;
 
 const Text = styled.p`
   font-size: 16px;
-  color: #cccccc;
+  color: #888888;
   margin: 0;
 `;
 
 const SubText = styled.p`
   font-size: 12px;
-  color: #888888;
+  color: #666666;
   margin: 0;
 `;
 
@@ -217,20 +235,21 @@ const NodeHeader = styled.div<{ isSelected: boolean }>`
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background-color: ${props => props.isSelected ? '#0e639c' : '#252526'};
+  background-color: ${props => props.isSelected ? 'rgba(0, 122, 204, 0.2)' : 'rgba(255, 255, 255, 0.05)'};
+  border: ${props => props.isSelected ? '1px solid rgba(0, 122, 204, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)'};
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: ${props => props.isSelected ? '#1177bb' : '#2d2d30'};
+    background-color: ${props => props.isSelected ? 'rgba(0, 122, 204, 0.3)' : 'rgba(255, 255, 255, 0.08)'};
   }
 `;
 
 const ExpandButton = styled.button`
   background: none;
   border: none;
-  color: #cccccc;
+  color: #888888;
   cursor: pointer;
   font-size: 10px;
   padding: 0;
@@ -241,7 +260,7 @@ const ExpandButton = styled.button`
   justify-content: center;
 
   &:hover {
-    color: #ffffff;
+    color: #e0e0e0;
   }
 `;
 
@@ -252,20 +271,22 @@ const Spacer = styled.div`
 const NodeIcon = styled.div`
   font-size: 16px;
   width: 20px;
+  opacity: 0.8;
 `;
 
 const NodeName = styled.span`
   font-size: 14px;
-  color: #ffffff;
+  color: #e0e0e0;
   flex: 1;
 `;
 
 const NodeType = styled.span`
   font-size: 12px;
   color: #888888;
-  background-color: #3e3e42;
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 2px 6px;
   border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const NodeChildren = styled.div`
@@ -275,35 +296,119 @@ const NodeChildren = styled.div`
   margin-top: 4px;
 `;
 
-const NodeProperties = styled.div`
+const SelectedObjectDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 16px;
   margin-left: 36px;
-  margin-top: 4px;
-  margin-bottom: 4px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
-const Property = styled.div`
+const AEIDTag = styled.div`
   display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 2px 8px;
-  background-color: #2d2d30;
-  border-radius: 3px;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  background-color: rgba(0, 122, 204, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(0, 122, 204, 0.2);
 `;
 
-const PropertyKey = styled.span`
+const AEIDLabel = styled.span`
   font-size: 12px;
   color: #888888;
-  min-width: 80px;
 `;
 
-const PropertyValue = styled.span`
-  font-size: 12px;
-  color: #cccccc;
+const AEIDValue = styled.span`
+  font-size: 13px;
+  color: #007acc;
   font-family: 'Courier New', Courier, monospace;
   word-break: break-all;
+`;
+
+const MetaclassSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const PropertiesSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const SectionTitle = styled.h4`
+  font-size: 13px;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin: 0;
+`;
+
+const MetaclassTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+`;
+
+const MetaclassTag = styled.div`
+  background-color: rgba(102, 187, 106, 0.1);
+  color: #66bb6a;
+  border: 1px solid rgba(102, 187, 106, 0.2);
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 12px;
+`;
+
+const PropertyControl = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+const PropertyLabel = styled.span`
+  font-size: 12px;
+  color: #888888;
+`;
+
+const PropertySlider = styled.input`
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  outline: none;
+  -webkit-appearance: none;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background-color: #007acc;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  &::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background-color: #007acc;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+`;
+
+const PropertyValueDisplay = styled.span`
+  font-size: 12px;
+  color: #e0e0e0;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: right;
 `;
 
 export default SceneGraph;

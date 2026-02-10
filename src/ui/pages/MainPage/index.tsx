@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import MediaUploader from '@/ui/components/MediaUploader';
 import SceneGraph from '@/ui/components/SceneGraph';
+import SystemViewport from '@/ui/components/SystemViewport';
 import StatusBar from '@/ui/components/StatusBar';
+import LanguageSelector from '@/ui/components/LanguageSelector';
 
 interface SceneObject {
   id: string;
@@ -15,10 +18,12 @@ interface SceneObject {
 }
 
 const MainPage: React.FC = () => {
+  const { t } = useTranslation();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [scene, setScene] = useState<SceneObject | null>(null);
+  const [selectedObject, setSelectedObject] = useState<SceneObject | null>(null);
   const [status, setStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
-  const [statusMessage, setStatusMessage] = useState('Ready');
+  const [statusMessage, setStatusMessage] = useState(t('statusBar.status.idle'));
   const [progress, setProgress] = useState<number | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -35,9 +40,10 @@ const MainPage: React.FC = () => {
 
   const processMedia = async (files: File[]) => {
     setStatus('processing');
-    setStatusMessage('Processing media...');
+    setStatusMessage(t('statusBar.status.processing'));
     setProgress(0);
     setError(undefined);
+    setSelectedObject(null);
 
     // 模拟处理过程
     try {
@@ -98,7 +104,7 @@ const MainPage: React.FC = () => {
 
       setScene(mockScene);
       setStatus('success');
-      setStatusMessage(`Successfully processed ${files.length} file(s)`);
+      setStatusMessage(t('statusBar.status.success', { count: files.length }));
       setProgress(undefined);
     } catch (err) {
       setStatus('error');
@@ -110,24 +116,37 @@ const MainPage: React.FC = () => {
 
   const handleObjectSelect = (object: SceneObject) => {
     console.log('Selected object:', object);
-    // 这里可以添加选中物体的详细信息显示逻辑
+    setSelectedObject(object);
   };
 
   return (
     <Container>
-      <Header>
-        <Logo>AME</Logo>
-        <Title>AMAR Engine</Title>
-        <Subtitle>Next-generation 3D virtual world generator</Subtitle>
+      <Header className="acrylic border">
+        <HeaderLeft>
+          <Logo>{t('header.logo')}</Logo>
+          <HeaderInfo>
+            <Title>{t('header.title')}</Title>
+            <Subtitle>{t('header.subtitle')}</Subtitle>
+          </HeaderInfo>
+        </HeaderLeft>
+        <LanguageSelector />
       </Header>
 
       <MainContent>
-        <LeftPanel>
+        <LeftPanel className="acrylic border">
           <MediaUploader onMediaUpload={handleMediaUpload} />
         </LeftPanel>
 
-        <RightPanel>
-          <SceneGraph scene={scene} onObjectSelect={handleObjectSelect} />
+        <MiddlePanel>
+          <SystemViewport 
+            scene={scene} 
+            selectedObject={selectedObject} 
+            onObjectSelect={handleObjectSelect} 
+          />
+        </MiddlePanel>
+
+        <RightPanel className="acrylic border">
+          <SceneGraph scene={scene} onObjectSelect={handleObjectSelect} selectedObject={selectedObject} />
         </RightPanel>
       </MainContent>
 
@@ -136,6 +155,7 @@ const MainPage: React.FC = () => {
         message={statusMessage}
         progress={progress}
         error={error}
+        scene={scene}
       />
     </Container>
   );
@@ -145,32 +165,46 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #1e1e1e;
-  color: #ffffff;
+  background-color: #121212;
+  color: #e0e0e0;
 `;
 
 const Header = styled.header`
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 16px;
   padding: 16px 24px;
-  background-color: #1e1e1e;
-  border-bottom: 1px solid #3e3e42;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0 0 8px 8px;
+`;
+
+const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
 `;
 
 const Logo = styled.div`
   font-size: 24px;
   font-weight: bold;
   color: #007acc;
-  background-color: #252526;
+  background: rgba(0, 122, 204, 0.1);
   padding: 8px 12px;
   border-radius: 4px;
+  border: 1px solid rgba(0, 122, 204, 0.2);
+`;
+
+const HeaderInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 `;
 
 const Title = styled.h1`
   font-size: 18px;
   font-weight: 600;
-  color: #ffffff;
+  color: #e0e0e0;
   margin: 0;
 `;
 
@@ -190,16 +224,24 @@ const MainContent = styled.main`
 `;
 
 const LeftPanel = styled.div`
-  flex: 1;
-  min-width: 300px;
-  max-width: 500px;
+  flex: 0 0 350px;
   overflow: hidden;
+  border-radius: 8px;
+  padding: 20px;
+`;
+
+const MiddlePanel = styled.div`
+  flex: 1;
+  min-width: 400px;
+  overflow: hidden;
+  border-radius: 8px;
 `;
 
 const RightPanel = styled.div`
-  flex: 1;
-  min-width: 300px;
+  flex: 0 0 400px;
   overflow: hidden;
+  border-radius: 8px;
+  padding: 20px;
 `;
 
 export default MainPage;

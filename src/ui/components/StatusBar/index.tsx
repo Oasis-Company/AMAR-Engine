@@ -1,16 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 type StatusType = 'idle' | 'processing' | 'success' | 'error';
+
+interface StatusObject {
+  id: string;
+  name: string;
+  type: string;
+  aeid?: string;
+  metaclass?: string;
+  properties?: Record<string, any>;
+  children?: StatusObject[];
+}
 
 interface StatusBarProps {
   status: StatusType;
   message: string;
   progress?: number; // 0-100
   error?: string;
+  scene?: StatusObject | null;
 }
 
-const StatusBar: React.FC<StatusBarProps> = ({ status, message, progress, error }) => {
+const StatusBar: React.FC<StatusBarProps> = ({ status, message, progress, error, scene }) => {
+  const { t } = useTranslation();
+
   const getStatusIcon = (): string => {
     switch (status) {
       case 'idle':
@@ -29,20 +43,32 @@ const StatusBar: React.FC<StatusBarProps> = ({ status, message, progress, error 
   const getStatusColor = (): string => {
     switch (status) {
       case 'idle':
-        return '#cccccc';
+        return '#e0e0e0';
       case 'processing':
         return '#007acc';
       case 'success':
-        return '#6a9955';
+        return '#66bb6a';
       case 'error':
         return '#f48771';
       default:
-        return '#cccccc';
+        return '#e0e0e0';
     }
   };
 
+  // 计算场景中的物体数量
+  const getObjectCount = (): number => {
+    const countObjects = (obj: StatusObject): number => {
+      let count = 1;
+      if (obj.children && obj.children.length > 0) {
+        count += obj.children.reduce((acc, child) => acc + countObjects(child), 0);
+      }
+      return count;
+    };
+    return scene ? countObjects(scene) - 1 : 0; // 减去场景本身
+  };
+
   return (
-    <Container>
+    <Container className="acrylic border">
       <StatusSection>
         <StatusIcon style={{ color: getStatusColor() }}>
           {getStatusIcon()}
@@ -52,7 +78,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ status, message, progress, error 
 
       {progress !== undefined && (
         <ProgressSection>
-          <ProgressBarContainer>
+          <ProgressBarContainer className="border">
             <ProgressBar fill={progress} />
           </ProgressBarContainer>
           <ProgressText>{progress}%</ProgressText>
@@ -60,7 +86,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ status, message, progress, error 
       )}
 
       {error && status === 'error' && (
-        <ErrorSection>
+        <ErrorSection className="border">
           <ErrorIcon>⚠️</ErrorIcon>
           <ErrorMessage>{error}</ErrorMessage>
         </ErrorSection>
@@ -68,6 +94,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ status, message, progress, error 
 
       <SystemSection>
         <SystemInfo>AME v1.0.0</SystemInfo>
+        <SystemInfo>Objects: {getObjectCount()}</SystemInfo>
         <SystemInfo>Ready</SystemInfo>
       </SystemSection>
     </Container>
@@ -80,11 +107,10 @@ const Container = styled.div`
   justify-content: space-between;
   gap: 16px;
   padding: 8px 16px;
-  background-color: #1e1e1e;
-  border-top: 1px solid #3e3e42;
-  color: #cccccc;
+  color: #e0e0e0;
   font-size: 12px;
-  height: 40px;
+  height: 48px;
+  border-radius: 8px 8px 0 0;
 `;
 
 const StatusSection = styled.div`
@@ -99,7 +125,7 @@ const StatusIcon = styled.div`
 `;
 
 const StatusMessage = styled.span`
-  color: #cccccc;
+  color: #e0e0e0;
 `;
 
 const ProgressSection = styled.div`
@@ -112,7 +138,7 @@ const ProgressSection = styled.div`
 const ProgressBarContainer = styled.div`
   width: 150px;
   height: 6px;
-  background-color: #3e3e42;
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 3px;
   overflow: hidden;
 `;
@@ -126,7 +152,7 @@ const ProgressBar = styled.div<{ fill: number }>`
 `;
 
 const ProgressText = styled.span`
-  color: #cccccc;
+  color: #e0e0e0;
   min-width: 35px;
   text-align: right;
 `;
@@ -137,6 +163,9 @@ const ErrorSection = styled.div`
   gap: 8px;
   flex: 1;
   color: #f48771;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: rgba(244, 135, 113, 0.1);
 `;
 
 const ErrorIcon = styled.div`
@@ -158,6 +187,9 @@ const SystemSection = styled.div`
 
 const SystemInfo = styled.span`
   color: #888888;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.05);
 `;
 
 export default StatusBar;
