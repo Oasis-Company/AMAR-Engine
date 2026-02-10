@@ -81,6 +81,28 @@ class AEIDSystem {
   }
 
   /**
+   * Get AEID information
+   * @param aeid - AEID to get information for
+   * @returns AEID information including validation result and metadata
+   */
+  public async getAEIDInfo(aeid: string): Promise<{ valid: boolean; error?: string; typePrefix?: string; timestamp?: string; random?: string; checksum?: string; metadata?: Record<string, any> }> {
+    // Validate AEID
+    const validationResult = this.validator.validate(aeid);
+    
+    if (!validationResult.valid) {
+      return validationResult;
+    }
+    
+    // Query metadata
+    const metadata = await this.registry.query(aeid);
+    
+    return {
+      ...validationResult,
+      metadata
+    };
+  }
+
+  /**
    * Shutdown the AEID System
    */
   public async shutdown(): Promise<void> {

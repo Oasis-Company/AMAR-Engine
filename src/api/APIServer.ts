@@ -127,9 +127,9 @@ class APIServer {
     });
     
     // Register a new metaclass
-    router.post('/', (req: Request, res: Response) => {
+    router.post('/', async (req: Request, res: Response) => {
       const metaclass = req.body;
-      const result = this.engine.getMetaclassSystem().registerMetaclass(metaclass);
+      const result = await this.engine.getMetaclassSystem().registerMetaclass(metaclass);
       
       if (!result.success) {
         return res.status(400).json({ error: result.error });
@@ -184,9 +184,9 @@ class APIServer {
     });
     
     // Get AEID info
-    router.get('/info/:aeid', (req: Request, res: Response) => {
+    router.get('/info/:aeid', async (req: Request, res: Response) => {
       const { aeid } = req.params;
-      const info = this.engine.getAEIDSystem().getAEIDInfo(aeid);
+      const info = await this.engine.getAEIDSystem().getAEIDInfo(aeid);
       
       if (!info.valid) {
         return res.status(400).json({ error: info.error });
@@ -223,9 +223,9 @@ class APIServer {
     });
     
     // Register a new skill
-    router.post('/', (req: Request, res: Response) => {
+    router.post('/', async (req: Request, res: Response) => {
       const skill = req.body;
-      const result = this.engine.getSkillsSystem().registerSkill(skill);
+      const result = await this.engine.getSkillsSystem().registerSkill(skill);
       
       if (!result.success) {
         return res.status(400).json({ error: result.error });
