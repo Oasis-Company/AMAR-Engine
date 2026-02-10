@@ -710,6 +710,13 @@ const FileExplorer: React.FC = () => {
       );
     }
     
+    // 标签筛选
+    if (selectedTag) {
+      filtered = filtered.filter(item => 
+        item.tags?.includes(selectedTag)
+      );
+    }
+    
     // 排序
     const sorted = [...filtered].sort((a, b) => {
       // 首先按类型排序（文件夹在前）
@@ -768,7 +775,7 @@ const FileExplorer: React.FC = () => {
     }
     
     return sorted;
-  }, [fileTree, sortBy, sortOrder, searchTerm, groupBy]);
+  }, [fileTree, sortBy, sortOrder, searchTerm, groupBy, selectedTag]);
 
   const renderFileItem = (item: FileItem) => {
     const isSelected = selectedItems.includes(item.id);
