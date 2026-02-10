@@ -114,23 +114,23 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
       </DropZone>
 
       {isProcessing && (
-        <PerceptionProgress>
+        <PerceptionProgress className="fade-in slide-in">
           <ProgressTitle>Perception Progress</ProgressTitle>
-          <ProgressItem>
+          <ProgressItem className="fade-in">
             <ProgressLabel>{t('statusBar.progress.spatial')}</ProgressLabel>
             <ProgressBarContainer>
               <ProgressBar fill={perceptionProgress.spatial} />
               <ProgressValue>{perceptionProgress.spatial}%</ProgressValue>
             </ProgressBarContainer>
           </ProgressItem>
-          <ProgressItem>
+          <ProgressItem className="fade-in" style={{ animationDelay: '0.1s' }}>
             <ProgressLabel>{t('statusBar.progress.object')}</ProgressLabel>
             <ProgressBarContainer>
               <ProgressBar fill={perceptionProgress.object} />
               <ProgressValue>{perceptionProgress.object}%</ProgressValue>
             </ProgressBarContainer>
           </ProgressItem>
-          <ProgressItem>
+          <ProgressItem className="fade-in" style={{ animationDelay: '0.2s' }}>
             <ProgressLabel>{t('statusBar.progress.semantic')}</ProgressLabel>
             <ProgressBarContainer>
               <ProgressBar fill={perceptionProgress.semantic} />
