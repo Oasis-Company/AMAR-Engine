@@ -22,5 +22,36 @@ amar engine的真实世界捕获有两种方式
 
 
 
-目前任务，我们先做一个极简的UI应用，发布一个github release
+目前任务，我们先做一个极简的UI应用，发布一个github release：
+
+AME 极简 UI 应用 (MVP) 开发计划
+我们的目标是先做一个“地基版”，打通“上传 -> 识别 -> 结构化描述”的链路。
+
+1. 核心功能模块 (Current Task)
+Media Uploader: 支持用户拖入照片或短视频。
+
+Cloud Perception Bridge:
+
+将媒体数据流传至云端。
+
+集成 Gemini (或其他 VLM) 进行初级空间感知：识别场景中有哪些物体（Table, Cup, Chair）及其大致相对位置。
+
+System Generator:
+
+接收云端返回的结构化数据。
+
+根据 Skills 规范 自动为识别出的物体分配 Metaclass（例如：识别到“杯子”，自动标记其为 Metaclass: Container）。
+
+AEID Registry: 本地生成一个唯一的 AEID，并将这个微型“系统”的配置保存在本地。
+
+2. 极简 UI 界面设计
+风格: 极简主义，类似编译器或纯粹的生产力工具。
+
+布局:
+
+左侧：媒体预览窗口（显示用户上传的照片/视频）。
+
+右侧：实时生成的场景结构树（Scene Graph），显示 AEID、物体列表和对应的元类属性。
+
+底部：状态栏，显示云端模型感知的逻辑进度。
 
