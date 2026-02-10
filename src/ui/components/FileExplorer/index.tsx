@@ -510,6 +510,51 @@ const FileExplorer: React.FC = () => {
     }, duration / 10);
   };
 
+  // 文件标签相关函数
+  const openAddTagDialog = () => {
+    setNewTagName('');
+    setShowAddTagDialog(true);
+  };
+
+  const openEditTagsDialog = (item: FileItem) => {
+    setEditTagsItem(item);
+    setSelectedTags(item.tags || []);
+    setShowEditTagsDialog(true);
+  };
+
+  const handleAddTag = () => {
+    if (newTagName.trim() && !tags.includes(newTagName.trim())) {
+      setTags(prev => [...prev, newTagName.trim()]);
+      setShowAddTagDialog(false);
+      setNewTagName('');
+    }
+  };
+
+  const handleEditTags = () => {
+    if (editTagsItem) {
+      simulateOperationWithProgress('Updating tags');
+      setTimeout(() => {
+        const updatedFileTree = fileTree.map(item => {
+          if (item.id === editTagsItem.id) {
+            return {
+              ...item,
+              tags: selectedTags
+            };
+          }
+          return item;
+        });
+        setFileTree(updatedFileTree);
+        setShowEditTagsDialog(false);
+        setEditTagsItem(null);
+        setSelectedTags([]);
+      }, 1000);
+    }
+  };
+
+  const toggleTagFilter = (tag: string) => {
+    setSelectedTag(selectedTag === tag ? null : tag);
+  };
+
   // 拖放相关函数
   const handleDragStart = (e: React.DragEvent, item: FileItem) => {
     e.dataTransfer.setData('text/plain', item.id);
