@@ -80,7 +80,7 @@ const SystemViewport: React.FC<SystemViewportProps> = ({ scene, selectedObject, 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   height: 100%;
 `;
 
@@ -88,10 +88,13 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 12px 16px;
+  background-color: #2d2d2d;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const Title = styled.h2`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #e0e0e0;
   margin: 0;
@@ -99,30 +102,32 @@ const Title = styled.h2`
 
 const Controls = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 6px;
 `;
 
 const ControlButton = styled.button`
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #333333;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   padding: 6px 10px;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
+  color: #e0e0e0;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: #3d3d3d;
+    border-color: rgba(245, 121, 0, 0.5);
   }
 
   &:active {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: #444444;
   }
 `;
 
 const ViewportContainer = styled.div`
   flex: 1;
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
   position: relative;
 `;
@@ -135,7 +140,7 @@ const ScenePreview = styled.div`
 const Canvas = styled.div`
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  background: linear-gradient(135deg, #252525 0%, #333333 100%);
   position: relative;
 `;
 
@@ -150,17 +155,18 @@ const Placeholder = styled.div`
 `;
 
 const ObjectPlaceholder = styled.div<{ isSelected: boolean }>`
-  background-color: ${props => props.isSelected ? 'rgba(0, 122, 204, 0.2)' : 'rgba(255, 255, 255, 0.05)'};
-  border: ${props => props.isSelected ? '1px solid rgba(0, 122, 204, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)'};
+  background-color: ${props => props.isSelected ? 'rgba(245, 121, 0, 0.2)' : '#333333'};
+  border: ${props => props.isSelected ? '1px solid rgba(245, 121, 0, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)'};
   border-radius: 4px;
   padding: 10px 20px;
   margin: 5px;
   cursor: pointer;
   transition: all 0.2s ease;
   animation: fadeIn 0.3s ease-in-out, slideIn 0.3s ease-in-out;
+  color: #e0e0e0;
 
   &:hover {
-    background-color: ${props => props.isSelected ? 'rgba(0, 122, 204, 0.3)' : 'rgba(255, 255, 255, 0.1)'};
+    background-color: ${props => props.isSelected ? 'rgba(245, 121, 0, 0.3)' : '#3d3d3d'};
     transform: translateY(-2px);
   }
 
@@ -181,6 +187,7 @@ const EmptyState = styled.div`
 const Icon = styled.div`
   font-size: 48px;
   opacity: 0.5;
+  color: #f57900;
 `;
 
 const Text = styled.p`

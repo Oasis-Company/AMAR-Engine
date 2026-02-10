@@ -125,11 +125,7 @@ const MainPage: React.FC = () => {
     <Container>
       <Header className="acrylic border">
         <HeaderLeft>
-          <Logo>{t('header.logo')}</Logo>
-          <HeaderInfo>
-            <Title>{t('header.title')}</Title>
-            <Subtitle>{t('header.subtitle')}</Subtitle>
-          </HeaderInfo>
+          <Logo>AMAR Engine</Logo>
         </HeaderLeft>
         <HeaderRight>
           <GithubLink href="https://github.com/Oasis-Company/AMAR-Engine" target="_blank" rel="noopener noreferrer">
@@ -209,7 +205,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #121212;
+  background-color: #1a1a1a;
   color: #e0e0e0;
 `;
 
@@ -218,9 +214,9 @@ const Header = styled.header`
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 16px 24px;
+  padding: 12px 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0 0 8px 8px;
+  background-color: #252525;
 `;
 
 const HeaderLeft = styled.div`
@@ -230,13 +226,14 @@ const HeaderLeft = styled.div`
 `;
 
 const Logo = styled.div`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  color: #007acc;
-  background: rgba(0, 122, 204, 0.1);
-  padding: 8px 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #f57900;
+  background: rgba(245, 121, 0, 0.1);
+  padding: 6px 10px;
   border-radius: 4px;
-  border: 1px solid rgba(0, 122, 204, 0.2);
+  border: 1px solid rgba(245, 121, 0, 0.2);
 `;
 
 const HeaderInfo = styled.div`
@@ -262,63 +259,71 @@ const Subtitle = styled.h2`
 const HeaderRight = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 `;
 
 const GithubLink = styled.a`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   color: #e0e0e0;
   text-decoration: none;
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 4px;
   transition: all 0.2s ease-in-out;
+  background-color: #2d2d2d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    color: #007acc;
+    background-color: #333333;
+    color: #f57900;
   }
 `;
 
 const GithubIcon = styled.span`
-  font-size: 16px;
+  font-size: 14px;
 `;
 
 const GithubText = styled.span`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
 `;
 
 const MainContent = styled.main`
   display: flex;
   flex: 1;
-  gap: 16px;
-  padding: 16px;
+  gap: 12px;
+  padding: 12px;
   overflow: hidden;
 `;
 
 const LeftPanel = styled.div`
-  flex: 0 0 350px;
+  flex: 0 0 320px;
   overflow: hidden;
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 4px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
+  background-color: #252525;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const MiddlePanel = styled.div`
   flex: 1;
   min-width: 400px;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 4px;
+  background-color: #252525;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const RightPanel = styled.div`
-  flex: 0 0 400px;
+  flex: 0 0 380px;
   overflow: hidden;
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 4px;
+  padding: 16px;
+  background-color: #252525;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const TabContainer = styled.div`
@@ -330,21 +335,21 @@ const TabContainer = styled.div`
 
 const TabButton = styled.button<{ isActive: boolean }>`
   flex: 1;
-  padding: 10px 16px;
-  background-color: ${props => props.isActive ? 'rgba(0, 122, 204, 0.2)' : 'rgba(255, 255, 255, 0.05)'};
-  border: ${props => props.isActive ? '1px solid rgba(0, 122, 204, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)'};
-  border-bottom: ${props => props.isActive ? '1px solid rgba(0, 122, 204, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)'};
+  padding: 8px 12px;
+  background-color: ${props => props.isActive ? 'rgba(245, 121, 0, 0.2)' : '#2d2d2d'};
+  border: ${props => props.isActive ? '1px solid rgba(245, 121, 0, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)'};
+  border-bottom: ${props => props.isActive ? '1px solid rgba(245, 121, 0, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)'};
   border-radius: 4px 4px 0 0;
-  color: ${props => props.isActive ? '#007acc' : '#e0e0e0'};
-  font-size: 14px;
+  color: ${props => props.isActive ? '#f57900' : '#e0e0e0'};
+  font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 
   &:hover {
-    background-color: ${props => props.isActive ? 'rgba(0, 122, 204, 0.3)' : 'rgba(255, 255, 255, 0.08)'};
+    background-color: ${props => props.isActive ? 'rgba(245, 121, 0, 0.3)' : '#333333'};
   }
 
   &:focus {

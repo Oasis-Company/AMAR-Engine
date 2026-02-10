@@ -172,7 +172,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #e0e0e0;
   margin: 0;
@@ -180,16 +180,16 @@ const Title = styled.h2`
 
 const DropZone = styled.div`
   border: 2px dashed rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 60px 40px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #2d2d2d;
 
   &:hover {
-    border-color: #007acc;
-    background-color: rgba(0, 122, 204, 0.1);
+    border-color: #f57900;
+    background-color: rgba(245, 121, 0, 0.1);
   }
 `;
 
@@ -203,6 +203,7 @@ const DropZoneContent = styled.div`
 const Icon = styled.div`
   font-size: 64px;
   opacity: 0.7;
+  color: #f57900;
 `;
 
 const Text = styled.p`
@@ -237,12 +238,12 @@ const FileItem = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 12px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #2d2d2d;
   border-radius: 4px;
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: #333333;
   }
 `;
 
@@ -254,6 +255,7 @@ const FileInfo = styled.div`
 
 const FileTypeIcon = styled.div`
   font-size: 20px;
+  color: #e0e0e0;
 `;
 
 const FileName = styled.span`
@@ -291,8 +293,8 @@ const PerceptionProgress = styled.div`
   flex-direction: column;
   gap: 12px;
   padding: 16px;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+  background-color: #2d2d2d;
+  border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
@@ -332,7 +334,7 @@ const ProgressBar = styled.div<{ fill: number }>`
     display: block;
     width: ${props => props.fill}%;
     height: 100%;
-    background-color: #007acc;
+    background-color: #f57900;
     border-radius: 3px;
     transition: width 0.3s ease-in-out;
   }
