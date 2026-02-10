@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import MainPage from './pages/MainPage';
+import SplashScreen from './components/SplashScreen';
 import { createGlobalStyle } from 'styled-components';
 import '../i18n'; // 导入i18n配置
 
@@ -131,9 +132,25 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const App: React.FC = () => {
+  const [showSplash, setShowSplash] = useState(true);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+  };
+
+  return (
+    <React.StrictMode>
+      <GlobalStyle />
+      {showSplash ? (
+        <SplashScreen onComplete={handleSplashComplete} />
+      ) : (
+        <MainPage />
+      )}
+    </React.StrictMode>
+  );
+};
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <GlobalStyle />
-    <MainPage />
-  </React.StrictMode>,
+  <App />
 );
