@@ -1,0 +1,54 @@
+{
+  "header": {
+    "logo": "AME",
+    "title": "AMAR Engine",
+    "subtitle": "Next-generation 3D virtual world generator"
+  },
+  "mediaUploader": {
+    "title": "Media Uploader",
+    "dropZone": {
+      "default": "Drag & drop photos or videos here, or click to select files",
+      "dragging": "Drop your files here...",
+      "subtext": "Supports JPG, PNG, GIF, MP4, MOV (max 50MB per file)"
+    },
+    "filesList": "Selected Files ({{count}})",
+    "remove": "Remove"
+  },
+  "systemViewport": {
+    "title": "System Viewport",
+    "emptyState": "No scene data available",
+    "emptySubtext": "Upload media to generate 3D preview",
+    "controls": {
+      "rotate": "Rotate",
+      "zoom": "Zoom",
+      "pan": "Pan"
+    }
+  },
+  "sceneGraph": {
+    "title": "Scene Graph",
+    "emptyState": "No scene data available",
+    "emptySubtext": "Upload media to generate scene graph",
+    "properties": {
+      "aeid": "AEID:",
+      "metaclass": "Metaclass:",
+      "properties": "Properties"
+    }
+  },
+  "statusBar": {
+    "status": {
+      "idle": "Ready",
+      "processing": "Processing media...",
+      "success": "Successfully processed {{count}} file(s)",
+      "error": "Error processing media"
+    },
+    "progress": {
+      "spatial": "Spatial Awareness",
+      "object": "Object Recognition",
+      "semantic": "Semantic Description"
+    }
+  },
+  "language": {
+    "selector": "Language",
+    "en": "English"
+  }
+}
