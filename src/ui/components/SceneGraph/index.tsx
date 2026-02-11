@@ -76,7 +76,7 @@ const SceneGraph: React.FC<SceneGraphProps> = ({ scene, onObjectSelect, selected
 
         {hasChildren && isExpanded && (
           <NodeChildren>
-            {node.children.map(child => renderNode(child, level + 1))}
+            {node.children?.map(child => renderNode(child, level + 1))}
           </NodeChildren>
         )}
 

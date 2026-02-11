@@ -50,45 +50,73 @@ const FileExplorer: React.FC = () => {
   const [progressMessage, setProgressMessage] = useState('');
   const [isOperationInProgress, setIsOperationInProgress] = useState(false);
   
-  // 文件标签相关状态
-  const [tags, setTags] = useState<string[]>(['Important', 'Work', 'Personal', 'Project', 'Archive']);
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const [showAddTagDialog, setShowAddTagDialog] = useState(false);
-  const [newTagName, setNewTagName] = useState('');
-  const [showEditTagsDialog, setShowEditTagsDialog] = useState(false);
-  const [editTagsItem, setEditTagsItem] = useState<FileItem | null>(null);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  
   // 文件预览相关状态
   const [showPreview, setShowPreview] = useState(false);
   const [previewItem, setPreviewItem] = useState<FileItem | null>(null);
   const [previewContent, setPreviewContent] = useState<string>('');
   const [previewError, setPreviewError] = useState<string>('');
   
-  // 文件详情面板状态
-  const [showDetailsPanel, setShowDetailsPanel] = useState(false);
-  const [detailsItem, setDetailsItem] = useState<FileItem | null>(null);
-  
-  // 最近文件状态
-  const [recentFiles, setRecentFiles] = useState<FileItem[]>([]);
-  const [showRecentFiles, setShowRecentFiles] = useState(false);
-  
-  // 文件操作菜单状态
-  const [showFileMenu, setShowFileMenu] = useState(false);
-  const [fileMenuPosition, setFileMenuPosition] = useState({ x: 0, y: 0 });
-  
   // 通知系统状态
   const [notifications, setNotifications] = useState<{ id: string; message: string; type: 'success' | 'error' | 'info' }[]>([]);
 
-  // 批量操作相关状态
+  // 文件详情面板状态
+  const [showDetailsPanel, setShowDetailsPanel] = useState(false);
+  const [detailsItem, setDetailsItem] = useState<FileItem | null>(null);
+
+  // 最近文件状态
+  const [recentFiles, setRecentFiles] = useState<FileItem[]>([]);
+  const [showRecentFiles, setShowRecentFiles] = useState(false);
+
+  // 批量操作状态
   const [showBatchRenameDialog, setShowBatchRenameDialog] = useState(false);
   const [batchRenamePrefix, setBatchRenamePrefix] = useState('');
   const [batchRenameSuffix, setBatchRenameSuffix] = useState('');
   const [batchRenameStartIndex, setBatchRenameStartIndex] = useState(1);
   const [showBatchMoveDialog, setShowBatchMoveDialog] = useState(false);
   const [batchMoveTarget, setBatchMoveTarget] = useState('');
-  
-  // 快捷键相关状态
+
+  // 文件内容搜索状态
+  const [contentSearchTerm, setContentSearchTerm] = useState('');
+  const [contentSearchResults, setContentSearchResults] = useState<{ item: FileItem; matches: number; preview: string }[]>([]);
+  const [isContentSearching, setIsContentSearching] = useState(false);
+
+  // 文件大小计算状态
+  const [folderSizes, setFolderSizes] = useState<{ [key: string]: number }>({});
+  const [isCalculatingSize, setIsCalculatingSize] = useState(false);
+  const [currentCalculatingFolder, setCurrentCalculatingFolder] = useState('');
+
+  // 性能分析状态
+  const [performanceMetrics, setPerformanceMetrics] = useState({
+    lastOperationTime: 0,
+    averageOperationTime: 0,
+    operationCount: 0,
+    fileCount: 0,
+    folderCount: 0,
+    largestFileSize: 0,
+    largestFolderSize: 0,
+    optimizationTips: [] as string[]
+  });
+  const [showPerformancePanel, setShowPerformancePanel] = useState(false);
+
+  // 文件菜单状态
+  const [showFileMenu, setShowFileMenu] = useState(false);
+  const [fileMenuPosition, setFileMenuPosition] = useState({ x: 0, y: 0 });
+
+  // 文件标签状态
+  const [tags, setTags] = useState<string[]>([]);
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [showAddTagDialog, setShowAddTagDialog] = useState(false);
+  const [newTagName, setNewTagName] = useState('');
+  const [showEditTagsDialog, setShowEditTagsDialog] = useState(false);
+  const [editTagsItem, setEditTagsItem] = useState<FileItem | null>(null);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  // 搜索配置状态
+  const [searchCaseSensitive, setSearchCaseSensitive] = useState(false);
+  const [isRegexSearch, setIsRegexSearch] = useState(false);
+  const [searchFileTypes, setSearchFileTypes] = useState<string[]>([]);
+
+  // 键盘快捷键状态
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
 
   // 虚拟滚动相关状态
@@ -98,71 +126,26 @@ const FileExplorer: React.FC = () => {
   const listRef = useRef<HTMLDivElement>(null);
   const itemHeight = 48; // 每个项目的高度（像素）
 
-  // 高级搜索相关状态
-  const [isRegexSearch, setIsRegexSearch] = useState(false);
-  const [searchCaseSensitive, setSearchCaseSensitive] = useState(false);
-  const [searchIncludeHidden, setSearchIncludeHidden] = useState(false);
-  const [searchFileTypes, setSearchFileTypes] = useState<string[]>([]);
-  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
-
-  // 文件内容搜索相关状态
-  const [isContentSearch, setIsContentSearch] = useState(false);
-  const [contentSearchTerm, setContentSearchTerm] = useState('');
-  const [contentSearchResults, setContentSearchResults] = useState<{ item: FileItem; matches: number; preview: string }[]>([]);
-  const [isContentSearching, setIsContentSearching] = useState(false);
-
-  // 文件夹大小计算相关状态
-  const [folderSizes, setFolderSizes] = useState<{ [key: string]: number }>({}); // 存储文件夹大小
-  const [isCalculatingSize, setIsCalculatingSize] = useState(false);
-  const [currentCalculatingFolder, setCurrentCalculatingFolder] = useState<string>('');
-
-  // 性能监控相关状态
-  const [performanceMetrics, setPerformanceMetrics] = useState<{
-    lastOperationTime: number;
-    averageOperationTime: number;
-    operationCount: number;
-    fileCount: number;
-    folderCount: number;
-    largestFileSize: number;
-    largestFolderSize: number;
-    optimizationTips: string[];
-  }>({
-    lastOperationTime: 0,
-    averageOperationTime: 0,
-    operationCount: 0,
-    fileCount: 0,
-    folderCount: 0,
-    largestFileSize: 0,
-    largestFolderSize: 0,
-    optimizationTips: []
-  });
-  const [showPerformancePanel, setShowPerformancePanel] = useState(false);
-
   const openFolder = () => {
-    // 显示设备列表
-    setShowDevices(true);
-    // 模拟设备列表
-    const mockDevices: FileItem[] = [
-      {
-        id: 'device-c',
-        name: 'Local Disk (C:)',
-        type: 'directory',
-        path: 'C:'
-      },
-      {
-        id: 'device-d',
-        name: 'Local Disk (D:)',
-        type: 'directory',
-        path: 'D:'
-      },
-      {
-        id: 'device-e',
-        name: 'Local Disk (E:)',
-        type: 'directory',
-        path: 'E:'
+    // 使用系统文件选择对话框
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.webkitdirectory = true;
+    (input as any).directory = true;
+    input.multiple = false;
+    
+    input.onchange = (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target.files && target.files.length > 0) {
+        const selectedFile = target.files[0];
+        // 由于浏览器安全限制，无法直接获取文件路径
+        // 使用模拟路径作为示例
+        const folderPath = `C:\\SelectedFolder`;
+        browseFolder(folderPath);
       }
-    ];
-    setDevices(mockDevices);
+    };
+    
+    input.click();
   };
 
   const browseDevice = (devicePath: string) => {
@@ -779,7 +762,7 @@ const FileExplorer: React.FC = () => {
       // 分析文件系统状态
       const fileCount = fileTree.filter(item => item.type === 'file').length;
       const folderCount = fileTree.filter(item => item.type === 'directory').length;
-      const largestFile = fileTree.filter(item => item.type === 'file').reduce((max, item) => {
+      const largestFile = fileTree.filter(item => item.type === 'file').reduce<FileItem | { size: number }>((max, item) => {
         return (item.size || 0) > (max.size || 0) ? item : max;
       }, { size: 0 });
       const largestFolderSize = Math.max(...Object.values({ ...folderSizes, 'prev': prev.largestFolderSize }));
@@ -791,7 +774,7 @@ const FileExplorer: React.FC = () => {
         optimizationTips.push('Consider organizing large number of files into subfolders');
       }
       
-      if (largestFile.size && largestFile.size > 100 * 1024 * 1024) { // 100MB
+      if ('name' in largestFile && largestFile.size && largestFile.size > 100 * 1024 * 1024) { // 100MB
         optimizationTips.push(`Large file detected: ${largestFile.name} (${formatFileSize(largestFile.size)})`);
       }
       
@@ -900,6 +883,114 @@ const FileExplorer: React.FC = () => {
       setEndIndex(newEndIndex);
     }
   };
+
+  // 排序和筛选文件
+  const sortedAndFilteredFiles = useMemo(() => {
+    let filtered = fileTree;
+    
+    // 搜索筛选
+    if (searchTerm) {
+      filtered = filtered.filter(item => {
+        let fileName = item.name;
+        let searchString = searchTerm;
+        
+        // 大小写敏感设置
+        if (!searchCaseSensitive) {
+          fileName = fileName.toLowerCase();
+          searchString = searchString.toLowerCase();
+        }
+        
+        // 正则表达式搜索
+        if (isRegexSearch) {
+          try {
+            const regex = new RegExp(searchString);
+            return regex.test(fileName);
+          } catch {
+            // 如果正则表达式无效，回退到普通搜索
+            return fileName.includes(searchString);
+          }
+        } else {
+          // 普通搜索
+          return fileName.includes(searchString);
+        }
+      });
+    }
+    
+    // 文件类型筛选
+    if (searchFileTypes.length > 0) {
+      filtered = filtered.filter(item => {
+        if (item.type === 'directory') return true;
+        const extension = item.name.split('.').pop()?.toLowerCase();
+        return extension ? searchFileTypes.includes(extension) : false;
+      });
+    }
+    
+    // 标签筛选
+    if (selectedTag) {
+      filtered = filtered.filter(item => 
+        item.tags?.includes(selectedTag)
+      );
+    }
+    
+    // 排序
+    const sorted = [...filtered].sort((a, b) => {
+      // 首先按类型排序（文件夹在前）
+      if (a.type !== b.type) {
+        return a.type === 'directory' ? -1 : 1;
+      }
+      
+      // 然后按选定的属性排序
+      switch (sortBy) {
+        case 'name':
+          return sortOrder === 'asc' 
+            ? a.name.localeCompare(b.name) 
+            : b.name.localeCompare(a.name);
+        case 'size':
+          if (a.size === undefined || b.size === undefined) return 0;
+          return sortOrder === 'asc' 
+            ? a.size - b.size 
+            : b.size - a.size;
+        case 'modified':
+          if (a.modified === undefined || b.modified === undefined) return 0;
+          return sortOrder === 'asc' 
+            ? a.modified.getTime() - b.modified.getTime() 
+            : b.modified.getTime() - a.modified.getTime();
+        case 'type':
+          // 按文件类型排序（文件夹在前，然后按扩展名）
+          if (a.type !== b.type) {
+            return a.type === 'directory' ? -1 : 1;
+          }
+          const extA = a.name.split('.').pop()?.toLowerCase() || '';
+          const extB = b.name.split('.').pop()?.toLowerCase() || '';
+          return sortOrder === 'asc' 
+            ? extA.localeCompare(extB) 
+            : extB.localeCompare(extA);
+        default:
+          return 0;
+      }
+    });
+    
+    // 分组
+    if (groupBy === 'type') {
+      const grouped: { [key: string]: FileItem[] } = {
+        'folders': [],
+        'files': []
+      };
+      
+      sorted.forEach(item => {
+        if (item.type === 'directory') {
+          grouped.folders.push(item);
+        } else {
+          grouped.files.push(item);
+        }
+      });
+      
+      // 合并分组结果
+      return [...grouped.folders, ...grouped.files];
+    }
+    
+    return sorted;
+  }, [fileTree, sortBy, sortOrder, searchTerm, groupBy, selectedTag, searchCaseSensitive, isRegexSearch, searchFileTypes]);
 
   // 计算可见项目
   useEffect(() => {
@@ -1095,113 +1186,7 @@ const FileExplorer: React.FC = () => {
     }
   };
 
-  // 排序和筛选文件
-  const sortedAndFilteredFiles = useMemo(() => {
-    let filtered = fileTree;
-    
-    // 搜索筛选
-    if (searchTerm) {
-      filtered = filtered.filter(item => {
-        let fileName = item.name;
-        let searchString = searchTerm;
-        
-        // 大小写敏感设置
-        if (!searchCaseSensitive) {
-          fileName = fileName.toLowerCase();
-          searchString = searchString.toLowerCase();
-        }
-        
-        // 正则表达式搜索
-        if (isRegexSearch) {
-          try {
-            const regex = new RegExp(searchString);
-            return regex.test(fileName);
-          } catch {
-            // 如果正则表达式无效，回退到普通搜索
-            return fileName.includes(searchString);
-          }
-        } else {
-          // 普通搜索
-          return fileName.includes(searchString);
-        }
-      });
-    }
-    
-    // 文件类型筛选
-    if (searchFileTypes.length > 0) {
-      filtered = filtered.filter(item => {
-        if (item.type === 'directory') return true;
-        const extension = item.name.split('.').pop()?.toLowerCase();
-        return extension ? searchFileTypes.includes(extension) : false;
-      });
-    }
-    
-    // 标签筛选
-    if (selectedTag) {
-      filtered = filtered.filter(item => 
-        item.tags?.includes(selectedTag)
-      );
-    }
-    
-    // 排序
-    const sorted = [...filtered].sort((a, b) => {
-      // 首先按类型排序（文件夹在前）
-      if (a.type !== b.type) {
-        return a.type === 'directory' ? -1 : 1;
-      }
-      
-      // 然后按选定的属性排序
-      switch (sortBy) {
-        case 'name':
-          return sortOrder === 'asc' 
-            ? a.name.localeCompare(b.name) 
-            : b.name.localeCompare(a.name);
-        case 'size':
-          if (a.size === undefined || b.size === undefined) return 0;
-          return sortOrder === 'asc' 
-            ? a.size - b.size 
-            : b.size - a.size;
-        case 'modified':
-          if (a.modified === undefined || b.modified === undefined) return 0;
-          return sortOrder === 'asc' 
-            ? a.modified.getTime() - b.modified.getTime() 
-            : b.modified.getTime() - a.modified.getTime();
-        case 'type':
-          // 按文件类型排序（文件夹在前，然后按扩展名）
-          if (a.type !== b.type) {
-            return a.type === 'directory' ? -1 : 1;
-          }
-          const extA = a.name.split('.').pop()?.toLowerCase() || '';
-          const extB = b.name.split('.').pop()?.toLowerCase() || '';
-          return sortOrder === 'asc' 
-            ? extA.localeCompare(extB) 
-            : extB.localeCompare(extA);
-        default:
-          return 0;
-      }
-    });
-    
-    // 分组
-    if (groupBy === 'type') {
-      const grouped: { [key: string]: FileItem[] } = {
-        'folders': [],
-        'files': []
-      };
-      
-      sorted.forEach(item => {
-        if (item.type === 'directory') {
-          grouped.folders.push(item);
-        } else {
-          grouped.files.push(item);
-        }
-      });
-      
-      // 合并分组结果
-      return [...grouped.folders, ...grouped.files];
-    }
-    
-    return sorted;
-  }, [fileTree, sortBy, sortOrder, searchTerm, groupBy, selectedTag]);
+
 
   const renderFileItem = (item: FileItem) => {
     const isSelected = selectedItems.includes(item.id);
@@ -1489,7 +1474,7 @@ const FileExplorer: React.FC = () => {
             </svg>
             Paste
           </ActionButton>
-          <ActionButton onClick={() => setShowFileMenu(true)} title="File Operations">
+          <ActionButton onClick={() => {/* 简化版本移除了文件操作菜单 */}} title="File Operations" disabled>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -1545,37 +1530,6 @@ const FileExplorer: React.FC = () => {
         </PathBar>
       )}
       
-      <TagsBar>
-        <TagsTitle>Tags:</TagsTitle>
-        <TagsList>
-          {tags.map((tag) => (
-            <TagItem 
-              key={tag} 
-              isSelected={selectedTag === tag}
-              onClick={() => toggleTagFilter(tag)}
-            >
-              {tag}
-            </TagItem>
-          ))}
-          <TagItem onClick={openAddTagDialog} isAddButton>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Add
-          </TagItem>
-        </TagsList>
-        {selectedTag && (
-          <ClearTagButton onClick={() => setSelectedTag(null)}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="m6 6 12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Clear Filter
-          </ClearTagButton>
-        )}
-      </TagsBar>
-      
       <Toolbar>
         <SearchContainer>
           <SearchIcon>
@@ -1586,47 +1540,18 @@ const FileExplorer: React.FC = () => {
           </SearchIcon>
           <SearchInput
             type="text"
-            placeholder={isContentSearch ? "Search file contents..." : "Search files and folders..."}
-            value={isContentSearch ? contentSearchTerm : searchTerm}
-            onChange={(e) => isContentSearch ? setContentSearchTerm(e.target.value) : setSearchTerm(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                if (isContentSearch) {
-                  handleContentSearch();
-                }
-              }
-            }}
+            placeholder="Search files and folders..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {(isContentSearch ? contentSearchTerm : searchTerm) && (
-            <ClearSearchButton onClick={() => isContentSearch ? setContentSearchTerm('') : setSearchTerm('')}>
+          {searchTerm && (
+            <ClearSearchButton onClick={() => setSearchTerm('')}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="m6 6 12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </ClearSearchButton>
           )}
-          <ActionButton 
-            onClick={() => setIsContentSearch(!isContentSearch)}
-            title={isContentSearch ? "Switch to filename search" : "Switch to content search"} 
-            style={{ padding: '4px' }}
-            isActive={isContentSearch}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M16 13H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M16 17H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M10 9H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </ActionButton>
-          <ActionButton onClick={() => setShowAdvancedSearch(true)} title="Advanced Search" style={{ padding: '4px' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 15C15.87 15 19 11.87 19 8C19 4.13 15.87 1 12 1C8.13 1 5 4.13 5 8C5 11.87 8.13 15 12 15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 15C12 15 15 21 15 21H9C9 21 12 15 12 15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 9V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 6H12.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </ActionButton>
         </SearchContainer>
         
         <ToolbarActions>
@@ -1653,14 +1578,6 @@ const FileExplorer: React.FC = () => {
               <path d="m5 12 7 7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </ActionButton>
-          
-          <Select
-            value={groupBy}
-            onChange={(e) => setGroupBy(e.target.value as 'none' | 'type')}
-          >
-            <option value="none">Group by None</option>
-            <option value="type">Group by Type</option>
-          </Select>
           
           <ActionButton onClick={() => setViewMode('list')} title="List View" isActive={viewMode === 'list'}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1804,32 +1721,7 @@ const FileExplorer: React.FC = () => {
         </NewFolderDialog>
       )}
       
-      {showDevices && (
-        <NewFolderDialog>
-          <DialogContent>
-            <DialogTitle>Select Device</DialogTitle>
-            <DeviceList>
-              {devices.map(device => (
-                <DeviceItem key={device.id} onClick={() => browseDevice(device.path)}>
-                  <DeviceIcon>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </DeviceIcon>
-                  <DeviceName>{device.name}</DeviceName>
-                </DeviceItem>
-              ))}
-            </DeviceList>
-            <DialogActions>
-              <Button type="button" onClick={() => setShowDevices(false)}>
-                Cancel
-              </Button>
-            </DialogActions>
-          </DialogContent>
-        </NewFolderDialog>
-      )}
+
       
       {showRenameDialog && (
         <NewFolderDialog>
@@ -2202,477 +2094,7 @@ const FileExplorer: React.FC = () => {
         </NewFolderDialog>
       )}
 
-      {showFileMenu && (
-        <ContextMenu style={{ top: '60px', left: '16px' }}>
-          <ContextMenuItem onClick={() => {
-            setShowNewFolderDialog(true);
-            closeFileMenu();
-          }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            New Folder
-          </ContextMenuItem>
-          <ContextMenuItem onClick={() => {
-            handleCopy();
-            closeFileMenu();
-          }} disabled={selectedItems.length === 0}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Copy
-          </ContextMenuItem>
-          <ContextMenuItem onClick={() => {
-            handleCut();
-            closeFileMenu();
-          }} disabled={selectedItems.length === 0}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <rect x="8" y="2" width="8" height="4" rx="1" ry="1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Cut
-          </ContextMenuItem>
-          <ContextMenuItem onClick={() => {
-            handlePaste();
-            closeFileMenu();
-          }} disabled={!clipboard}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <rect x="8" y="2" width="8" height="4" rx="1" ry="1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Paste
-          </ContextMenuItem>
-          <ContextMenuSeparator />
-          <ContextMenuItem onClick={() => {
-            handleSelectAll();
-            closeFileMenu();
-          }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 11H7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M16 2H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Select All
-          </ContextMenuItem>
-          <ContextMenuSeparator />
-          <ContextMenuItem onClick={() => {
-            openDeleteDialog(selectedItems);
-            closeFileMenu();
-          }} disabled={selectedItems.length === 0} style={{ color: '#e53935' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 6h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Delete
-          </ContextMenuItem>
-          <ContextMenuSeparator />
-          <ContextMenuItem onClick={() => {
-            setShowBatchRenameDialog(true);
-            closeFileMenu();
-          }} disabled={selectedItems.length === 0}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Batch Rename
-          </ContextMenuItem>
-          <ContextMenuItem onClick={() => {
-            setShowBatchMoveDialog(true);
-            closeFileMenu();
-          }} disabled={selectedItems.length === 0}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 18h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 15v3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M3 10h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 2v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 10l4-4-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Batch Move
-          </ContextMenuItem>
-          <ContextMenuSeparator />
-          <ContextMenuItem onClick={() => {
-            calculateAllFoldersSize();
-            closeFileMenu();
-          }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 20V10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 20V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M6 20v-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Calculate All Folders Size
-          </ContextMenuItem>
-          <ContextMenuItem onClick={() => {
-            analyzePerformance();
-            closeFileMenu();
-          }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 20V10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M18 20V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M6 20V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Analyze Performance
-          </ContextMenuItem>
-          <ContextMenuSeparator />
-          <ContextMenuItem onClick={() => {
-            setShowRecentFiles(true);
-            closeFileMenu();
-          }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 13H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M16 17H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M10 9H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Recent Files
-          </ContextMenuItem>
-          <ContextMenuItem onClick={() => {
-            setShowKeyboardShortcuts(true);
-            closeFileMenu();
-          }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="4" y="4" width="16" height="16" rx="2" ry="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 8v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 16h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Keyboard Shortcuts
-          </ContextMenuItem>
-        </ContextMenu>
-      )}
 
-      {showBatchRenameDialog && (
-        <NewFolderDialog>
-          <DialogContent>
-            <DialogTitle>Batch Rename</DialogTitle>
-            <form onSubmit={(e) => { e.preventDefault(); handleBatchRename(); }}>
-              <InputField>
-                <label htmlFor="batchRenamePrefix">Prefix:</label>
-                <input
-                  id="batchRenamePrefix"
-                  type="text"
-                  value={batchRenamePrefix}
-                  onChange={(e) => setBatchRenamePrefix(e.target.value)}
-                  placeholder="Enter prefix"
-                />
-              </InputField>
-              <InputField>
-                <label htmlFor="batchRenameSuffix">Suffix:</label>
-                <input
-                  id="batchRenameSuffix"
-                  type="text"
-                  value={batchRenameSuffix}
-                  onChange={(e) => setBatchRenameSuffix(e.target.value)}
-                  placeholder="Enter suffix"
-                />
-              </InputField>
-              <InputField>
-                <label htmlFor="batchRenameStartIndex">Start Index:</label>
-                <input
-                  id="batchRenameStartIndex"
-                  type="number"
-                  value={batchRenameStartIndex}
-                  onChange={(e) => setBatchRenameStartIndex(parseInt(e.target.value) || 1)}
-                  min="1"
-                />
-              </InputField>
-              <DialogActions>
-                <Button type="button" onClick={() => {
-                  setShowBatchRenameDialog(false);
-                  setBatchRenamePrefix('');
-                  setBatchRenameSuffix('');
-                  setBatchRenameStartIndex(1);
-                }}>
-                  Cancel
-                </Button>
-                <Button type="submit">
-                  Rename {selectedItems.length} Items
-                </Button>
-              </DialogActions>
-            </form>
-          </DialogContent>
-        </NewFolderDialog>
-      )}
-
-      {showBatchMoveDialog && (
-        <NewFolderDialog>
-          <DialogContent>
-            <DialogTitle>Batch Move</DialogTitle>
-            <form onSubmit={(e) => { e.preventDefault(); handleBatchMove(); }}>
-              <InputField>
-                <label htmlFor="batchMoveTarget">Target Folder:</label>
-                <input
-                  id="batchMoveTarget"
-                  type="text"
-                  value={batchMoveTarget}
-                  onChange={(e) => setBatchMoveTarget(e.target.value)}
-                  placeholder="Enter target folder path"
-                />
-              </InputField>
-              <DialogActions>
-                <Button type="button" onClick={() => {
-                  setShowBatchMoveDialog(false);
-                  setBatchMoveTarget('');
-                }}>
-                  Cancel
-                </Button>
-                <Button type="submit" disabled={!batchMoveTarget.trim()}>
-                  Move {selectedItems.length} Items
-                </Button>
-              </DialogActions>
-            </form>
-          </DialogContent>
-        </NewFolderDialog>
-      )}
-
-      {showAdvancedSearch && (
-        <NewFolderDialog>
-          <DialogContent>
-            <DialogTitle>Advanced Search</DialogTitle>
-            <div style={{ marginBottom: '20px' }}>
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#e0e0e0' }}>
-                  <input
-                    type="checkbox"
-                    checked={isRegexSearch}
-                    onChange={(e) => setIsRegexSearch(e.target.checked)}
-                  />
-                  Use Regular Expression
-                </label>
-              </div>
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#e0e0e0' }}>
-                  <input
-                    type="checkbox"
-                    checked={searchCaseSensitive}
-                    onChange={(e) => setSearchCaseSensitive(e.target.checked)}
-                  />
-                  Case Sensitive
-                </label>
-              </div>
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#e0e0e0' }}>
-                  <input
-                    type="checkbox"
-                    checked={searchIncludeHidden}
-                    onChange={(e) => setSearchIncludeHidden(e.target.checked)}
-                  />
-                  Include Hidden Files
-                </label>
-              </div>
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', marginBottom: '8px', color: '#e0e0e0' }}>File Types:</label>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {['txt', 'js', 'ts', 'json', 'md', 'html', 'css', 'png', 'jpg', 'pdf'].map((type) => (
-                    <label key={type} style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#e0e0e0', fontSize: '12px' }}>
-                      <input
-                        type="checkbox"
-                        checked={searchFileTypes.includes(type)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSearchFileTypes(prev => [...prev, type]);
-                          } else {
-                            setSearchFileTypes(prev => prev.filter(t => t !== type));
-                          }
-                        }}
-                      />
-                      .{type}
-                    </label>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <DialogActions>
-              <Button type="button" onClick={() => {
-                setShowAdvancedSearch(false);
-              }}>
-                Close
-              </Button>
-              <Button type="button" onClick={() => {
-                setIsRegexSearch(false);
-                setSearchCaseSensitive(false);
-                setSearchIncludeHidden(false);
-                setSearchFileTypes([]);
-              }}>
-                Reset
-              </Button>
-            </DialogActions>
-          </DialogContent>
-        </NewFolderDialog>
-      )}
-
-      {contentSearchResults.length > 0 && (
-        <ContentSearchResults>
-          <ResultsHeader>
-            <ResultsTitle>Content Search Results ({contentSearchResults.length} files)</ResultsTitle>
-            <Button type="button" onClick={() => setContentSearchResults([])}>
-              Clear Results
-            </Button>
-          </ResultsHeader>
-          <ResultsList>
-            {contentSearchResults.map((result, index) => (
-              <ResultItem key={index}>
-                <ResultItemHeader>
-                  <ResultFileName>{result.item.name}</ResultFileName>
-                  <ResultMatchCount>{result.matches} matches</ResultMatchCount>
-                </ResultItemHeader>
-                <ResultPath>{result.item.path}</ResultPath>
-                <ResultPreview>{result.preview}</ResultPreview>
-              </ResultItem>
-            ))}
-          </ResultsList>
-        </ContentSearchResults>
-      )}
-
-      {showDetailsPanel && detailsItem && (
-        <DetailsPanel>
-          <DetailsPanelHeader>
-            <DetailsPanelTitle>File Details</DetailsPanelTitle>
-            <DetailsPanelActions>
-              <ActionButton onClick={closeDetailsPanel} title="Close Details">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="m6 6 12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </ActionButton>
-            </DetailsPanelActions>
-          </DetailsPanelHeader>
-          <DetailsPanelContent>
-            <DetailsSection>
-              <DetailsSectionTitle>Basic Information</DetailsSectionTitle>
-              <DetailsRow>
-                <DetailsLabel>Name:</DetailsLabel>
-                <DetailsValue>{detailsItem.name}</DetailsValue>
-              </DetailsRow>
-              <DetailsRow>
-                <DetailsLabel>Type:</DetailsLabel>
-                <DetailsValue>{detailsItem.type === 'directory' ? 'Folder' : 'File'}</DetailsValue>
-              </DetailsRow>
-              <DetailsRow>
-                <DetailsLabel>Path:</DetailsLabel>
-                <DetailsValue>{detailsItem.path}</DetailsValue>
-              </DetailsRow>
-              {detailsItem.size && (
-                <DetailsRow>
-                  <DetailsLabel>Size:</DetailsLabel>
-                  <DetailsValue>{formatFileSize(detailsItem.size)}</DetailsValue>
-                </DetailsRow>
-              )}
-              {detailsItem.modified && (
-                <DetailsRow>
-                  <DetailsLabel>Modified:</DetailsLabel>
-                  <DetailsValue>{detailsItem.modified.toLocaleString()}</DetailsValue>
-                </DetailsRow>
-              )}
-              <DetailsRow>
-                <DetailsLabel>Created:</DetailsLabel>
-                <DetailsValue>{detailsItem.modified ? detailsItem.modified.toLocaleString() : 'Unknown'}</DetailsValue>
-              </DetailsRow>
-            </DetailsSection>
-            
-            {detailsItem.type === 'file' && (
-              <DetailsSection>
-                <DetailsSectionTitle>File Information</DetailsSectionTitle>
-                <DetailsRow>
-                  <DetailsLabel>Extension:</DetailsLabel>
-                  <DetailsValue>{detailsItem.name.split('.').pop()?.toUpperCase() || 'None'}</DetailsValue>
-                </DetailsRow>
-                <DetailsRow>
-                  <DetailsLabel>MIME Type:</DetailsLabel>
-                  <DetailsValue>{detailsItem.name.split('.').pop() ? `${detailsItem.name.split('.').pop()?.toLowerCase()}` : 'Unknown'}</DetailsValue>
-                </DetailsRow>
-                <DetailsRow>
-                  <DetailsLabel>File System Type:</DetailsLabel>
-                  <DetailsValue>Local</DetailsValue>
-                </DetailsRow>
-              </DetailsSection>
-            )}
-            
-            {detailsItem.tags && detailsItem.tags.length > 0 && (
-              <DetailsSection>
-                <DetailsSectionTitle>Tags</DetailsSectionTitle>
-                <DetailsTags>
-                  {detailsItem.tags.map((tag, index) => (
-                    <Tag key={index}>{tag}</Tag>
-                  ))}
-                </DetailsTags>
-              </DetailsSection>
-            )}
-          </DetailsPanelContent>
-        </DetailsPanel>
-      )}
-      
-      {showPerformancePanel && (
-        <PerformancePanel>
-          <PerformancePanelHeader>
-            <PerformancePanelTitle>Performance Monitor</PerformancePanelTitle>
-            <PerformancePanelActions>
-              <ActionButton onClick={() => setShowPerformancePanel(false)} title="Close Performance Monitor">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="m6 6 12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </ActionButton>
-            </PerformancePanelActions>
-          </PerformancePanelHeader>
-          <PerformancePanelContent>
-            <PerformanceSection>
-              <PerformanceSectionTitle>Operation Performance</PerformanceSectionTitle>
-              <PerformanceRow>
-                <PerformanceLabel>Last Operation Time:</PerformanceLabel>
-                <PerformanceValue>{performanceMetrics.lastOperationTime.toFixed(2)}ms</PerformanceValue>
-              </PerformanceRow>
-              <PerformanceRow>
-                <PerformanceLabel>Average Operation Time:</PerformanceLabel>
-                <PerformanceValue>{performanceMetrics.averageOperationTime.toFixed(2)}ms</PerformanceValue>
-              </PerformanceRow>
-              <PerformanceRow>
-                <PerformanceLabel>Operation Count:</PerformanceLabel>
-                <PerformanceValue>{performanceMetrics.operationCount}</PerformanceValue>
-              </PerformanceRow>
-            </PerformanceSection>
-            
-            <PerformanceSection>
-              <PerformanceSectionTitle>File System Statistics</PerformanceSectionTitle>
-              <PerformanceRow>
-                <PerformanceLabel>File Count:</PerformanceLabel>
-                <PerformanceValue>{performanceMetrics.fileCount}</PerformanceValue>
-              </PerformanceRow>
-              <PerformanceRow>
-                <PerformanceLabel>Folder Count:</PerformanceLabel>
-                <PerformanceValue>{performanceMetrics.folderCount}</PerformanceValue>
-              </PerformanceRow>
-              <PerformanceRow>
-                <PerformanceLabel>Largest File Size:</PerformanceLabel>
-                <PerformanceValue>{formatFileSize(performanceMetrics.largestFileSize)}</PerformanceValue>
-              </PerformanceRow>
-              <PerformanceRow>
-                <PerformanceLabel>Largest Folder Size:</PerformanceLabel>
-                <PerformanceValue>{formatFileSize(performanceMetrics.largestFolderSize)}</PerformanceValue>
-              </PerformanceRow>
-            </PerformanceSection>
-            
-            <PerformanceSection>
-              <PerformanceSectionTitle>Optimization Tips</PerformanceSectionTitle>
-              {performanceMetrics.optimizationTips.length > 0 ? (
-                <PerformanceTips>
-                  {performanceMetrics.optimizationTips.map((tip, index) => (
-                    <PerformanceTip key={index}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 8v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M12 16h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                      {tip}
-                    </PerformanceTip>
-                  ))}
-                </PerformanceTips>
-              ) : (
-                <PerformanceTip>No optimization tips available</PerformanceTip>
-              )}
-            </PerformanceSection>
-          </PerformancePanelContent>
-        </PerformancePanel>
-      )}
     </Container>
   );
 };
