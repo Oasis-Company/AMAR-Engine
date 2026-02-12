@@ -34,7 +34,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
         <LogoContainer className={animationComplete ? 'scale-out' : 'scale-in'}>
           <LogoWrapper>
             <LogoCircle className="pulse">
-              <LogoText>AE</LogoText>
+              <LogoText>AME</LogoText>
             </LogoCircle>
             <Ring className="spin" />
           </LogoWrapper>
@@ -126,8 +126,8 @@ const LogoWrapper = styled.div`
 `;
 
 const LogoCircle = styled.div`
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   background: linear-gradient(135deg, #007acc 0%, #005a9e 100%);
   display: flex;
@@ -160,8 +160,8 @@ const LogoText = styled.div`
 
 const Ring = styled.div`
   position: absolute;
-  width: 140px;
-  height: 140px;
+  width: 160px;
+  height: 160px;
   border: 2px solid rgba(0, 122, 204, 0.3);
   border-radius: 50%;
   z-index: 1;
