@@ -139,3 +139,74 @@ ame metaclass list
 # Compose multiple metaclasses
 ame metaclass compose
 ```
+
+
+# Advanced Technical Architecture
+
+## AME Core System: AMAR GENIS
+
+**Status: Prototype v0.1 | Mission: Physical Instantiation of Reality**
+
+### I. Ontology (Existential Logic)
+AME (Amar Engine) is not a traditional 3D rendering engine, but a reality mapping and physical reconstruction system. It "forcefully" instantiates entities with physical实权 (real authority) in the digital dimension through resampling of high-dimensional spatial point clouds and integration of multimodal semantic injection.
+
+In AME's worldview, everything can be **Instantiated**, and physical laws are absolutely governed by the underlying AMAR GENIS engine.
+
+### II. Triple-Path Convergence Architecture
+AME's central hub is the **Admin** (Normalization Center). It acts like a digital black hole, collapsing data from three heterogeneous paths into a single physical entity:
+
+#### 1. 3DGS Path [AME Scanner]
+- **Function**: Spatial skeleton capture
+- **Core Challenges**:
+  - Density collapse processing: In million-level 3DGS point clouds, strip visual phantoms through non-linear threshold algorithms to lock onto the "actual existence" of physical mass
+  - OBB (Oriented Bounding Box) fitting: Use PCA (Principal Component Analysis) to decompose the covariance matrix of point clouds, extracting the entity's original rotation phase $athbf{R}$ and scale $athbf{S}$
+- **Output**: Provides geometric constraints for the entity
+
+#### 2. Media Input Path [Media Loader]
+- **Function**: Multimodal attribute sourcing
+- **Input**: Cross-spectrum images, temporal videos, acoustic data
+- **Output**: Determines the object's surface texture flow and acoustic impedance through visual comparison and acoustic inversion
+- **Position**: Provides perceptual consistency for the entity
+
+#### 3. LLM API Path [Semantic Coder]
+- **Function**: Metaclass definition and logic赋予
+- **Core Logic**: Convert natural language fragments into Metaclass descriptions
+- **Injects physical constants** (e.g., $f$ friction coefficient, $
+ho$ density distribution)
+- **Position**: Provides causality for the entity
+
+### III. The Metaclass Protocol
+Metaclasses are the genetic genes of the AME system, with the following evolutionary logic:
+
+**Evolutionary Trend**: Concrete → Abstract → Self-consistent
+
+#### Root Metaclass
+- **Definition**: Axioms of the physical world (e.g., space, time steps, smoothness)
+- **Characteristics**: Non-instantiable, only serving as underlying weights for standard metaclasses
+
+#### Standard Metaclass
+- **Definition**: Entity templates with interaction potential (e.g., container, wheel, liquid)
+- **Characteristics**: Possess concrete objects. When the Scanner sweeps out a volume and the Admin determines it belongs to "Standard Metaclass: Container", the volume immediately inherits the container's physical interaction interface
+
+#### Manifestation (Room)
+- Entity existence states in different coordinate systems (e.g., Cartesian Room, relative sensory Room)
+
+### IV. Underlying Law: AMAR GENIS
+AMAR GENIS is a reconstructed version of the Genesis engine after "violent disassembly". It is the physical judge of the AME world:
+
+- **Physical Handle Binding**: Implements asynchronous coupling between the 3DGS visual layer and physical collision layer
+- **Real-time Metaclass Injection**: AMAR GENIS directly parses metaclass tags issued by the Admin, enabling real-time changes to an object's physical constants without restarting the simulation
+- **Topological Mutation Support**: Real-time collision body reconstruction algorithm designed for 3DGS dynamic flows
+
+### V. Export Protocols
+| Protocol Name | Abbreviation | Nature | Core Purpose |
+|---------------|---------------|--------|-------------|
+| Oasis Domains | osdm | Folder structure specification | Distributed storage and distribution of interactive worlds |
+| EME World | emewd | Binary single file |专供 EME project (AI infant evolution project) logic training. Can strip human display interface |
+
+### VI. Current Development Log
+- **[Scanner]** Prototype v0.1 closed loop. Implemented high-performance point cloud density filtering based on C++
+- **[Admin]** Defining SAP-01 normalization protocol
+- **[AMAR GENIS]** Core layer rewriting scheme under discussion
+
+"Reality is just a suggestion; AMAR GENIS is the law."
