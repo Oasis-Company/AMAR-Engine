@@ -205,35 +205,42 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #1a1a1a;
-  color: #e0e0e0;
+  background-color: ${({ theme }) => theme.colors.background.primary};
+  color: ${({ theme }) => theme.colors.text.primary};
 `;
 
 const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 12px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: #252525;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.lg}`};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.background.tertiary};
+  background-color: ${({ theme }) => theme.colors.background.secondary};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
 `;
 
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: ${({ theme }) => theme.spacing.md};
 `;
 
 const Logo = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #f57900;
-  background: rgba(245, 121, 0, 0.1);
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: 1px solid rgba(245, 121, 0, 0.2);
+  font-size: ${({ theme }) => theme.typography.fontSize.h4};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  font-family: ${({ theme }) => theme.typography.fontFamily};
+  color: ${({ theme }) => theme.colors.primary};
+  background: rgba(0, 122, 204, 0.1);
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border: 1px solid rgba(0, 122, 204, 0.2);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 122, 204, 0.15);
+    border-color: rgba(0, 122, 204, 0.3);
+  }
 `;
 
 const HeaderInfo = styled.div`
@@ -243,40 +250,41 @@ const HeaderInfo = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 18px;
-  font-weight: 600;
-  color: #e0e0e0;
+  font-size: ${({ theme }) => theme.typography.fontSize.h4};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
 `;
 
 const Subtitle = styled.h2`
-  font-size: 12px;
-  font-weight: 400;
-  color: #888888;
+  font-size: ${({ theme }) => theme.typography.fontSize.bodySmall};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.regular};
+  color: ${({ theme }) => theme.colors.text.tertiary};
   margin: 0;
 `;
 
 const HeaderRight = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 const GithubLink = styled.a`
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #e0e0e0;
+  color: ${({ theme }) => theme.colors.text.secondary};
   text-decoration: none;
-  padding: 6px 10px;
-  border-radius: 4px;
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   transition: all 0.2s ease-in-out;
-  background-color: #2d2d2d;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: ${({ theme }) => theme.colors.background.tertiary};
+  border: 1px solid ${({ theme }) => theme.colors.background.tertiary};
 
   &:hover {
-    background-color: #333333;
-    color: #f57900;
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: white;
+    border-color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
@@ -285,8 +293,8 @@ const GithubIcon = styled.span`
 `;
 
 const GithubText = styled.span`
-  font-size: 12px;
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.typography.fontSize.bodySmall};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
 `;
 
 const MainContent = styled.main`

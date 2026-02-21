@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'styled-components';
+import { ThemeType } from '../../styles/theme';
 
 interface SystemViewportProps {
   scene: any;
@@ -10,6 +12,7 @@ interface SystemViewportProps {
 
 const SystemViewport: React.FC<SystemViewportProps> = ({ scene, selectedObject, onObjectSelect }) => {
   const { t } = useTranslation();
+  const theme = useTheme<ThemeType>();
 
   return (
     <Container>
@@ -80,7 +83,7 @@ const SystemViewport: React.FC<SystemViewportProps> = ({ scene, selectedObject, 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: ${({ theme }) => theme.spacing.md};
   height: 100%;
 `;
 
@@ -88,48 +91,49 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  background-color: #2d2d2d;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  background-color: ${({ theme }) => theme.colors.surface.elevated};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 const Title = styled.h2`
-  font-size: 16px;
-  font-weight: 600;
-  color: #e0e0e0;
+  font-size: ${({ theme }) => theme.typography.h6.fontSize};
+  font-weight: ${({ theme }) => theme.typography.h6.fontWeight};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
 `;
 
 const Controls = styled.div`
   display: flex;
-  gap: 6px;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 const ControlButton = styled.button`
-  background-color: #333333;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.surface.muted};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radius.sm};
   padding: 6px 10px;
-  font-size: 12px;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
   cursor: pointer;
   transition: all 0.2s ease;
-  color: #e0e0e0;
+  color: ${({ theme }) => theme.colors.text.primary};
 
   &:hover {
-    background-color: #3d3d3d;
-    border-color: rgba(245, 121, 0, 0.5);
+    background-color: ${({ theme }) => theme.colors.surface.hover};
+    border-color: ${({ theme }) => theme.colors.accent.primary};
   }
 
   &:active {
-    background-color: #444444;
+    background-color: ${({ theme }) => theme.colors.surface.active};
   }
 `;
 
 const ViewportContainer = styled.div`
   flex: 1;
-  border-radius: 4px;
+  border-radius: ${({ theme }) => theme.radius.md};
   overflow: hidden;
   position: relative;
+  border: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 const ScenePreview = styled.div`
@@ -140,7 +144,7 @@ const ScenePreview = styled.div`
 const Canvas = styled.div`
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #252525 0%, #333333 100%);
+  background: ${({ theme }) => theme.colors.surface.default};
   position: relative;
 `;
 
@@ -150,23 +154,23 @@ const Placeholder = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-  gap: 20px;
-  color: #888888;
+  gap: ${({ theme }) => theme.spacing.lg};
+  color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
 const ObjectPlaceholder = styled.div<{ isSelected: boolean }>`
-  background-color: ${props => props.isSelected ? 'rgba(245, 121, 0, 0.2)' : '#333333'};
-  border: ${props => props.isSelected ? '1px solid rgba(245, 121, 0, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)'};
-  border-radius: 4px;
-  padding: 10px 20px;
+  background-color: ${props => props.isSelected ? props.theme.colors.accent.muted : props.theme.colors.surface.elevated};
+  border: ${props => props.isSelected ? `1px solid ${props.theme.colors.accent.primary}` : `1px solid ${props.theme.colors.border}`};
+  border-radius: ${props => props.theme.radius.sm};
+  padding: ${props => props.theme.spacing.sm} ${props => props.theme.spacing.md};
   margin: 5px;
   cursor: pointer;
   transition: all 0.2s ease;
   animation: fadeIn 0.3s ease-in-out, slideIn 0.3s ease-in-out;
-  color: #e0e0e0;
+  color: ${props => props.theme.colors.text.primary};
 
   &:hover {
-    background-color: ${props => props.isSelected ? 'rgba(245, 121, 0, 0.3)' : '#3d3d3d'};
+    background-color: ${props => props.isSelected ? props.theme.colors.accent.hover : props.theme.colors.surface.hover};
     transform: translateY(-2px);
   }
 
@@ -181,24 +185,24 @@ const EmptyState = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-  gap: 12px;
+  gap: ${({ theme }) => theme.spacing.md};
 `;
 
 const Icon = styled.div`
   font-size: 48px;
   opacity: 0.5;
-  color: #f57900;
+  color: ${({ theme }) => theme.colors.accent.primary};
 `;
 
 const Text = styled.p`
-  font-size: 16px;
-  color: #888888;
+  font-size: ${({ theme }) => theme.typography.body1.fontSize};
+  color: ${({ theme }) => theme.colors.text.secondary};
   margin: 0;
 `;
 
 const SubText = styled.p`
-  font-size: 12px;
-  color: #666666;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
+  color: ${({ theme }) => theme.colors.text.muted};
   margin: 0;
 `;
 

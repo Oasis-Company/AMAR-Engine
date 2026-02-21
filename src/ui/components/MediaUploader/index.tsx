@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'styled-components';
+import { ThemeType } from '../../styles/theme';
 
 interface MediaUploaderProps {
   onMediaUpload: (files: File[]) => void;
@@ -9,6 +11,7 @@ interface MediaUploaderProps {
 
 const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
   const { t } = useTranslation();
+  const theme = useTheme<ThemeType>();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -85,7 +88,10 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
       <Title>{t('mediaUploader.title')}</Title>
       <DropZone className="border"
         {...getRootProps()}
-        style={{ borderColor: isDragActive ? '#007acc' : 'rgba(255, 255, 255, 0.1)', backgroundColor: isDragActive ? 'rgba(0, 122, 204, 0.1)' : 'rgba(255, 255, 255, 0.05)' }}
+        style={{ 
+          borderColor: isDragActive ? theme.colors.accent.primary : theme.colors.border,
+          backgroundColor: isDragActive ? theme.colors.accent.muted : theme.colors.surface.muted
+        }}
         onClick={() => {
           const input = document.getElementById('file-input') as HTMLInputElement;
           input?.click();
@@ -125,7 +131,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
 
       {isProcessing && (
         <PerceptionProgress className="fade-in slide-in">
-          <ProgressTitle>Perception Progress</ProgressTitle>
+          <ProgressTitle>{t('mediaUploader.perceptionProgress')}</ProgressTitle>
           <ProgressItem className="fade-in">
             <ProgressLabel>{t('statusBar.progress.spatial')}</ProgressLabel>
             <ProgressBarContainer>
@@ -190,38 +196,38 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: ${({ theme }) => theme.spacing.lg};
   height: 100%;
   overflow-y: auto;
   
   @media (max-width: 768px) {
-    gap: 12px;
+    gap: ${({ theme }) => theme.spacing.md};
   }
   
   @media (max-width: 480px) {
-    gap: 8px;
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 `;
 
 const Title = styled.h2`
-  font-size: 16px;
-  font-weight: 600;
-  color: #e0e0e0;
+  font-size: ${({ theme }) => theme.typography.h5.fontSize};
+  font-weight: ${({ theme }) => theme.typography.h5.fontWeight};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
 `;
 
 const DropZone = styled.div`
-  border: 2px dashed rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  border: 2px dashed ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radius.md};
   padding: 60px 40px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  background-color: #2d2d2d;
+  background-color: ${({ theme }) => theme.colors.surface.muted};
 
   &:hover {
-    border-color: #f57900;
-    background-color: rgba(245, 121, 0, 0.1);
+    border-color: ${({ theme }) => theme.colors.accent.primary};
+    background-color: ${({ theme }) => theme.colors.accent.muted};
   }
   
   @media (max-width: 768px) {
@@ -237,13 +243,13 @@ const DropZoneContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: ${({ theme }) => theme.spacing.md};
 `;
 
 const Icon = styled.div`
   font-size: 64px;
   opacity: 0.7;
-  color: #f57900;
+  color: ${({ theme }) => theme.colors.accent.primary};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -273,14 +279,14 @@ const Icon = styled.div`
 `;
 
 const Text = styled.p`
-  font-size: 16px;
-  color: #e0e0e0;
+  font-size: ${({ theme }) => theme.typography.body1.fontSize};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
 `;
 
 const SubText = styled.p`
-  font-size: 12px;
-  color: #888888;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
+  color: ${({ theme }) => theme.colors.text.secondary};
   margin: 0;
   max-width: 80%;
   text-align: center;
@@ -289,13 +295,13 @@ const SubText = styled.p`
 const FilesList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 const FilesListTitle = styled.h3`
-  font-size: 14px;
-  font-weight: 600;
-  color: #e0e0e0;
+  font-size: ${({ theme }) => theme.typography.body2.fontSize};
+  font-weight: ${({ theme }) => theme.typography.body2.fontWeight};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
 `;
 
@@ -303,30 +309,31 @@ const FileItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px;
-  background-color: #2d2d2d;
-  border-radius: 4px;
+  padding: ${({ theme }) => theme.spacing.md};
+  background-color: ${({ theme }) => theme.colors.surface.elevated};
+  border-radius: ${({ theme }) => theme.radius.sm};
+  border: 1px solid ${({ theme }) => theme.colors.border};
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: #333333;
+    background-color: ${({ theme }) => theme.colors.surface.hover};
   }
 `;
 
 const FileInfo = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: ${({ theme }) => theme.spacing.md};
 `;
 
 const FileTypeIcon = styled.div`
   font-size: 20px;
-  color: #e0e0e0;
+  color: ${({ theme }) => theme.colors.text.primary};
 `;
 
 const FileName = styled.span`
-  font-size: 14px;
-  color: #e0e0e0;
+  font-size: ${({ theme }) => theme.typography.body2.fontSize};
+  color: ${({ theme }) => theme.colors.text.primary};
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -334,40 +341,40 @@ const FileName = styled.span`
 `;
 
 const FileSize = styled.span`
-  font-size: 12px;
-  color: #888888;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
+  color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
 const RemoveButton = styled.button`
-  background-color: rgba(244, 135, 113, 0.2);
-  color: #f48771;
-  border: 1px solid rgba(244, 135, 113, 0.3);
-  border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.status.error.muted};
+  color: ${({ theme }) => theme.colors.status.error.primary};
+  border: 1px solid ${({ theme }) => theme.colors.status.error.border};
+  border-radius: ${({ theme }) => theme.radius.sm};
   padding: 4px 8px;
-  font-size: 12px;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: rgba(244, 135, 113, 0.3);
-    color: #ffffff;
+    background-color: ${({ theme }) => theme.colors.status.error.hover};
+    color: ${({ theme }) => theme.colors.text.inverse};
   }
 `;
 
 const PerceptionProgress = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px;
-  background-color: #2d2d2d;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.md};
+  background-color: ${({ theme }) => theme.colors.surface.elevated};
+  border-radius: ${({ theme }) => theme.radius.md};
+  border: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 const ProgressTitle = styled.h3`
-  font-size: 14px;
-  font-weight: 600;
-  color: #e0e0e0;
+  font-size: ${({ theme }) => theme.typography.body2.fontSize};
+  font-weight: ${({ theme }) => theme.typography.body2.fontWeight};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
 `;
 
@@ -378,8 +385,8 @@ const ProgressItem = styled.div`
 `;
 
 const ProgressLabel = styled.span`
-  font-size: 12px;
-  color: #888888;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
+  color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
 const ProgressBarContainer = styled.div`
@@ -391,7 +398,7 @@ const ProgressBarContainer = styled.div`
 const ProgressBar = styled.div<{ fill: number }>`
   flex: 1;
   height: 6px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: ${({ theme }) => theme.colors.surface.muted};
   border-radius: 3px;
   overflow: hidden;
 
@@ -400,15 +407,15 @@ const ProgressBar = styled.div<{ fill: number }>`
     display: block;
     width: ${props => props.fill}%;
     height: 100%;
-    background-color: #f57900;
+    background-color: ${({ theme }) => theme.colors.accent.primary};
     border-radius: 3px;
     transition: width 0.3s ease-in-out;
   }
 `;
 
 const ProgressValue = styled.span`
-  font-size: 12px;
-  color: #888888;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
+  color: ${({ theme }) => theme.colors.text.secondary};
   min-width: 40px;
   text-align: right;
 `;
