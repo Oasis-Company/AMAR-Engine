@@ -11,7 +11,7 @@ interface MediaUploaderProps {
 
 const MediaUploader: React.FC<MediaUploaderProps> = ({ onMediaUpload }) => {
   const { t } = useTranslation();
-  const theme = useTheme<ThemeType>();
+  const theme = useTheme();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -356,7 +356,7 @@ const RemoveButton = styled.button`
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.status.error.hover};
+    background-color: ${({ theme }) => theme.colors.status.error.primary};
     color: ${({ theme }) => theme.colors.text.inverse};
   }
 `;

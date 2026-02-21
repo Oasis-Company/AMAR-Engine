@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'styled-components';
+import { ThemeType } from '../../styles/theme';
 
 interface SceneObject {
   id: string;
@@ -20,6 +22,7 @@ interface SceneGraphProps {
 
 const SceneGraph: React.FC<SceneGraphProps> = ({ scene, onObjectSelect, selectedObject }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set(['root']));
   const [objectProperties, setObjectProperties] = useState<Record<string, any>>({});
 
@@ -238,15 +241,15 @@ const SceneGraph: React.FC<SceneGraphProps> = ({ scene, onObjectSelect, selected
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: ${({ theme }) => theme.spacing.lg};
   height: 100%;
   overflow: hidden;
 `;
 
 const Title = styled.h2`
-  font-size: 18px;
-  font-weight: 600;
-  color: #e0e0e0;
+  font-size: ${({ theme }) => theme.typography.h5.fontSize};
+  font-weight: ${({ theme }) => theme.typography.h5.fontWeight};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
 `;
 
@@ -265,8 +268,8 @@ const EmptyState = styled.div`
   align-items: center;
   justify-content: center;
   flex: 1;
-  gap: 12px;
-  padding: 40px;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.xl};
   text-align: center;
 `;
 
@@ -276,14 +279,14 @@ const Icon = styled.div`
 `;
 
 const Text = styled.p`
-  font-size: 16px;
-  color: #888888;
+  font-size: ${({ theme }) => theme.typography.body1.fontSize};
+  color: ${({ theme }) => theme.colors.text.secondary};
   margin: 0;
 `;
 
 const SubText = styled.p`
-  font-size: 12px;
-  color: #666666;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
+  color: ${({ theme }) => theme.colors.text.muted};
   margin: 0;
 `;
 
@@ -297,22 +300,22 @@ const NodeHeader = styled.div<{ isSelected: boolean }>`
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
-  background-color: ${props => props.isSelected ? 'rgba(0, 122, 204, 0.2)' : 'rgba(255, 255, 255, 0.05)'};
-  border: ${props => props.isSelected ? '1px solid rgba(0, 122, 204, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)'};
-  border-radius: 4px;
+  padding: ${props => props.theme.spacing.sm} ${props => props.theme.spacing.md};
+  background-color: ${props => props.isSelected ? props.theme.colors.accent.muted : props.theme.colors.surface.muted};
+  border: ${props => props.isSelected ? `1px solid ${props.theme.colors.accent.primary}` : `1px solid ${props.theme.colors.border}`};
+  border-radius: ${props => props.theme.radius.sm};
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: ${props => props.isSelected ? 'rgba(0, 122, 204, 0.3)' : 'rgba(255, 255, 255, 0.08)'};
+    background-color: ${props => props.isSelected ? props.theme.colors.accent.hover : props.theme.colors.surface.hover};
   }
 `;
 
 const ExpandButton = styled.button`
   background: none;
   border: none;
-  color: #888888;
+  color: ${({ theme }) => theme.colors.text.secondary};
   cursor: pointer;
   font-size: 10px;
   padding: 0;
@@ -323,7 +326,7 @@ const ExpandButton = styled.button`
   justify-content: center;
 
   &:hover {
-    color: #e0e0e0;
+    color: ${({ theme }) => theme.colors.text.primary};
   }
 `;
 
@@ -335,21 +338,22 @@ const NodeIcon = styled.div`
   font-size: 16px;
   width: 20px;
   opacity: 0.8;
+  color: ${({ theme }) => theme.colors.text.primary};
 `;
 
 const NodeName = styled.span`
-  font-size: 14px;
-  color: #e0e0e0;
+  font-size: ${({ theme }) => theme.typography.body2.fontSize};
+  color: ${({ theme }) => theme.colors.text.primary};
   flex: 1;
 `;
 
 const NodeType = styled.span`
-  font-size: 12px;
-  color: #888888;
-  background-color: rgba(255, 255, 255, 0.1);
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
+  color: ${({ theme }) => theme.colors.text.secondary};
+  background-color: ${({ theme }) => theme.colors.surface.elevated};
   padding: 2px 6px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 const NodeChildren = styled.div`
@@ -362,14 +366,14 @@ const NodeChildren = styled.div`
 const SelectedObjectDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: ${({ theme }) => theme.spacing.lg};
   margin-left: 36px;
-  margin-top: 12px;
-  margin-bottom: 12px;
-  padding: 16px;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: ${({ theme }) => theme.spacing.md};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.lg};
+  background-color: ${({ theme }) => theme.colors.surface.elevated};
+  border-radius: ${({ theme }) => theme.radius.md};
+  border: 1px solid ${({ theme }) => theme.colors.border};
   animation: fadeIn 0.3s ease-in-out, slideIn 0.3s ease-in-out;
 `;
 
@@ -377,20 +381,20 @@ const AEIDTag = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 12px;
-  background-color: rgba(0, 122, 204, 0.1);
-  border-radius: 6px;
-  border: 1px solid rgba(0, 122, 204, 0.2);
+  padding: ${({ theme }) => theme.spacing.md};
+  background-color: ${({ theme }) => theme.colors.accent.muted};
+  border-radius: ${({ theme }) => theme.radius.sm};
+  border: 1px solid ${({ theme }) => theme.colors.accent.border};
 `;
 
 const AEIDLabel = styled.span`
-  font-size: 12px;
-  color: #888888;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
+  color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
 const AEIDValue = styled.span`
   font-size: 13px;
-  color: #007acc;
+  color: ${({ theme }) => theme.colors.accent.primary};
   font-family: 'Courier New', Courier, monospace;
   word-break: break-all;
 `;
@@ -398,35 +402,35 @@ const AEIDValue = styled.span`
 const MetaclassSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 const PropertiesSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 const SectionTitle = styled.h4`
-  font-size: 13px;
-  font-weight: 600;
-  color: #e0e0e0;
+  font-size: ${({ theme }) => theme.typography.body2.fontSize};
+  font-weight: ${({ theme }) => theme.typography.body2.fontWeight};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
 `;
 
 const MetaclassTags = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 const MetaclassTag = styled.div`
-  background-color: rgba(102, 187, 106, 0.1);
-  color: #66bb6a;
-  border: 1px solid rgba(102, 187, 106, 0.2);
+  background-color: ${({ theme }) => theme.colors.status.success.muted};
+  color: ${({ theme }) => theme.colors.status.success.primary};
+  border: 1px solid ${({ theme }) => theme.colors.status.success.border};
   border-radius: 12px;
   padding: 4px 10px;
-  font-size: 12px;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
 `;
 
 const PropertyControl = styled.div`
@@ -436,14 +440,14 @@ const PropertyControl = styled.div`
 `;
 
 const PropertyLabel = styled.span`
-  font-size: 12px;
-  color: #888888;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
+  color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
 const PropertySlider = styled.input`
   width: 100%;
   height: 6px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: ${({ theme }) => theme.colors.surface.muted};
   border-radius: 3px;
   outline: none;
   -webkit-appearance: none;
@@ -453,7 +457,7 @@ const PropertySlider = styled.input`
     appearance: none;
     width: 14px;
     height: 14px;
-    background-color: #007acc;
+    background-color: ${({ theme }) => theme.colors.accent.primary};
     border-radius: 50%;
     cursor: pointer;
   }
@@ -461,7 +465,7 @@ const PropertySlider = styled.input`
   &::-moz-range-thumb {
     width: 14px;
     height: 14px;
-    background-color: #007acc;
+    background-color: ${({ theme }) => theme.colors.accent.primary};
     border-radius: 50%;
     cursor: pointer;
     border: none;
@@ -469,8 +473,8 @@ const PropertySlider = styled.input`
 `;
 
 const PropertyValueDisplay = styled.span`
-  font-size: 12px;
-  color: #e0e0e0;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
+  color: ${({ theme }) => theme.colors.text.primary};
   font-family: 'Courier New', Courier, monospace;
   text-align: right;
 `;

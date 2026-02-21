@@ -12,7 +12,7 @@ interface SystemViewportProps {
 
 const SystemViewport: React.FC<SystemViewportProps> = ({ scene, selectedObject, onObjectSelect }) => {
   const { t } = useTranslation();
-  const theme = useTheme<ThemeType>();
+  const theme = useTheme();
 
   return (
     <Container>

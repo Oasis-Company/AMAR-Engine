@@ -17,7 +17,7 @@ interface FileItem {
 
 const FileExplorer: React.FC = () => {
   const { t } = useTranslation();
-  const theme = useTheme<ThemeType>();
+  const theme = useTheme();
   const [currentPath, setCurrentPath] = useState<string>('');
   const [fileTree, setFileTree] = useState<FileItem[]>([]);
   const [loading, setLoading] = useState(false);
@@ -2172,7 +2172,7 @@ const ActionButton = styled.button<{ isActive?: boolean; disabled?: boolean }>`
   &:active {
     background-color: ${({ theme, disabled }) => disabled ? theme.colors.surface.muted : theme.colors.surface.active};
     transform: ${({ disabled }) => disabled ? 'scale(1)' : 'scale(0.98)'};
-    box-shadow: ${({ theme, disabled }) => disabled ? theme.shadows.sm : theme.shadows.xs};
+    box-shadow: ${({ theme, disabled }) => disabled ? theme.shadows.sm : 'none'};
   }
   
   @media (max-width: 768px) {
@@ -2538,7 +2538,7 @@ const ResultMatchCount = styled.div`
   color: ${({ theme }) => theme.colors.accent.primary};
   background-color: ${({ theme }) => theme.colors.accent.muted};
   padding: 2px 6px;
-  border-radius: ${({ theme }) => theme.radius.full};
+  border-radius: ${({ theme }) => theme.radius.lg};
 `;
 
 const ResultPath = styled.div`
@@ -2978,7 +2978,7 @@ const PreviewError = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: ${({ theme }) => theme.colors.error.primary};
+  color: ${({ theme }) => theme.colors.status.error.primary};
   font-size: ${({ theme }) => theme.typography.body1.fontSize};
 `;
 
@@ -3044,14 +3044,14 @@ const ProgressBarContainer = styled.div`
   width: 100%;
   height: 8px;
   background-color: ${({ theme }) => theme.colors.surface.elevated};
-  border-radius: ${({ theme }) => theme.radius.full};
+  border-radius: ${({ theme }) => theme.radius.lg};
   overflow: hidden;
 `;
 
 const ProgressBarFill = styled.div`
   height: 100%;
   background-color: ${({ theme }) => theme.colors.accent.primary};
-  border-radius: ${({ theme }) => theme.radius.full};
+  border-radius: ${({ theme }) => theme.radius.lg};
   transition: width 0.3s ease-in-out;
 `;
 
@@ -3097,7 +3097,7 @@ const TagItem = styled.div<{ isSelected?: boolean; isAddButton?: boolean }>`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
   padding: 4px 8px;
-  border-radius: ${({ theme }) => theme.radius.full};
+  border-radius: ${({ theme }) => theme.radius.lg};
   background-color: ${({ theme, isSelected, isAddButton }) => isSelected ? theme.colors.accent.muted : isAddButton ? theme.colors.surface.elevated : theme.colors.surface.muted};
   border: ${({ theme, isSelected }) => isSelected ? `1px solid ${theme.colors.accent.primary}` : `1px solid ${theme.colors.border}`};
   color: ${({ theme, isSelected }) => isSelected ? theme.colors.accent.primary : theme.colors.text.primary};
@@ -3139,7 +3139,7 @@ const FileTags = styled.div`
 
 const Tag = styled.span`
   padding: 2px 6px;
-  border-radius: ${({ theme }) => theme.radius.full};
+  border-radius: ${({ theme }) => theme.radius.lg};
   background-color: ${({ theme }) => theme.colors.accent.muted};
   border: 1px solid ${({ theme }) => theme.colors.accent.primary};
   color: ${({ theme }) => theme.colors.accent.primary};
