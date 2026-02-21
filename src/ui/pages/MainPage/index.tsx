@@ -250,15 +250,15 @@ const HeaderInfo = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: ${({ theme }) => theme.typography.fontSize.h4};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  font-size: ${({ theme }) => theme.typography.h4.fontSize};
+  font-weight: ${({ theme }) => theme.typography.h4.fontWeight};
   color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
 `;
 
 const Subtitle = styled.h2`
-  font-size: ${({ theme }) => theme.typography.fontSize.bodySmall};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.regular};
+  font-size: ${({ theme }) => theme.typography.body2.fontSize};
+  font-weight: ${({ theme }) => theme.typography.body2.fontWeight};
   color: ${({ theme }) => theme.colors.text.tertiary};
   margin: 0;
 `;
@@ -276,7 +276,7 @@ const GithubLink = styled.a`
   color: ${({ theme }) => theme.colors.text.secondary};
   text-decoration: none;
   padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border-radius: ${({ theme }) => theme.radius.md};
   transition: all 0.2s ease-in-out;
   background-color: ${({ theme }) => theme.colors.background.tertiary};
   border: 1px solid ${({ theme }) => theme.colors.background.tertiary};
@@ -293,8 +293,8 @@ const GithubIcon = styled.span`
 `;
 
 const GithubText = styled.span`
-  font-size: ${({ theme }) => theme.typography.fontSize.bodySmall};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  font-size: ${({ theme }) => theme.typography.body2.fontSize};
+  font-weight: ${({ theme }) => theme.typography.body2.fontWeight};
 `;
 
 const MainContent = styled.main`

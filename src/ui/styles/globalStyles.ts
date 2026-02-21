@@ -15,8 +15,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: ${({ theme }) => theme.typography.fontFamily};
-    font-size: ${({ theme }) => theme.typography.fontSize.body};
-    font-weight: ${({ theme }) => theme.typography.fontWeight.regular};
+    font-size: ${({ theme }) => theme.typography.body1.fontSize};
+    font-weight: ${({ theme }) => theme.typography.body1.fontWeight};
     line-height: 1.5;
     color: ${({ theme }) => theme.colors.text.primary};
     background-color: ${({ theme }) => theme.colors.background.primary};
@@ -26,27 +26,27 @@ const GlobalStyle = createGlobalStyle`
 
   /* Typography */
   h1, h2, h3, h4, h5, h6 {
-    font-weight: ${({ theme }) => theme.typography.fontWeight.light};
+    font-weight: ${({ theme }) => theme.typography.body1.fontWeight};
     line-height: 1.2;
     margin-bottom: ${({ theme }) => theme.spacing.md};
     color: ${({ theme }) => theme.colors.text.primary};
   }
 
   h1 {
-    font-size: ${({ theme }) => theme.typography.fontSize.h1};
+    font-size: ${({ theme }) => theme.typography.h1.fontSize};
   }
 
   h2 {
-    font-size: ${({ theme }) => theme.typography.fontSize.h2};
+    font-size: ${({ theme }) => theme.typography.h2.fontSize};
   }
 
   h3 {
-    font-size: ${({ theme }) => theme.typography.fontSize.h3};
+    font-size: ${({ theme }) => theme.typography.h3.fontSize};
   }
 
   h4 {
-    font-size: ${({ theme }) => theme.typography.fontSize.h4};
-    font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+    font-size: ${({ theme }) => theme.typography.h4.fontSize};
+    font-weight: ${({ theme }) => theme.typography.h4.fontWeight};
   }
 
   p {
@@ -67,7 +67,7 @@ const GlobalStyle = createGlobalStyle`
     &:focus {
       outline: 2px solid ${({ theme }) => theme.colors.primary};
       outline-offset: 2px;
-      border-radius: ${({ theme }) => theme.borderRadius.sm};
+      border-radius: ${({ theme }) => theme.radius.sm};
     }
   }
 
@@ -84,7 +84,7 @@ const GlobalStyle = createGlobalStyle`
     &:focus {
       outline: 2px solid ${({ theme }) => theme.colors.primary};
       outline-offset: 2px;
-      border-radius: ${({ theme }) => theme.borderRadius.sm};
+      border-radius: ${({ theme }) => theme.radius.sm};
     }
 
     &:disabled {
