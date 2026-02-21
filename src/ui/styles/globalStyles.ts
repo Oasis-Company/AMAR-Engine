@@ -100,7 +100,7 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
     background-color: ${({ theme }) => theme.colors.background.secondary};
     border: 1px solid ${({ theme }) => theme.colors.background.tertiary};
-    border-radius: ${({ theme }) => theme.borderRadius.md};
+    border-radius: ${({ theme }) => theme.radius.md};
     padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
     transition: all 0.2s ease;
 
@@ -117,7 +117,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     &::placeholder {
-      color: ${({ theme }) => theme.colors.text.quaternary};
+      color: ${({ theme }) => theme.colors.text.muted};
     }
   }
 
@@ -143,7 +143,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: ${({ theme }) => theme.colors.text.quaternary};
+    background: ${({ theme }) => theme.colors.text.muted};
   }
 
   /* Selection */
