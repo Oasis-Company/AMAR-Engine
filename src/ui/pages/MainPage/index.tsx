@@ -227,13 +227,13 @@ const HeaderLeft = styled.div`
 `;
 
 const Logo = styled.div`
-  font-size: ${({ theme }) => theme.typography.fontSize.h4};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  font-size: ${({ theme }) => theme.typography.h4.fontSize};
+  font-weight: ${({ theme }) => theme.typography.h4.fontWeight};
   font-family: ${({ theme }) => theme.typography.fontFamily};
   color: ${({ theme }) => theme.colors.primary};
   background: rgba(0, 122, 204, 0.1);
   padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border-radius: ${({ theme }) => theme.radius.md};
   border: 1px solid rgba(0, 122, 204, 0.2);
   transition: all 0.2s ease;
 
