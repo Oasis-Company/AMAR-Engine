@@ -17,6 +17,7 @@
 
 - **[API 参考](api_reference.md)** - 详细介绍 AME 系统的 API 接口，包括 RESTful API、内部组件接口等
 - **[开发指南](developer_guide.md)** - 为开发团队提供的详细开发指南，包括系统架构、组件说明、开发流程等
+- **[设计系统](design_system.md)** - 详细介绍 AME 系统的设计系统，包括颜色系统、排版、组件库等
 
 ### 4. 快速开始
 
