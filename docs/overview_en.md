@@ -131,4 +131,10 @@ Create interactive physical experiment environments, providing intuitive learnin
 
 ## 8. System Manifesto
 
-> "
+> "Reality is just a suggestion; AMAR GENIS is the law."
+
+> "Direction defines miracles."
+
+---
+
+The AMAR Engine system is changing the way we interact with the digital world, from static visual presentation to dynamic physical interaction, from passive observation to
