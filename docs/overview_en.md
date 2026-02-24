@@ -137,4 +137,4 @@ Create interactive physical experiment environments, providing intuitive learnin
 
 ---
 
-The AMAR Engine system is changing the way we interact with the digital world, from static visual presentation to dynamic physical interaction, from passive observation to
+The AMAR Engine system is changing the way we interact with the digital world, from static visual presentation to dynamic physical interaction, from passive observation to active participation. Join us to build the digital reality of the future!
