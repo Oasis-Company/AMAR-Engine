@@ -89,4 +89,24 @@ Provide more realistic physics simulation and object interactions, enhancing the
 
 Provide realistic physical environment simulation for robots, accelerating robot development and testing.
 
-### 4.5 Education and
+### 4.5 Education and Training
+
+Create interactive physical experiment environments, providing intuitive learning experiences.
+
+## 5. Technology Stack
+
+| Component | Main Language | Build System | Core Dependencies |
+|-----------|--------------|-------------|------------------|
+| AME Scanner | C++ | CMake | No clear dependencies |
+| AMAR ENGINE | TypeScript | npm | Node.js |
+| AMAR GENIS | Python | pyproject.toml | gstaichi |
+| Metaclass System | Multi-language | Multi-build systems | No clear dependencies |
+
+## 6. Development Status
+
+- **[AME Scanner]** Prototype v0.1 closed loop, implemented high-performance point cloud density filtering based on C++
+- **[AMAR ENGINE]** Defining SAP-01 normalization protocol
+- **[AMAR GENIS]** Core layer rewriting scheme under discussion
+- **[Metaclass System]** Multi-language prototype implementation completed
+
+##
