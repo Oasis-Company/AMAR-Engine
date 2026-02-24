@@ -109,4 +109,8 @@ Create interactive physical experiment environments, providing intuitive learnin
 - **[AMAR GENIS]** Core layer rewriting scheme under discussion
 - **[Metaclass System]** Multi-language prototype implementation completed
 
-##
+## 7. Future Plans
+
+### 7.1 Short-term Goals
+
+- Complete MVP version,打通 the "upload → recognition → structured description
