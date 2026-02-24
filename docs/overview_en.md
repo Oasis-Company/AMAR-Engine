@@ -113,4 +113,14 @@ Create interactive physical experiment environments, providing intuitive learnin
 
 ### 7.1 Short-term Goals
 
-- Complete MVP version,打通 the "upload → recognition → structured description
+- Complete MVP version,打通 the "upload → recognition → structured description" link
+- Implement basic metaclass system
+- Optimize AME-Scanner's density collapse processing
+
+### 7.2 Medium-term Goals
+
+- Implement complete triple-path convergence architecture
+- Optimize physics engine integration
+- Provide rich metaclass library
+
+###
