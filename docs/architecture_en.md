@@ -344,7 +344,7 @@ The AME system is designed with multi-platform support architecture, supporting 
 
 ### 10.1 Intelligent Integration
 
-In the future, the AME system will实现 deeper intelligent integration:
+In the future, the AME system will achieve deeper intelligent integration:
 
 - **Self-learning Capability**: Learn and optimize physical rules from interactions
 - **Adaptive Architecture**: Automatically adjust system architecture based on scenarios
@@ -360,4 +360,4 @@ In the long term, the AME system will explore quantum computing integration:
 
 ---
 
-The architectural design of the AME system体现了 a profound understanding and innovative thinking about digital reality. Through the triple-path convergence architecture and metaclass system, the AME system is building a全新 digital ecosystem where each entity has real physical properties and behaviors. This design is not only a technical breakthrough but also a redefinition of the future of the digital world.
+The architectural design of the AME system embodies a profound understanding and innovative thinking about digital reality. Through the triple-path convergence architecture and metaclass system, the AME system is building an entirely new digital ecosystem where each entity has real physical properties and behaviors. This design is not only a technical breakthrough but also a redefinition of the future of the digital world.
