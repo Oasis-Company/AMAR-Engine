@@ -57,7 +57,7 @@ All inputs generate **raw structured information**, not finalized world structur
 
 **Key constraint:**
 
-- No metaclass inference occurs at this stage.
+- No metaclass inference occurs at this stage
 
 The Input Layer is purely generative and descriptive.
 
@@ -125,10 +125,10 @@ It represents a complete executable world specification.
 
 ```
 /amar_world
-/objects
-/environment
-/dependencies
-world.meta.json
+  /objects
+  /environment
+  /dependencies
+  world.meta.json
 ```
 
 ---
@@ -150,10 +150,10 @@ Interactive Simulation
 ### Roles
 
 - **GENIS Adapter**
-  Bridges structural representation and physics simulation.
+  Bridges structural representation and physics simulation
 
 - **Genesis Physics Engine**
-  Performs numerical computation and physical state updates.
+  Performs numerical computation and physical state updates
 
 Runtime backends are replaceable without altering world specification.
 
