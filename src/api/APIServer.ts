@@ -368,8 +368,8 @@ class APIServer {
         const result = await this.engine.getScannerIntegration().process3DGSFile(inputPath);
         res.status(200).json(result);
       } catch (error) {
-        res.status(500).json({ error: error.message });
-      }
+          res.status(500).json({ error: (error as Error).message });
+        }
     });
     
     // Set scanner path
@@ -384,8 +384,8 @@ class APIServer {
         this.engine.getScannerIntegration().setScannerPath(path);
         res.status(200).json({ message: 'Scanner path set successfully' });
       } catch (error) {
-        res.status(500).json({ error: error.message });
-      }
+          res.status(500).json({ error: (error as Error).message });
+        }
     });
     
     this.app.use('/api/scanner', router);

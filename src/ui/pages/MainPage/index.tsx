@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import MediaUploader from '@/ui/components/MediaUploader';
 import FileExplorer from '@/ui/components/FileExplorer';
+import Scanner from '@/ui/components/Scanner';
 import SceneGraph from '@/ui/components/SceneGraph';
 import SystemViewport from '@/ui/components/SystemViewport';
 import StatusBar from '@/ui/components/StatusBar';
@@ -27,7 +28,7 @@ const MainPage: React.FC = () => {
   const [statusMessage, setStatusMessage] = useState(t('statusBar.status.idle'));
   const [progress, setProgress] = useState<number | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [activeTab, setActiveTab] = useState<'uploader' | 'explorer'>('uploader');
+  const [activeTab, setActiveTab] = useState<'uploader' | 'explorer' | 'scanner'>('uploader');
 
   const handleMediaUpload = (files: File[]) => {
     setSelectedFiles(files);
@@ -121,6 +122,72 @@ const MainPage: React.FC = () => {
     setSelectedObject(object);
   };
 
+  const handleScannerProcess = async (files: File[]) => {
+    setSelectedFiles(files);
+    if (files.length > 0) {
+      setStatus('processing');
+      setStatusMessage('Processing 3DGS files...');
+      setProgress(0);
+      setError(undefined);
+      setSelectedObject(null);
+
+      try {
+        // 模拟处理过程
+        for (let i = 0; i <= 100; i += 10) {
+          await new Promise(resolve => setTimeout(resolve, 200));
+          setProgress(i);
+        }
+
+        // 模拟扫描结果
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // 生成模拟场景数据
+        const mockScene: SceneObject = {
+          id: 'scene-1',
+          name: '3DGS Scene',
+          type: 'scene',
+          aeid: 'SCN-202602101500-12345678-ABCD',
+          children: [
+            {
+              id: 'obj-1',
+              name: 'Spatial Cluster 1',
+              type: 'cluster',
+              aeid: 'AST-202602101501-87654321-DCBA',
+              metaclass: 'Object',
+              properties: {
+                density: '0.85',
+                volume: '1.2 m³',
+                surface_area: '5.6 m²'
+              }
+            },
+            {
+              id: 'obj-2',
+              name: 'Spatial Cluster 2',
+              type: 'cluster',
+              aeid: 'AST-202602101502-13579246-FEDC',
+              metaclass: 'Object',
+              properties: {
+                density: '0.62',
+                volume: '0.8 m³',
+                surface_area: '3.2 m²'
+              }
+            }
+          ]
+        };
+
+        setScene(mockScene);
+        setStatus('success');
+        setStatusMessage(`Successfully processed ${files.length} 3DGS file(s)`);
+        setProgress(undefined);
+      } catch (err) {
+        setStatus('error');
+        setStatusMessage('Error processing 3DGS files');
+        setError((err as Error).message);
+        setProgress(undefined);
+      }
+    }
+  };
+
   return (
     <Container>
       <Header className="acrylic border">
@@ -167,12 +234,27 @@ const MainPage: React.FC = () => {
               </TabIcon>
               File Explorer
             </TabButton>
+            <TabButton 
+              onClick={() => setActiveTab('scanner')}
+              isActive={activeTab === 'scanner'}
+            >
+              <TabIcon>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+                  <polyline points="21 15 16 10 5 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </TabIcon>
+              AME Scanner
+            </TabButton>
           </TabContainer>
           <TabContent>
             {activeTab === 'uploader' ? (
               <MediaUploader onMediaUpload={handleMediaUpload} />
-            ) : (
+            ) : activeTab === 'explorer' ? (
               <FileExplorer />
+            ) : (
+              <Scanner onScannerProcess={handleScannerProcess} />
             )}
           </TabContent>
         </LeftPanel>
