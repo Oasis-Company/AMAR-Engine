@@ -90,6 +90,9 @@ class APIServer {
     // Mesher endpoints
     this.setupMesherRoutes();
     
+    // Scanner endpoints
+    this.setupScannerRoutes();
+    
     // 404 handler
     this.app.use((req: Request, res: Response) => {
       res.status(404).json({ error: 'Not found', path: req.path });
@@ -345,6 +348,47 @@ class APIServer {
     });
     
     this.app.use('/api/mesher', router);
+  }
+
+  /**
+   * Setup Scanner routes
+   */
+  private setupScannerRoutes(): void {
+    const router = express.Router();
+    
+    // Process 3DGS file
+    router.post('/process', async (req: Request, res: Response) => {
+      const { inputPath } = req.body;
+      
+      if (!inputPath) {
+        return res.status(400).json({ error: 'Missing inputPath parameter' });
+      }
+      
+      try {
+        const result = await this.engine.getScannerIntegration().process3DGSFile(inputPath);
+        res.status(200).json(result);
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    });
+    
+    // Set scanner path
+    router.post('/set-path', (req: Request, res: Response) => {
+      const { path } = req.body;
+      
+      if (!path) {
+        return res.status(400).json({ error: 'Missing path parameter' });
+      }
+      
+      try {
+        this.engine.getScannerIntegration().setScannerPath(path);
+        res.status(200).json({ message: 'Scanner path set successfully' });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    });
+    
+    this.app.use('/api/scanner', router);
   }
 
   /**

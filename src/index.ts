@@ -18,6 +18,7 @@ class AMAREngine {
   private aeidSystem: AEIDSystem;
   private skillsSystem: SkillsSystem;
   private mesherSystem: MesherSystem;
+  private scannerIntegration: ScannerIntegration;
   private apiSystem: APISystem;
 
   constructor() {
@@ -25,6 +26,7 @@ class AMAREngine {
     this.aeidSystem = new AEIDSystem();
     this.skillsSystem = new SkillsSystem();
     this.mesherSystem = new MesherSystem();
+    this.scannerIntegration = new ScannerIntegration(this);
     this.apiSystem = new APISystem(this);
   }
 
@@ -91,6 +93,13 @@ class AMAREngine {
    */
   public getAPISystem(): APISystem {
     return this.apiSystem;
+  }
+
+  /**
+   * Get the Scanner Integration
+   */
+  public getScannerIntegration(): ScannerIntegration {
+    return this.scannerIntegration;
   }
 
   /**
