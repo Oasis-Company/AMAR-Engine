@@ -87,7 +87,7 @@ class ScannerIntegration {
   constructor(engine: AMAREngine) {
     this.engine = engine;
     // Set default scanner path - this should be configurable
-    this.scannerPath = path.join('..', 'AME-Scanner', 'build', 'Release', 'scanner-cli.exe');
+    this.scannerPath = path.join(__dirname, '..', '..', '..', 'scanner', 'build', 'Release', 'scanner-cli.exe');
   }
 
   /**

@@ -9,6 +9,7 @@ import { MetaclassSystem } from './core/metaclass/MetaclassSystem';
 import { AEIDSystem } from './core/aeid/AEIDSystem';
 import { SkillsSystem } from './core/skills/SkillsSystem';
 import { MesherSystem } from './core/mesher/MesherSystem';
+import { ScannerIntegration } from './core/scanner/ScannerIntegration';
 import { APISystem } from './api';
 import { AMAR_ENGINE_VERSION } from './version';
 
